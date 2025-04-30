@@ -1,0 +1,31 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal"
+            tools:context=".ui.about.AboutFragment">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_description"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:paddingBottom="16dp"/>
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/pawfect_logo"
+                android:contentDescription="@string/app_name"/>
+        </LinearLayout>
+    </ScrollView>
+</layout>

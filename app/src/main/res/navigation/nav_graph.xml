@@ -1,0 +1,20 @@
+<!-- res/navigation/nav_graph.xml -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/petListFragment">
+
+    <fragment
+        android:id="@+id/petListFragment"
+        android:name="com.example.pawfectplanner.ui.list.PetListFragment"
+        android:label="Pets" >
+        <action
+            android:id="@+id/action_list_to_detail"
+            app:destination="@id/petDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/petDetailFragment"
+        android:name="com.example.pawfectplanner.ui.detail.PetDetailFragment"
+        android:label="Pet Details" />
+</navigation>
