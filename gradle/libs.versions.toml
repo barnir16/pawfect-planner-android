@@ -1,18 +1,18 @@
 [versions]
-agp = "8.9.1"
-kotlin = "2.0.21"
-coreKtx = "1.16.0"
-junit = "4.13.2"
+agp      = "8.9.1"
+kotlin   = "2.1.0"
+coreKtx  = "1.16.0"
+junit    = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
-material = "1.12.0"
-activity = "1.10.1"
+material  = "1.12.0"
+activity  = "1.10.1"
 constraintlayout = "2.2.1"
 lifecycle = "2.8.1"
 navigation = "2.7.7"
-room = "2.6.1"
-glide = "4.16.0"
+room = "2.7.0-alpha01"
+glide     = "4.16.0"
 coroutines = "1.7.3"
 
 [libraries]
@@ -32,11 +32,15 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.4.0" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+kotlin-stdlib-jdk7 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdlib-jdk8 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android    = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt       = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-android      = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt         = { id = "org.jetbrains.kotlin.kapt",  version.ref = "kotlin" }
