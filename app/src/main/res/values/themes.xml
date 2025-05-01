@@ -1,9 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PawfectPlanner" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+
+    <style name="Theme.PawfectPlanner" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- existing colors / attributes -->
+
+        <!-- New line: global background -->
+        <item name="android:windowBackground">@drawable/background</item>
     </style>
 
-    <style name="Theme.PawfectPlanner" parent="Base.Theme.PawfectPlanner" />
 </resources>

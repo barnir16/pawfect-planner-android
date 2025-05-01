@@ -30,11 +30,9 @@ class PetAdapter(
             binding.tvName.text = pet.name
             binding.tvBreed.text = pet.breed
 
-            val birthDate = pet.birthDate
-            val now = LocalDate.now()
-            val age = if (birthDate != null) Period.between(birthDate, now).years else 0
-
-            binding.tvAge.text = binding.root.context.getString(R.string.label_pet_age) + ": $age"
+            val age = Period.between(pet.birthDate, LocalDate.now()).years
+            binding.tvAge.text =
+                binding.root.context.getString(R.string.label_pet_age) + ": $age"
 
             binding.root.setOnClickListener { onClick(pet) }
             binding.root.setOnLongClickListener { onLongClick(pet) }

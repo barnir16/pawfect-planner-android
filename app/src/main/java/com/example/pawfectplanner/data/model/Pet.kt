@@ -10,5 +10,6 @@ data class Pet(
     val name: String,
     val breed: String,
     val age: Int,
-    val birthDate: LocalDate
+    val birthDate: LocalDate,
+    val photoUri: String? = null
 )

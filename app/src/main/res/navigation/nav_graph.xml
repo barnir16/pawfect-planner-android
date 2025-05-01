@@ -1,4 +1,4 @@
-<!-- res/navigation/nav_graph.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/petListFragment"
         android:name="com.example.pawfectplanner.ui.list.PetListFragment"
-        android:label="Pets" >
+        android:label="@string/nav_pets" >
         <action
             android:id="@+id/action_list_to_detail"
             app:destination="@id/petDetailFragment" />
@@ -16,5 +16,14 @@
     <fragment
         android:id="@+id/petDetailFragment"
         android:name="com.example.pawfectplanner.ui.detail.PetDetailFragment"
-        android:label="Pet Details" />
+        android:label="@string/title_pet_details" >
+        <action
+            android:id="@+id/action_petDetailFragment_to_petEditFragment"
+            app:destination="@id/petEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/petEditFragment"
+        android:name="com.example.pawfectplanner.ui.edit.PetEditFragment"
+        android:label="@string/title_edit_pet" />
 </navigation>

@@ -5,15 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.pawfectplanner.databinding.FragmentPetDetailBinding
 
 class PetDetailFragment : Fragment() {
     private var _binding: FragmentPetDetailBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentPetDetailBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnEdit.setOnClickListener {
+            findNavController().navigate(
+                PetDetailFragmentDirections.actionPetDetailFragmentToPetEditFragment()
+            )
+        }
     }
 
     override fun onDestroyView() {
