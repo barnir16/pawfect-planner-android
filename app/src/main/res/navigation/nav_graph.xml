@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
@@ -7,16 +6,22 @@
     <fragment
         android:id="@+id/petListFragment"
         android:name="com.example.pawfectplanner.ui.list.PetListFragment"
-        android:label="@string/nav_pets" >
+        android:label="Pets">
         <action
             android:id="@+id/action_list_to_detail"
             app:destination="@id/petDetailFragment" />
+        <action
+            android:id="@+id/action_petListFragment_to_petEditFragment"
+            app:destination="@id/petEditFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/petDetailFragment"
         android:name="com.example.pawfectplanner.ui.detail.PetDetailFragment"
-        android:label="@string/title_pet_details" >
+        android:label="Pet Details">
+        <argument
+            android:name="petId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_petDetailFragment_to_petEditFragment"
             app:destination="@id/petEditFragment" />
@@ -25,5 +30,10 @@
     <fragment
         android:id="@+id/petEditFragment"
         android:name="com.example.pawfectplanner.ui.edit.PetEditFragment"
-        android:label="@string/title_edit_pet" />
+        android:label="Edit Pet">
+        <argument
+            android:name="petId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 </navigation>

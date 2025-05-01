@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.repository.PetRepository
@@ -13,6 +14,7 @@ import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 
 class PetListFragment : Fragment(R.layout.fragment_pet_list) {
+
     private var _binding: FragmentPetListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: PetViewModel
@@ -20,13 +22,18 @@ class PetListFragment : Fragment(R.layout.fragment_pet_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentPetListBinding.bind(view)
 
-        val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
+        val dao =
+            (requireActivity().application as PawfectPlannerApplication).database.petDao()
         val repo = PetRepository(dao)
-        val factory = PetViewModelFactory(repo)
-        viewModel = ViewModelProvider(this, factory)[PetViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this, PetViewModelFactory(repo))[PetViewModel::class.java]
 
         val adapter = PetAdapter(
-            onClick = { },
+            onClick = { pet ->
+                val action =
+                    PetListFragmentDirections.actionListToDetail(pet.id)
+                findNavController().navigate(action)
+            },
             onLongClick = { pet ->
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.delete_pet_title))

@@ -1,20 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.pawfectplanner"
+    namespace  = "com.example.pawfectplanner"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.pawfectplanner"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        applicationId             = "com.example.pawfectplanner"
+        minSdk                    = 24
+        targetSdk                 = 35
+        versionCode               = 1
+        versionName               = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -60,10 +59,10 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.glide)
-    kapt(libs.glide.compiler)
+    ksp(libs.glide.compiler)
 
     implementation(libs.kotlinx.coroutines.android)
 
@@ -72,8 +71,4 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.threetenabp)
-}
-
-kapt {
-    correctErrorTypes = true
 }
