@@ -2,7 +2,7 @@ package com.example.pawfectplanner.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
+import org.threeten.bp.LocalDateTime
 
 @Entity(tableName = "tasks")
 data class Task(

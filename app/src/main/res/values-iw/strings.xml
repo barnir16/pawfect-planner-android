@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PawfectPlanner</string>
-
-    <!-- Navigation -->
     <string name="nav_home">דף הבית</string>
     <string name="nav_pets">חיות מחמד</string>
     <string name="nav_tasks">משימות</string>
     <string name="nav_settings">הגדרות</string>
     <string name="nav_about">אודות</string>
-
-    <!-- Pet List -->
     <string name="title_pet_list">החיות שלי</string>
     <string name="label_no_pets">אין חיות נוספות עדיין.</string>
     <string name="action_add_pet">הוסף חיה</string>
@@ -17,26 +13,24 @@
     <string name="action_delete_pet">מחק</string>
     <string name="delete_pet_title">מחיקת חיה</string>
     <string name="delete_pet_message">האם אתה בטוח שברצונך למחוק את החיה הזו?</string>
-
-    <!-- Pet Details -->
     <string name="title_pet_details">פרטי חיה</string>
     <string name="label_pet_name">שם</string>
     <string name="label_pet_breed">גזע</string>
     <string name="label_pet_birthdate">תאריך לידה</string>
     <string name="label_pet_age">גיל</string>
     <string name="label_pet_notes">הערות</string>
-
-    <!-- Pet Edit -->
     <string name="title_add_pet">הוסף חיה חדשה</string>
     <string name="title_edit_pet">עריכת חיה</string>
     <string name="hint_pet_name">הכנס שם חיה</string>
     <string name="hint_pet_breed">הכנס גזע</string>
     <string name="hint_pet_birthdate">בחר תאריך לידה</string>
     <string name="hint_pet_notes">הערות נוספות</string>
+    <string name="btn_birthday_age">תאריך לידה או גיל</string>
+    <string name="option_select_birthday">בחר תאריך לידה</string>
+    <string name="option_enter_age">הכנס גיל</string>
+    <string name="label_age_only">גיל: %1$d</string>
     <string name="btn_save">שמור</string>
     <string name="btn_cancel">ביטול</string>
-
-    <!-- Tasks -->
     <string name="title_tasks">משימות</string>
     <string name="label_no_tasks">אין משימות מתוכננות.</string>
     <string name="action_add_task">הוסף משימה</string>
@@ -48,19 +42,13 @@
     <string name="label_task_time">שעה</string>
     <string name="btn_add_task">הוסף</string>
     <string name="btn_update_task">עדכן</string>
-
-    <!-- Settings -->
     <string name="title_settings">הגדרות</string>
     <string name="pref_notifications">אפשר התראות</string>
     <string name="pref_dark_mode">מצב כהה</string>
     <string name="pref_language">שפה</string>
-
-    <!-- About -->
     <string name="title_about">אודות</string>
     <string name="about_description">PawfectPlanner עוזרת לך לטפל בחיות המחמד שלך בצורה יעילה וקלילה.</string>
     <string name="about_version">גרסה</string>
-
-    <!-- Common -->
     <string name="btn_ok">אישור</string>
     <string name="btn_yes">כן</string>
     <string name="btn_no">לא</string>
@@ -69,12 +57,8 @@
     <string name="btn_close">סגור</string>
     <string name="delete">מחק</string>
     <string name="cancel">ביטול</string>
-
-    <!-- Notifications -->
     <string name="notification_task_due">יש לך משימה שצריכה להתבצע: %1$s</string>
     <string name="notification_title">תזכורת מ-PawfectPlanner</string>
-
-    <!-- Errors and Messages -->
     <string name="error_missing_fields">אנא מלא את כל השדות הנדרשים.</string>
     <string name="error_invalid_date">תאריך שנבחר אינו תקין.</string>
     <string name="message_pet_saved">החיה נשמרה בהצלחה.</string>
