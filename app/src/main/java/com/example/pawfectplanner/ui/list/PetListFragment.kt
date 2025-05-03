@@ -6,15 +6,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.pawfectplanner.PawfectPlannerApplication
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawfectplanner.R
+import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.databinding.FragmentPetListBinding
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 
 class PetListFragment : Fragment(R.layout.fragment_pet_list) {
-
     private var _binding: FragmentPetListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: PetViewModel
@@ -22,16 +22,14 @@ class PetListFragment : Fragment(R.layout.fragment_pet_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentPetListBinding.bind(view)
 
-        val dao =
-            (requireActivity().application as PawfectPlannerApplication).database.petDao()
+        val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
         val repo = PetRepository(dao)
-        viewModel =
-            ViewModelProvider(this, PetViewModelFactory(repo))[PetViewModel::class.java]
+        viewModel = ViewModelProvider(this, PetViewModelFactory(repo))[PetViewModel::class.java]
 
         val adapter = PetAdapter(
             onClick = { pet ->
-                val action =
-                    PetListFragmentDirections.actionListToDetail(pet.id)
+                val action = PetListFragmentDirections
+                    .actionPetListFragmentToPetDetailFragment(pet.id)
                 findNavController().navigate(action)
             },
             onLongClick = { pet ->
@@ -47,10 +45,17 @@ class PetListFragment : Fragment(R.layout.fragment_pet_list) {
             }
         )
 
+        binding.rvPets.layoutManager = LinearLayoutManager(requireContext())
         binding.rvPets.adapter = adapter
 
         viewModel.allPets.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
+        }
+
+        binding.fabAddPet.setOnClickListener {
+            val action = PetListFragmentDirections
+                .actionPetListFragmentToPetEditFragment(-1)
+            findNavController().navigate(action)
         }
     }
 

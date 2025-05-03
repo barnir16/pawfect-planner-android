@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -48,6 +49,18 @@ class PetEditFragment : Fragment() {
         val repo = PetRepository(dao)
         viewModel = ViewModelProvider(this, PetViewModelFactory(repo))[PetViewModel::class.java]
 
+        binding.etPetName.doOnTextChanged { text, _, _, _ ->
+            binding.tilPetName.error =
+                if (text.isNullOrBlank()) getString(R.string.error_missing_fields) else null
+            validateInput()
+        }
+
+        binding.etPetBreed.doOnTextChanged { text, _, _, _ ->
+            binding.tilPetBreed.error =
+                if (text.isNullOrBlank()) getString(R.string.error_missing_fields) else null
+            validateInput()
+        }
+
         if (args.petId != -1) {
             viewModel.allPets.observe(viewLifecycleOwner) { list ->
                 val pet = list.firstOrNull { it.id == args.petId } ?: return@observe
@@ -83,6 +96,13 @@ class PetEditFragment : Fragment() {
             if (args.petId == -1) viewModel.insert(pet) else viewModel.update(pet)
             findNavController().navigateUp()
         }
+    }
+
+    private fun validateInput() {
+        val nameValid = binding.etPetName.text.toString().isNotBlank()
+        val breedValid = binding.etPetBreed.text.toString().isNotBlank()
+        val dateOrAgeValid = selectedBirthDate != null || selectedAge != null
+        binding.btnSavePet.isEnabled = nameValid && breedValid && dateOrAgeValid
     }
 
     private fun showBirthdayAgeDialog() {
@@ -134,6 +154,7 @@ class PetEditFragment : Fragment() {
             selectedAge != null -> getString(R.string.label_age_only, selectedAge)
             else -> getString(R.string.btn_birthday_age)
         }
+        validateInput()
     }
 
     override fun onDestroyView() {

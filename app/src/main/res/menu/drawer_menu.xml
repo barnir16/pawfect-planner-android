@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/aboutFragment"
+            android:title="@string/nav_about"/>
+        <item
+            android:id="@+id/petListFragment"
+            android:title="@string/nav_pets"/>
+        <item
+            android:id="@+id/taskListFragment"
+            android:title="@string/nav_tasks"/>
+        <item
+            android:id="@+id/settingsFragment"
+            android:title="@string/nav_settings"/>
+    </group>
+</menu>

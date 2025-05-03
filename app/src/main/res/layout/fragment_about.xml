@@ -1,4 +1,7 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
@@ -13,13 +16,20 @@
             android:gravity="center_horizontal"
             tools:context=".ui.about.AboutFragment">
 
-            <TextView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/about_description"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:paddingBottom="16dp"/>
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_description"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:padding="16dp"/>
+            </com.google.android.material.card.MaterialCardView>
 
             <ImageView
                 android:layout_width="200dp"

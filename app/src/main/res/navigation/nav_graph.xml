@@ -1,39 +1,70 @@
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/petListFragment">
+    app:startDestination="@id/aboutFragment">
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.pawfectplanner.ui.about.AboutFragment"
+        android:label="@string/nav_about" />
 
     <fragment
         android:id="@+id/petListFragment"
         android:name="com.example.pawfectplanner.ui.list.PetListFragment"
-        android:label="Pets">
+        android:label="@string/nav_pets">
         <action
-            android:id="@+id/action_list_to_detail"
+            android:id="@+id/actionPetListFragmentToPetDetailFragment"
             app:destination="@id/petDetailFragment" />
         <action
-            android:id="@+id/action_petListFragment_to_petEditFragment"
+            android:id="@+id/actionPetListFragmentToPetEditFragment"
             app:destination="@id/petEditFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/petDetailFragment"
         android:name="com.example.pawfectplanner.ui.detail.PetDetailFragment"
-        android:label="Pet Details">
+        android:label="@string/title_pet_details">
         <argument
             android:name="petId"
             app:argType="integer" />
         <action
-            android:id="@+id/action_petDetailFragment_to_petEditFragment"
+            android:id="@+id/actionPetDetailFragmentToPetEditFragment"
             app:destination="@id/petEditFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/petEditFragment"
         android:name="com.example.pawfectplanner.ui.edit.PetEditFragment"
-        android:label="Edit Pet">
+        android:label="@string/title_edit_pet">
         <argument
             android:name="petId"
             app:argType="integer"
             android:defaultValue="-1" />
     </fragment>
+
+    <fragment
+        android:id="@+id/taskListFragment"
+        android:name="com.example.pawfectplanner.ui.task.TaskListFragment"
+        android:label="@string/nav_tasks">
+        <action
+            android:id="@+id/actionTaskListFragmentToTaskEditFragment"
+            app:destination="@id/taskEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/taskEditFragment"
+        android:name="com.example.pawfectplanner.ui.task.TaskEditFragment"
+        android:label="@string/action_add_task">
+        <argument
+            android:name="taskId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.pawfectplanner.ui.settings.SettingsFragment"
+        android:label="@string/nav_settings" />
 </navigation>
