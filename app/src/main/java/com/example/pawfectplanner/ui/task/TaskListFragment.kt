@@ -40,7 +40,7 @@ class TaskListFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = TaskAdapter { taskId ->
             val action = TaskListFragmentDirections
-                .actionTaskListFragmentToTaskEditFragment(taskId)
+                .actionTaskListFragmentToTaskDetailFragment(taskId)
             view.findNavController().navigate(action)
         }
 

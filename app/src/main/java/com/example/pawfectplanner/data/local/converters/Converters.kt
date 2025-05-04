@@ -12,6 +12,7 @@ object Converters {
     private val dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
     private val dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
     private val stringListType = object : TypeToken<List<String>>() {}.type
+    private val intListType = object : TypeToken<List<Int>>() {}.type
 
     @TypeConverter
     fun fromLocalDate(date: LocalDate?): String? =
@@ -37,4 +38,13 @@ object Converters {
     fun toStringList(value: String?): List<String> =
         if (value.isNullOrEmpty()) emptyList()
         else gson.fromJson(value, stringListType)
+
+    @TypeConverter
+    fun fromIntList(list: List<Int>?): String =
+        gson.toJson(list ?: emptyList<Int>())
+
+    @TypeConverter
+    fun toIntList(value: String?): List<Int> =
+        if (value.isNullOrEmpty()) emptyList()
+        else gson.fromJson(value, intListType)
 }

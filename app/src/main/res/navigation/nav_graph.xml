@@ -51,6 +51,9 @@
         <action
             android:id="@+id/actionTaskListFragmentToTaskEditFragment"
             app:destination="@id/taskEditFragment" />
+        <action
+            android:id="@+id/actionTaskListFragmentToTaskDetailFragment"
+            app:destination="@id/taskDetailFragment" />
     </fragment>
 
     <fragment
@@ -61,6 +64,22 @@
             android:name="taskId"
             app:argType="integer"
             android:defaultValue="-1" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/taskDetailFragment"
+        android:name="com.example.pawfectplanner.ui.task.TaskDetailFragment"
+        android:label="@string/action_edit_task">
+        <argument
+            android:name="taskId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/actionTaskDetailFragmentToTaskEditFragment"
+            app:destination="@id/taskEditFragment">
+            <argument
+                android:name="taskId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment

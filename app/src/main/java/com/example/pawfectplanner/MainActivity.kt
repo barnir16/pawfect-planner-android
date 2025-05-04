@@ -2,38 +2,53 @@ package com.example.pawfectplanner
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.navigation.NavigationView
+import com.example.pawfectplanner.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var drawerLayout: DrawerLayout
+
+    private lateinit var b: ActivityMainBinding
+    private lateinit var appBarCfg: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        b = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(b.root)
 
-        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(b.toolbar)
 
-        drawerLayout = findViewById(R.id.drawer_layout)
-
-        val navHost = supportFragmentManager
+        val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHost.navController
+        val navController = navHostFragment.navController
 
-        val navView = findViewById<NavigationView>(R.id.nav_view)
-        NavigationUI.setupWithNavController(navView, navController)
+        appBarCfg = AppBarConfiguration(
+            setOf(
+                R.id.aboutFragment,
+                R.id.petListFragment,
+                R.id.taskListFragment,
+                R.id.settingsFragment
+            ),
+            b.drawerLayout
+        )
 
-        setupActionBarWithNavController(navController, drawerLayout)
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarCfg)
+        NavigationUI.setupWithNavController(b.navView, navController)
+
+        b.navView.setNavigationItemSelectedListener { item ->
+            val handled = NavigationUI.onNavDestinationSelected(item, navController)
+            if (handled) b.drawerLayout.closeDrawer(GravityCompat.START)
+            handled
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navHost = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        return NavigationUI.navigateUp(navHost.navController, drawerLayout)
-    }
+    override fun onSupportNavigateUp(): Boolean =
+        NavigationUI.navigateUp(
+            (supportFragmentManager
+                .findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
+                .navController,
+            appBarCfg
+        )
 }

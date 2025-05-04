@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.PawfectPlanner" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- existing colors / attributes -->
-
-        <!-- New line: global background -->
-        <item name="android:windowBackground">@drawable/background</item>
+    <style name="Theme.PawfectPlanner" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorPrimary">@color/gray_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/gray_medium</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/gray_dark</item>
+        <item name="materialButtonStyle">@style/Widget.PawfectPlanner.Button</item>
     </style>
-
 </resources>

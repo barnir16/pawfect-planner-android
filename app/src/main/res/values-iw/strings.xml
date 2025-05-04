@@ -37,6 +37,7 @@
     <string name="option_enter_age">הכנס גיל</string>
     <string name="label_age_only">גיל: %1$d</string>
     <string name="label_birthday">תאריך לידה: %1$s</string>
+    <string name="label_birthday_age">%1$s (%2$s)</string>
 
     <string name="title_add_health_issue">הוסף בעיית בריאות</string>
     <string name="title_add_behavior_issue">הוסף בעיית התנהגות</string>
@@ -56,6 +57,12 @@
     <string name="label_task_time">שעה</string>
     <string name="btn_add_task">הוסף</string>
     <string name="btn_update_task">עדכן</string>
+    <string name="label_task_every">כל</string>
+    <string name="label_task_repeat">כל %1$d %2$s</string>
+    <string name="label_task_no_repeat">ללא חזרה</string>
+    <string name="label_task_assign_pets">הקצה חיות מחמד</string>
+    <string name="label_task_no_pets_assigned">לא הוקצו חיות</string>
+    <string name="btn_add_to_calendar">הוסף ליומן</string>
 
     <string name="title_settings">הגדרות</string>
     <string name="pref_notifications">אפשר התראות</string>
@@ -97,7 +104,7 @@
         <item>iw</item>
     </string-array>
     <string-array name="repeat_units">
-        <item>ללא חזרות</item>
+        <item>ללא</item>
         <item>דקות</item>
         <item>שעות</item>
         <item>ימים</item>

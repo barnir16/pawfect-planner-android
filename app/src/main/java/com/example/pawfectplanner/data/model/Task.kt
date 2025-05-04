@@ -11,5 +11,6 @@ data class Task(
     val description: String,
     val dateTime: LocalDateTime,
     val repeatInterval: Int? = null,
-    val repeatUnit: String? = null
+    val repeatUnit: String? = null,
+    val petIds: List<Int> = emptyList()
 )

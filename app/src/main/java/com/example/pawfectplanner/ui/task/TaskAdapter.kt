@@ -13,7 +13,7 @@ class TaskAdapter(
     private val onClick: (Int) -> Unit
 ) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(DIFF) {
 
-    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    private val fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         TaskViewHolder(
@@ -27,9 +27,8 @@ class TaskAdapter(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    inner class TaskViewHolder(
-        private val b: ItemTaskBinding
-    ) : RecyclerView.ViewHolder(b.root) {
+    inner class TaskViewHolder(private val b: ItemTaskBinding) :
+        RecyclerView.ViewHolder(b.root) {
         init {
             b.root.setOnClickListener {
                 val pos = adapterPosition
@@ -40,7 +39,7 @@ class TaskAdapter(
         }
         fun bind(task: Task) {
             b.tvTaskTitle.text = task.title
-            b.tvTaskDateTime.text = task.dateTime.format(formatter)
+            b.tvTaskDateTime.text = task.dateTime.format(fmt)
         }
     }
 

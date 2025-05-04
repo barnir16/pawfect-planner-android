@@ -9,7 +9,6 @@
         android:padding="16dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardPet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="8dp"
@@ -25,28 +24,35 @@
                 android:gravity="center_horizontal">
 
                 <TextView
-                    android:id="@+id/tvPetName"
+                    android:id="@+id/tvTaskTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:gravity="center"/>
 
                 <TextView
-                    android:id="@+id/tvPetBreed"
+                    android:id="@+id/tvTaskDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:gravity="center"/>
 
                 <TextView
-                    android:id="@+id/tvPetBirth"
+                    android:id="@+id/tvTaskTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvTaskRepeat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     android:gravity="center"/>
 
                 <TextView
-                    android:id="@+id/tvPetNotes"
+                    android:id="@+id/tvTaskPets"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
@@ -60,16 +66,23 @@
                     android:layout_marginTop="16dp">
 
                     <Button
-                        android:id="@+id/btnEdit"
+                        android:id="@+id/btnEditTask"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/action_edit_pet"/>
+                        android:text="@string/action_edit_task"/>
 
                     <Button
-                        android:id="@+id/btnDelete"
+                        android:id="@+id/btnAddToCalendar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/action_delete_pet"
+                        android:text="@string/btn_add_to_calendar"
+                        android:layout_marginStart="16dp"/>
+
+                    <Button
+                        android:id="@+id/btnDeleteTask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_delete_task"
                         android:layout_marginStart="16dp"/>
                 </LinearLayout>
             </LinearLayout>
