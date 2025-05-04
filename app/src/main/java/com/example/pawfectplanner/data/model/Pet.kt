@@ -8,8 +8,12 @@ import org.threeten.bp.LocalDate
 data class Pet(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
+    val breedType: String,
     val breed: String,
-    val age: Int,
     val birthDate: LocalDate,
-    val photoUri: String? = null
+    val age: Int,
+    val weightKg: Double? = null,
+    val photoUri: String? = null,
+    val healthIssues: List<String> = emptyList(),
+    val behaviorIssues: List<String> = emptyList()
 )

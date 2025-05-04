@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/labelNoPets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_no_pets"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_margin="16dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPets"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
+            android:contentDescription="@string/title_pet_list"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,6 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:contentDescription="@string/action_add_pet"/>
+            android:contentDescription="@string/action_add_pet"
+            app:srcCompat="@drawable/ic_add"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

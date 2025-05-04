@@ -15,6 +15,8 @@ class PawfectPlannerApplication : Application() {
             this,
             AppDatabase::class.java,
             "pawfect_planner_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

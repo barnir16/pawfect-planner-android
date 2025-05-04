@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.pawfectplanner.PawfectPlannerApplication
-import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.databinding.FragmentPetDetailBinding
+import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 
@@ -36,11 +36,12 @@ class PetDetailFragment : Fragment() {
 
         viewModel.allPets.observe(viewLifecycleOwner) { list ->
             val pet = list.firstOrNull { it.id == args.petId } ?: return@observe
+            val weightText = pet.weightKg?.let { "\nWeight: ${"%.1f".format(it)} kg" } ?: ""
             binding.tvPetDetails.text =
-                "${pet.name}\n${pet.breed}\n${pet.birthDate}\nAge: ${pet.age}"
+                "${pet.name}\n${pet.breed}\n${pet.birthDate}\nAge: ${pet.age}$weightText"
             binding.btnEdit.setOnClickListener {
-                val action = PetDetailFragmentDirections
-                    .actionPetDetailFragmentToPetEditFragment(pet.id)
+                val action =
+                    PetDetailFragmentDirections.actionPetDetailFragmentToPetEditFragment(pet.id)
                 findNavController().navigate(action)
             }
         }

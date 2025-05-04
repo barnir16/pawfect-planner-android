@@ -1,10 +1,12 @@
 package com.example.pawfectplanner.ui.list
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.databinding.ItemPetBinding
@@ -14,28 +16,32 @@ import org.threeten.bp.Period
 class PetAdapter(
     private val onClick: (Pet) -> Unit,
     private val onLongClick: (Pet) -> Boolean
-) : ListAdapter<Pet, PetAdapter.ViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<Pet, PetAdapter.PetViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(ItemPetBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        PetViewHolder(ItemPetBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PetViewHolder, position: Int) {
         holder.bind(getItem(position), onClick, onLongClick)
     }
 
-    class ViewHolder(private val binding: ItemPetBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class PetViewHolder(private val b: ItemPetBinding) :
+        RecyclerView.ViewHolder(b.root) {
 
         fun bind(pet: Pet, onClick: (Pet) -> Unit, onLongClick: (Pet) -> Boolean) {
-            binding.tvName.text = pet.name
-            binding.tvBreed.text = pet.breed
-
+            b.tvName.text = pet.name
+            b.tvBreed.text = pet.breed
             val age = Period.between(pet.birthDate, LocalDate.now()).years
-            binding.tvAge.text =
-                binding.root.context.getString(R.string.label_pet_age) + ": $age"
-
-            binding.root.setOnClickListener { onClick(pet) }
-            binding.root.setOnLongClickListener { onLongClick(pet) }
+            b.tvAge.text = b.root.context.getString(R.string.label_age_only, age)
+            if (pet.photoUri != null) {
+                Glide.with(b.root)
+                    .load(Uri.parse(pet.photoUri))
+                    .into(b.imgPetThumbnail)
+            } else {
+                b.imgPetThumbnail.setImageResource(R.drawable.ic_photo_placeholder)
+            }
+            b.root.setOnClickListener { onClick(pet) }
+            b.root.setOnLongClickListener { onLongClick(pet) }
         }
     }
 

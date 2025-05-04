@@ -9,7 +9,9 @@
 
     <string name="title_pet_list">החיות שלי</string>
     <string name="label_no_pets">אין חיות נוספות עדיין.</string>
+    <string name="no_pets_placeholder">אין חיות שמורות, לחץ + למטה כדי להוסיף עכשיו!</string>
     <string name="action_add_pet">הוסף חיה</string>
+    <string name="action_upload_pet_picture">העלה תמונת חיה</string>
     <string name="action_edit_pet">ערוך</string>
     <string name="action_delete_pet">מחק</string>
     <string name="delete_pet_title">מחיקת חיה</string>
@@ -24,14 +26,21 @@
 
     <string name="title_add_pet">הוסף חיה חדשה</string>
     <string name="title_edit_pet">עריכת חיה</string>
+    <string name="hint_pet_type">הכנס סוג חיה (למשל כלב, חתול, אחר)</string>
     <string name="hint_pet_name">הכנס שם חיה</string>
     <string name="hint_pet_breed">הכנס גזע</string>
     <string name="hint_pet_birthdate">בחר תאריך לידה</string>
     <string name="hint_pet_notes">הערות נוספות</string>
+    <string name="hint_pet_weight">הכנס משקל (ק"ג, אופציונלי)</string>
     <string name="btn_birthday_age">תאריך לידה או גיל</string>
     <string name="option_select_birthday">בחר תאריך לידה</string>
     <string name="option_enter_age">הכנס גיל</string>
     <string name="label_age_only">גיל: %1$d</string>
+    <string name="label_birthday">תאריך לידה: %1$s</string>
+
+    <string name="title_add_health_issue">הוסף בעיית בריאות</string>
+    <string name="title_add_behavior_issue">הוסף בעיית התנהגות</string>
+    <string name="label_bullet_item">• %1$s</string>
 
     <string name="btn_save">שמור</string>
     <string name="btn_cancel">ביטול</string>

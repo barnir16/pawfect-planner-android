@@ -9,7 +9,9 @@
 
     <string name="title_pet_list">My Pets</string>
     <string name="label_no_pets">No pets added yet.</string>
+    <string name="no_pets_placeholder">No pets detected, press + below to add now!</string>
     <string name="action_add_pet">Add Pet</string>
+    <string name="action_upload_pet_picture">Upload Pet Picture</string>
     <string name="action_edit_pet">Edit</string>
     <string name="action_delete_pet">Delete</string>
     <string name="delete_pet_title">Delete Pet</string>
@@ -24,14 +26,21 @@
 
     <string name="title_add_pet">Add New Pet</string>
     <string name="title_edit_pet">Edit Pet</string>
+    <string name="hint_pet_type">Enter pet type (e.g. Dog, Cat, Other)</string>
     <string name="hint_pet_name">Enter pet name</string>
     <string name="hint_pet_breed">Enter breed</string>
     <string name="hint_pet_birthdate">Select birthdate</string>
     <string name="hint_pet_notes">Additional notes</string>
+    <string name="hint_pet_weight">Enter weight (kg, optional)</string>
     <string name="btn_birthday_age">Birthdate or Age</string>
     <string name="option_select_birthday">Select Birthdate</string>
     <string name="option_enter_age">Enter Age</string>
     <string name="label_age_only">Age: %1$d</string>
+    <string name="label_birthday">Birthday: %1$s</string>
+
+    <string name="title_add_health_issue">Add Health Issue</string>
+    <string name="title_add_behavior_issue">Add Behavior Issue</string>
+    <string name="label_bullet_item">• %1$s</string>
 
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
@@ -54,7 +63,7 @@
     <string name="pref_language">Language</string>
 
     <string name="title_about">About</string>
-    <string name="about_description">PawfectPlanner helps you manage everything related to pets - from schedules, vaccines, we have it all!</string>
+    <string name="about_description">PawfectPlanner helps you manage everything related to pets – from schedules, vaccines, we have it all!</string>
     <string name="about_version">Version</string>
 
     <string name="btn_ok">OK</string>
