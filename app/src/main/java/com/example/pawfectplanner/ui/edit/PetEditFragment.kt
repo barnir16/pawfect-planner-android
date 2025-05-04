@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -39,23 +40,30 @@ class PetEditFragment : Fragment() {
     private var selectedAge: Int? = null
     private var selectedImageUriString: String? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentPetEditBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        FragmentPetEditBinding.inflate(inflater, container, false).also { _binding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
         viewModel = ViewModelProvider(this, PetViewModelFactory(PetRepository(dao)))[PetViewModel::class.java]
 
-        val types = listOf("Dog", "Cat", "Other")
-        binding.spinnerPetType.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, types)
-        binding.spinnerPetType.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>, v: View?, pos: Int, id: Long) {
-                binding.tilCustomType.visibility = if (types[pos] == "Other") View.VISIBLE else View.GONE
-            }
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+        binding.etPetName.doAfterTextChanged {
+            binding.btnSavePet.isEnabled = it?.isNotBlank() == true
         }
+
+        val types = listOf("Dog", "Cat", "Other")
+        binding.spinnerPetType.adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, types)
+        binding.spinnerPetType.onItemSelectedListener =
+            object : android.widget.AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: android.widget.AdapterView<*>, v: View?, pos: Int, id: Long
+                ) {
+                    binding.tilCustomType.visibility =
+                        if (types[pos] == "Other") View.VISIBLE else View.GONE
+                }
+                override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+            }
 
         binding.btnAddHealthIssue.setOnClickListener {
             val input = EditText(requireContext()).apply { inputType = InputType.TYPE_CLASS_TEXT }
@@ -66,7 +74,9 @@ class PetEditFragment : Fragment() {
                     input.text.toString().takeIf { it.isNotBlank() }?.let {
                         healthIssues += it
                         binding.containerHealthIssues.addView(
-                            TextView(requireContext()).apply { text = getString(R.string.label_bullet_item, it) }
+                            TextView(requireContext()).apply {
+                                text = getString(R.string.label_bullet_item, it)
+                            }
                         )
                     }
                 }
@@ -83,7 +93,9 @@ class PetEditFragment : Fragment() {
                     input.text.toString().takeIf { it.isNotBlank() }?.let {
                         behaviorIssues += it
                         binding.containerBehaviorIssues.addView(
-                            TextView(requireContext()).apply { text = getString(R.string.label_bullet_item, it) }
+                            TextView(requireContext()).apply {
+                                text = getString(R.string.label_bullet_item, it)
+                            }
                         )
                     }
                 }
@@ -101,7 +113,10 @@ class PetEditFragment : Fragment() {
         binding.imgPetPhoto.setOnClickListener { pickImage.launch("image/*") }
 
         binding.btnBirthdayAge.setOnClickListener {
-            val options = arrayOf(getString(R.string.option_select_birthday), getString(R.string.option_enter_age))
+            val options = arrayOf(
+                getString(R.string.option_select_birthday),
+                getString(R.string.option_enter_age)
+            )
             AlertDialog.Builder(requireContext())
                 .setItems(options) { _, which ->
                     if (which == 0) showDatePicker() else showAgeDialog()
@@ -113,6 +128,7 @@ class PetEditFragment : Fragment() {
             viewModel.allPets.observe(viewLifecycleOwner) { list ->
                 list.firstOrNull { it.id == args.petId }?.let { pet ->
                     binding.etPetName.setText(pet.name)
+                    binding.btnSavePet.isEnabled = true
                     val pos = types.indexOf(pet.breedType).takeIf { it >= 0 } ?: 2
                     binding.spinnerPetType.setSelection(pos)
                     if (pos == 2) binding.etCustomType.setText(pet.breedType)
@@ -131,12 +147,15 @@ class PetEditFragment : Fragment() {
 
         binding.btnSavePet.setOnClickListener {
             val name = binding.etPetName.text.toString()
-            val type = if (binding.tilCustomType.isVisible) binding.etCustomType.text.toString()
+            val type = if (binding.tilCustomType.isVisible)
+                binding.etCustomType.text.toString()
             else binding.spinnerPetType.selectedItem as String
             val breed = binding.etPetBreed.text.toString()
             val weight = binding.etPetWeight.text.toString().toDoubleOrNull()
-            val birthDate = selectedBirthDate ?: LocalDate.now().minusYears(selectedAge?.toLong() ?: 0)
-            val age = selectedAge ?: Period.between(birthDate, LocalDate.now()).years
+            val birthDate = selectedBirthDate
+                ?: LocalDate.now().minusYears(selectedAge?.toLong() ?: 0)
+            val age = selectedAge
+                ?: Period.between(birthDate, LocalDate.now()).years
             val pet = Pet(
                 id = if (args.petId != -1) args.petId else 0,
                 name = name,
@@ -161,7 +180,8 @@ class PetEditFragment : Fragment() {
             { _, y, m, d ->
                 selectedBirthDate = LocalDate.of(y, m + 1, d)
                 selectedAge = null
-                binding.btnBirthdayAge.text = getString(R.string.label_birthday, selectedBirthDate.toString())
+                binding.btnBirthdayAge.text =
+                    getString(R.string.label_birthday, selectedBirthDate.toString())
             },
             now.get(Calendar.YEAR),
             now.get(Calendar.MONTH),
@@ -177,7 +197,8 @@ class PetEditFragment : Fragment() {
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 selectedAge = input.text.toString().toIntOrNull()
                 selectedBirthDate = null
-                binding.btnBirthdayAge.text = getString(R.string.label_age_only, selectedAge)
+                binding.btnBirthdayAge.text =
+                    getString(R.string.label_age_only, selectedAge)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()

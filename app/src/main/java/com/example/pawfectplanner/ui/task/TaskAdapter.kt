@@ -7,23 +7,25 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pawfectplanner.data.model.Task
 import com.example.pawfectplanner.databinding.ItemTaskBinding
+import org.threeten.bp.format.DateTimeFormatter
 
 class TaskAdapter(
     private val onClick: (Int) -> Unit
 ) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(DIFF) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val binding = ItemTaskBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return TaskViewHolder(binding)
-    }
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        TaskViewHolder(
+            ItemTaskBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+
+    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) =
         holder.bind(getItem(position))
-    }
 
     inner class TaskViewHolder(
         private val b: ItemTaskBinding
@@ -36,10 +38,9 @@ class TaskAdapter(
                 }
             }
         }
-
         fun bind(task: Task) {
             b.tvTaskTitle.text = task.title
-            b.tvTaskDateTime.text = task.dateTime.toString()
+            b.tvTaskDateTime.text = task.dateTime.format(formatter)
         }
     }
 

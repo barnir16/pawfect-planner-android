@@ -87,4 +87,22 @@
 
     <string name="navigation_drawer_open">פתח תפריט ניווט</string>
     <string name="navigation_drawer_close">סגור תפריט ניווט</string>
+
+    <string-array name="language_entries">
+        <item>English</item>
+        <item>עברית</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en</item>
+        <item>iw</item>
+    </string-array>
+    <string-array name="repeat_units">
+        <item>ללא חזרות</item>
+        <item>דקות</item>
+        <item>שעות</item>
+        <item>ימים</item>
+        <item>שבועות</item>
+        <item>חודשים</item>
+        <item>שנים</item>
+    </string-array>
 </resources>

@@ -7,7 +7,7 @@ import com.example.pawfectplanner.data.local.converters.Converters
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.data.model.Task
 
-@Database(entities = [Pet::class, Task::class], version = 3, exportSchema = false)
+@Database(entities = [Pet::class, Task::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun petDao(): PetDao

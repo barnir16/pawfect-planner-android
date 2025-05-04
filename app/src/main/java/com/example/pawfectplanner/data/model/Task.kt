@@ -9,5 +9,7 @@ data class Task(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val description: String,
-    val dateTime: LocalDateTime
+    val dateTime: LocalDateTime,
+    val repeatInterval: Int? = null,
+    val repeatUnit: String? = null
 )

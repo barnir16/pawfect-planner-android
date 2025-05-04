@@ -9,29 +9,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <EditText
                 android:id="@+id/inputTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_task_title"/>
+
             <EditText
                 android:id="@+id/inputDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_task_description"
                 android:enabled="false"/>
+
             <Button
                 android:id="@+id/btnPickDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_task_date"
                 android:enabled="false"/>
+
             <Button
                 android:id="@+id/btnPickTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_task_time"
                 android:enabled="false"/>
+
+            <EditText
+                android:id="@+id/inputRepeatInterval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Every…"
+                android:inputType="number"
+                android:enabled="false"
+                android:layout_marginTop="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerRepeatUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/repeat_units"
+                android:enabled="false"
+                android:layout_marginBottom="16dp"/>
+
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
