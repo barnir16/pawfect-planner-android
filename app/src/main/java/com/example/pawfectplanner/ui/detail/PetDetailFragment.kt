@@ -19,43 +19,31 @@ class PetDetailFragment : Fragment() {
     private val args: PetDetailFragmentArgs by navArgs()
     private lateinit var viewModel: PetViewModel
 
-    override fun onCreateView(
-        inflater: android.view.LayoutInflater,
-        container: android.view.ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentPetDetailBinding.inflate(inflater, container, false).also { _binding = it }.root
+    override fun onCreateView(inflater: android.view.LayoutInflater, container: android.view.ViewGroup?, savedInstanceState: Bundle?) =
+        FragmentPetDetailBinding.inflate(inflater, container, false).also { _binding = it }.root
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
-        viewModel = ViewModelProvider(
-            this,
-            PetViewModelFactory(PetRepository(dao))
-        ).get(PetViewModel::class.java)
+        viewModel = ViewModelProvider(this, PetViewModelFactory(PetRepository(dao)))[PetViewModel::class.java]
 
         viewModel.allPets.observe(viewLifecycleOwner) { list ->
             list.firstOrNull { it.id == args.petId }?.let { pet ->
                 binding.tvPetName.text = pet.name
                 binding.tvPetBreed.text = pet.breed
 
-                if (pet.birthDate != null) {
-                    val birthdayText = getString(R.string.label_birthday, pet.birthDate.toString())
-                    val ageText = getString(R.string.label_age_only, pet.age)
-                    binding.tvPetBirth.text =
-                        getString(R.string.label_birthday_age, birthdayText, ageText)
+                if (pet.isBirthdayGiven && pet.birthDate != null) {
+                    val bd = getString(R.string.label_birthday, pet.birthDate.toString())
+                    val ag = getString(R.string.label_age_only, pet.age)
+                    binding.tvPetBirth.text = getString(R.string.label_birthday_age, bd, ag)
                 } else {
-                    binding.tvPetBirth.text =
-                        getString(R.string.label_age_only, pet.age)
+                    binding.tvPetBirth.text = getString(R.string.label_age_only, pet.age)
                 }
 
-                binding.tvPetNotes.text =
-                    (pet.healthIssues + pet.behaviorIssues)
-                        .joinToString("\n") { getString(R.string.label_bullet_item, it) }
+                val allIssues = pet.healthIssues + pet.behaviorIssues
+                binding.tvPetNotes.text = allIssues.joinToString("\n") { getString(R.string.label_bullet_item, it) }
 
                 binding.btnEdit.setOnClickListener {
-                    findNavController().navigate(
-                        PetDetailFragmentDirections
-                            .actionPetDetailFragmentToPetEditFragment(pet.id)
-                    )
+                    findNavController().navigate(PetDetailFragmentDirections.actionPetDetailFragmentToPetEditFragment(pet.id))
                 }
                 binding.btnDelete.setOnClickListener {
                     AlertDialog.Builder(requireContext())

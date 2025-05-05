@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data/>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_pet_name"
-                tools:ignore="TextContrastCheck">
+                android:hint="@string/hint_pet_name">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPetName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="TextContrastCheck"/>
+                    android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
@@ -28,16 +30,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
-                tools:ignore="TouchTargetSize"/>
+                android:contentDescription="@string/hint_pet_type"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilCustomType"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_pet_type"
                 android:layout_marginTop="8dp"
-                android:visibility="gone"
-                tools:ignore="TextContrastCheck">
+                android:visibility="gone">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCustomType"
                     android:layout_width="match_parent"
@@ -45,39 +48,39 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_pet_breed"
-                android:layout_marginTop="12dp"
-                tools:ignore="TextContrastCheck">
+                android:layout_marginTop="12dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPetBreed"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="TextContrastCheck"/>
+                    android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_pet_weight"
-                android:layout_marginTop="12dp"
-                tools:ignore="TextContrastCheck">
+                android:layout_marginTop="12dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPetWeight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    tools:ignore="TextContrastCheck"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBirthdayAge"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_birthday_age"
                 android:layout_marginTop="12dp"
-                tools:ignore="ButtonMaxWidth"/>
+                android:text="@string/btn_birthday_age"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -85,84 +88,74 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="12dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddHealthIssue"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/title_add_health_issue"
-                    tools:ignore="ButtonMaxWidth"/>
+                    android:text="@string/title_add_health_issue"/>
 
                 <Space
                     android:layout_width="8dp"
                     android:layout_height="wrap_content"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddBehaviorIssue"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/title_add_behavior_issue"
-                    tools:ignore="ButtonMaxWidth"/>
+                    android:text="@string/title_add_behavior_issue"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/containerHealthIssues"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupHealth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="8dp"/>
 
-            <LinearLayout
-                android:id="@+id/containerBehaviorIssues"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupBehavior"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="4dp"/>
 
             <ImageView
                 android:id="@+id/imgPetPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:scaleType="centerCrop"
                 android:contentDescription="@string/action_upload_pet_picture"
                 android:adjustViewBounds="true"
-                tools:ignore="ImageContrastCheck"/>
+                android:scaleType="centerCrop"
+                android:layout_marginTop="12dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="12dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickImage"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/action_upload_pet_picture"
-                    tools:ignore="ButtonMaxWidth"/>
+                    android:text="@string/action_upload_pet_picture"/>
 
                 <Space
                     android:layout_width="8dp"
                     android:layout_height="wrap_content"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSavePet"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/btn_save"
-                    android:enabled="false"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:backgroundTint="?attr/colorPrimary"
-                    android:textColor="@android:color/white"
-                    android:paddingVertical="12dp"
-                    android:elevation="4dp"
-                    android:layout_marginTop="4dp"
-                    tools:ignore="ButtonMaxWidth"/>
-
+                    android:enabled="false"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

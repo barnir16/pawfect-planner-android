@@ -10,8 +10,6 @@ import com.bumptech.glide.Glide
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.databinding.ItemPetBinding
-import org.threeten.bp.LocalDate
-import org.threeten.bp.Period
 
 class PetAdapter(
     private val onClick: (Pet) -> Unit,
@@ -31,8 +29,7 @@ class PetAdapter(
         fun bind(pet: Pet, onClick: (Pet) -> Unit, onLongClick: (Pet) -> Boolean) {
             b.tvName.text = pet.name
             b.tvBreed.text = pet.breed
-            val age = Period.between(pet.birthDate, LocalDate.now()).years
-            b.tvAge.text = b.root.context.getString(R.string.label_age_only, age)
+            b.tvAge.text = b.root.context.getString(R.string.label_age_only, pet.age)
             if (pet.photoUri != null) {
                 Glide.with(b.root)
                     .load(Uri.parse(pet.photoUri))

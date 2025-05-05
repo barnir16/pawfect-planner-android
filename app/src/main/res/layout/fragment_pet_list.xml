@@ -4,32 +4,34 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/labelNoPets"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardNoPets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_no_pets"
-            android:gravity="center"
+            android:layout_margin="16dp"
             android:visibility="gone"
-            android:layout_margin="16dp"/>
-
+            app:cardCornerRadius="8dp">
+            <TextView
+                android:id="@+id/labelNoPets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:gravity="center"
+                android:text="@string/label_no_pets"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+        </com.google.android.material.card.MaterialCardView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPets"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"
-            android:contentDescription="@string/title_pet_list"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
+            android:padding="8dp"
+            android:contentDescription="@string/title_pet_list"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddPet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:contentDescription="@string/action_add_pet"
             app:srcCompat="@drawable/ic_add"/>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

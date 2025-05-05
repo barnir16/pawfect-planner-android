@@ -125,7 +125,7 @@ class TaskEditFragment : Fragment() {
             }
         }
 
-        binding.btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener @androidx.annotation.RequiresPermission(android.Manifest.permission.SCHEDULE_EXACT_ALARM) setOnClickListener@{
             val title = binding.inputTitle.text.toString().trim()
             val desc = binding.inputDescription.text.toString().trim()
             val date = chosenDate ?: return@setOnClickListener

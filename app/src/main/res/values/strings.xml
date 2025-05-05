@@ -95,6 +95,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="label_settings_list">Settings options</string>
+
     <string-array name="language_entries">
         <item>English</item>
         <item>עברית</item>
