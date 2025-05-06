@@ -208,13 +208,14 @@ class PetEditFragment : Fragment() {
             { _, y, m, d ->
                 selectedBirthDate = LocalDate.of(y, m + 1, d)
                 selectedAge = null
-                binding.btnBirthdayAge.text =
-                    getString(R.string.label_birthday, selectedBirthDate.toString())
+                binding.btnBirthdayAge.text = getString(R.string.label_birthday, selectedBirthDate.toString())
             },
             now.get(Calendar.YEAR),
             now.get(Calendar.MONTH),
             now.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        ).apply {
+            datePicker.maxDate = System.currentTimeMillis()
+        }.show()
     }
 
     private fun showAgeDialog() {

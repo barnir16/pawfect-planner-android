@@ -3,14 +3,11 @@ package com.example.pawfectplanner.ui.task
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.pawfectplanner.PawfectPlannerApplication
@@ -27,105 +24,87 @@ import com.example.pawfectplanner.util.NotificationHelper
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
-import java.util.*
 
 class TaskEditFragment : Fragment() {
+
     private var _binding: FragmentTaskEditBinding? = null
     private val binding get() = _binding!!
     private val args: TaskEditFragmentArgs by navArgs()
-    private val viewModel: TaskViewModel by viewModels {
-        TaskViewModelFactory(
-            TaskRepository(
-                (requireActivity().application as PawfectPlannerApplication).database.taskDao()
-            )
-        )
+    private val app by lazy { requireActivity().application as PawfectPlannerApplication }
+    private val taskVM: TaskViewModel by viewModels {
+        TaskViewModelFactory(TaskRepository(app.database.taskDao()))
     }
-    private val petViewModel: PetViewModel by lazy {
-        PetViewModelFactory(
-            PetRepository(
-                (requireActivity().application as PawfectPlannerApplication).database.petDao()
-            )
-        ).let { factory ->
-            androidx.lifecycle.ViewModelProvider(this, factory)[PetViewModel::class.java]
-        }
+    private val petVM: PetViewModel by lazy {
+        ViewModelProvider(
+            this,
+            PetViewModelFactory(PetRepository(app.database.petDao()))
+        )[PetViewModel::class.java]
     }
-    private var chosenDate: LocalDate? = null
-    private var chosenTime: LocalTime? = null
-    private var petIds: List<Int> = emptyList()
+    private var pickedDate: LocalDate? = null
+    private var pickedTime: LocalTime? = null
+    private var assignedPetIds: List<Int> = emptyList()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: android.view.LayoutInflater,
+        container: android.view.ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentTaskEditBinding.inflate(inflater, container, false).also { _binding = it }.root
+    ) = FragmentTaskEditBinding.inflate(inflater, container, false)
+        .also { _binding = it }
+        .root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.inputTitle.doAfterTextChanged { updateSave() }
-        binding.inputDescription.doAfterTextChanged { updateSave() }
+    override fun onViewCreated(v: android.view.View, s: Bundle?) {
+        binding.inputTitle.doAfterTextChanged { updateSaveEnabled() }
+        binding.inputDescription.doAfterTextChanged { updateSaveEnabled() }
+        binding.inputRepeatInterval.doAfterTextChanged { }
+
+        binding.cardEvery.setOnClickListener {
+            binding.cardEvery.isChecked = !binding.cardEvery.isChecked
+            binding.inputRepeatInterval.isEnabled = binding.cardEvery.isChecked
+            binding.spinnerRepeatUnit.isEnabled = binding.cardEvery.isChecked
+        }
 
         binding.btnPickDate.setOnClickListener {
             val now = LocalDate.now()
             DatePickerDialog(
                 requireContext(),
                 { _, y, m, d ->
-                    chosenDate = LocalDate.of(y, m + 1, d)
-                    binding.btnPickDate.text = chosenDate.toString()
-                    updateSave()
+                    pickedDate = LocalDate.of(y, m + 1, d)
+                    binding.btnPickDate.text = pickedDate.toString()
+                    updateSaveEnabled()
                 },
-                now.year,
-                now.monthValue - 1,
-                now.dayOfMonth
-            ).apply { datePicker.minDate = System.currentTimeMillis() }.show()
+                now.year, now.monthValue - 1, now.dayOfMonth
+            ).apply { datePicker.minDate = System.currentTimeMillis() }
+                .show()
         }
-
         binding.btnPickTime.setOnClickListener {
             val now = LocalTime.now()
             TimePickerDialog(
                 requireContext(),
                 { _, h, m ->
-                    chosenTime = LocalTime.of(h, m)
-                    binding.btnPickTime.text = chosenTime.toString()
-                    updateSave()
+                    pickedTime = LocalTime.of(h, m)
+                    binding.btnPickTime.text = pickedTime.toString()
+                    updateSaveEnabled()
                 },
-                now.hour,
-                now.minute,
-                true
+                now.hour, now.minute, true
             ).show()
         }
 
-        binding.spinnerRepeatUnit.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    pos: Int,
-                    id: Long
-                ) {
-                    val isNever =
-                        parent.getItemAtPosition(pos) == getString(R.string.label_task_no_repeat)
-                    binding.cardEvery.isEnabled = !isNever
-                    binding.tvEvery.alpha = if (isNever) 0.3f else 1f
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {}
-            }
-
         binding.btnAssignPets.setOnClickListener {
-            petViewModel.allPets.observe(viewLifecycleOwner) { pets ->
+            petVM.allPets.observe(viewLifecycleOwner) { pets ->
                 val names = pets.map { it.name }.toTypedArray()
-                val selected = BooleanArray(pets.size) { i -> petIds.contains(pets[i].id) }
-                androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                val checked = BooleanArray(pets.size) { i -> assignedPetIds.contains(pets[i].id) }
+                AlertDialog.Builder(requireContext())
                     .setTitle(R.string.label_task_assign_pets)
-                    .setMultiChoiceItems(names, selected) { _, which, isChecked ->
-                        selected[which] = isChecked
+                    .setMultiChoiceItems(names, checked) { _, which, isChecked ->
+                        checked[which] = isChecked
                     }
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        petIds = pets.filterIndexed { i, _ -> selected[i] }.map { it.id }
+                        assignedPetIds = pets.filterIndexed { i, _ -> checked[i] }.map { it.id }
                         binding.tvAssignedPets.text =
-                            if (petIds.isEmpty())
+                            if (assignedPetIds.isEmpty())
                                 getString(R.string.label_task_no_pets_assigned)
                             else
-                                pets.filter { petIds.contains(it.id) }
+                                pets.filter { assignedPetIds.contains(it.id) }
                                     .joinToString { it.name }
                     }
                     .setNegativeButton(android.R.string.cancel, null)
@@ -134,25 +113,30 @@ class TaskEditFragment : Fragment() {
         }
 
         if (args.taskId != -1) {
-            viewModel.allTasks.observe(viewLifecycleOwner) { tasks ->
-                tasks.find { it.id == args.taskId }?.let { t ->
+            taskVM.allTasks.observe(viewLifecycleOwner) { list ->
+                list.find { it.id == args.taskId }?.let { t ->
                     binding.inputTitle.setText(t.title)
                     binding.inputDescription.setText(t.description)
-                    chosenDate = t.dateTime.toLocalDate()
-                    chosenTime = t.dateTime.toLocalTime()
-                    binding.btnPickDate.text = chosenDate.toString()
-                    binding.btnPickTime.text = chosenTime.toString()
-                    val unitIndex =
-                        resources.getStringArray(R.array.repeat_units).indexOf(t.repeatUnit ?: "Never")
-                    binding.spinnerRepeatUnit.setSelection(unitIndex)
-                    petIds = t.petIds
-                    petViewModel.allPets.observe(viewLifecycleOwner) { pets ->
+                    pickedDate = t.dateTime.toLocalDate()
+                    pickedTime = t.dateTime.toLocalTime()
+                    binding.btnPickDate.text = pickedDate.toString()
+                    binding.btnPickTime.text = pickedTime.toString()
+                    binding.inputRepeatInterval.setText(t.repeatInterval?.toString() ?: "")
+                    binding.spinnerRepeatUnit.setSelection(
+                        resources.getStringArray(R.array.repeat_units)
+                            .indexOf(t.repeatUnit ?: "Never")
+                    )
+                    binding.cardEvery.isChecked = t.repeatInterval != null
+                    binding.inputRepeatInterval.isEnabled = binding.cardEvery.isChecked
+                    binding.spinnerRepeatUnit.isEnabled = binding.cardEvery.isChecked
+                    assignedPetIds = t.petIds
+                    petVM.allPets.observe(viewLifecycleOwner) { pets ->
                         binding.tvAssignedPets.text =
-                            pets.filter { petIds.contains(it.id) }
+                            pets.filter { assignedPetIds.contains(it.id) }
                                 .joinToString { it.name }
                     }
                     binding.btnSave.text = getString(R.string.btn_update_task)
-                    updateSave()
+                    updateSaveEnabled()
                 }
             }
         }
@@ -160,31 +144,37 @@ class TaskEditFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             val title = binding.inputTitle.text.toString().trim()
             val desc = binding.inputDescription.text.toString().trim()
-            val date = chosenDate ?: return@setOnClickListener
-            val time = chosenTime ?: return@setOnClickListener
-            val unit = binding.spinnerRepeatUnit.selectedItem as String
-            val interval = if (unit == getString(R.string.label_task_no_repeat)) null else 1
+            val date = pickedDate ?: return@setOnClickListener
+            val time = pickedTime ?: return@setOnClickListener
+            val interval = if (binding.cardEvery.isChecked)
+                binding.inputRepeatInterval.text.toString().toIntOrNull()
+            else null
+            val unit = if (binding.cardEvery.isChecked)
+                binding.spinnerRepeatUnit.selectedItem as String
+            else null
             val dt = LocalDateTime.of(date, time)
+
             val task = Task(
                 id = if (args.taskId != -1) args.taskId else 0,
                 title = title,
                 description = desc,
                 dateTime = dt,
                 repeatInterval = interval,
-                repeatUnit = if (unit == getString(R.string.label_task_no_repeat)) null else unit,
-                petIds = petIds
+                repeatUnit = unit,
+                petIds = assignedPetIds
             )
-            if (args.taskId == -1) viewModel.insert(task) else viewModel.update(task)
+
+            if (args.taskId == -1) taskVM.insert(task) else taskVM.update(task)
             NotificationHelper.schedule(requireContext(), task)
             findNavController().popBackStack()
         }
     }
 
-    private fun updateSave() {
+    private fun updateSaveEnabled() {
         binding.btnSave.isEnabled =
             binding.inputTitle.text.toString().isNotBlank() &&
-                    chosenDate != null &&
-                    chosenTime != null
+                    pickedDate != null &&
+                    pickedTime != null
     }
 
     override fun onDestroyView() {
