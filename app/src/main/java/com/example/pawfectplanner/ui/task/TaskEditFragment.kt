@@ -3,7 +3,6 @@ package com.example.pawfectplanner.ui.task
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -25,7 +24,6 @@ import com.example.pawfectplanner.util.NotificationHelper
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
-import java.util.*
 
 class TaskEditFragment : Fragment() {
     private var _binding: FragmentTaskEditBinding? = null
@@ -39,7 +37,7 @@ class TaskEditFragment : Fragment() {
         ViewModelProvider(
             this,
             PetViewModelFactory(PetRepository(app.database.petDao()))
-        ).get(PetViewModel::class.java)
+        )[PetViewModel::class.java]
     }
     private var chosenDate: LocalDate? = null
     private var chosenTime: LocalTime? = null
@@ -57,7 +55,8 @@ class TaskEditFragment : Fragment() {
 
         binding.btnPickDate.setOnClickListener {
             val now = LocalDate.now()
-            DatePickerDialog(requireContext(),
+            DatePickerDialog(
+                requireContext(),
                 { _, y, m, d ->
                     chosenDate = LocalDate.of(y, m + 1, d)
                     binding.btnPickDate.text = chosenDate.toString()
@@ -69,7 +68,8 @@ class TaskEditFragment : Fragment() {
 
         binding.btnPickTime.setOnClickListener {
             val now = LocalTime.now()
-            TimePickerDialog(requireContext(),
+            TimePickerDialog(
+                requireContext(),
                 { _, h, m ->
                     chosenTime = LocalTime.of(h, m)
                     binding.btnPickTime.text = chosenTime.toString()
@@ -125,7 +125,7 @@ class TaskEditFragment : Fragment() {
             }
         }
 
-        binding.btnSave.setOnClickListener @androidx.annotation.RequiresPermission(android.Manifest.permission.SCHEDULE_EXACT_ALARM) setOnClickListener@{
+        binding.btnSave.setOnClickListener {
             val title = binding.inputTitle.text.toString().trim()
             val desc = binding.inputDescription.text.toString().trim()
             val date = chosenDate ?: return@setOnClickListener
@@ -143,7 +143,10 @@ class TaskEditFragment : Fragment() {
                 petIds = petIds
             )
             if (args.taskId == -1) viewModel.insert(task) else viewModel.update(task)
-            NotificationHelper.schedule(requireContext(), task)
+            try {
+                NotificationHelper.schedule(requireContext(), task)
+            } catch (_: SecurityException) {
+            }
             findNavController().popBackStack()
         }
     }

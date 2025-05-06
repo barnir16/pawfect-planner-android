@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
         android:key="notifications"
         android:title="@string/pref_notifications"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+        android:layout="@layout/preference_card_switch"/>
 
-    <SwitchPreferenceCompat
+    <Preference
         android:key="dark_mode"
-        android:title="@string/pref_dark_mode"
-        android:defaultValue="false" />
+        android:title="Toggle Dark Mode"
+        android:layout="@layout/preference_card_list"/>
 
     <ListPreference
         android:key="language"
         android:title="@string/pref_language"
         android:entries="@array/language_entries"
         android:entryValues="@array/language_values"
-        android:defaultValue="en" />
-
+        android:defaultValue="en"
+        android:layout="@layout/preference_card_list"
+        app:useSimpleSummaryProvider="true"/>
 </PreferenceScreen>

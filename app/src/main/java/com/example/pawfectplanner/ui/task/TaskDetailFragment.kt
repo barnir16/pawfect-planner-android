@@ -18,6 +18,7 @@ import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
+import com.example.pawfectplanner.util.NotificationHelper
 import org.threeten.bp.ZoneId
 
 class TaskDetailFragment : Fragment() {
@@ -36,26 +37,31 @@ class TaskDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        i: android.view.LayoutInflater, c: android.view.ViewGroup?, s: Bundle?
-    ) = FragmentTaskDetailBinding.inflate(i, c, false).also { _b = it }.root
+        inflater: android.view.LayoutInflater,
+        container: android.view.ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = FragmentTaskDetailBinding.inflate(inflater, container, false).also { _b = it }.root
 
     override fun onViewCreated(v: android.view.View, s: Bundle?) {
         b.btnAddToCalendar.setOnClickListener(null)
 
-        tm.allTasks.observe(viewLifecycleOwner){ list->
-            list.find { it.id==args.taskId }?.let{ t->
+        tm.allTasks.observe(viewLifecycleOwner) { list ->
+            list.find { it.id == args.taskId }?.let { t ->
                 b.tvTaskTitle.text = t.title
                 b.tvTaskDate.text = t.dateTime.toLocalDate().toString()
                 b.tvTaskTime.text = t.dateTime.toLocalTime().toString()
                 b.tvTaskRepeat.text = t.repeatInterval
-                    ?.let{ getString(R.string.label_task_repeat,it,t.repeatUnit!!) }
+                    ?.let { getString(R.string.label_task_repeat, it, t.repeatUnit!!) }
                     ?: getString(R.string.label_task_no_repeat)
-                pm.allPets.observe(viewLifecycleOwner){ pets->
-                    val names = pets.filter{t.petIds.contains(it.id)}.map{it.name}
-                    b.tvTaskPets.text = if(names.isEmpty())
+
+                pm.allPets.observe(viewLifecycleOwner) { pets ->
+                    val names = pets.filter { t.petIds.contains(it.id) }.map { it.name }
+                    b.tvTaskPets.text = if (names.isEmpty())
                         getString(R.string.label_task_no_pets_assigned)
-                    else names.joinToString()
+                    else
+                        names.joinToString()
                 }
+
                 b.btnAddToCalendar.setOnClickListener {
                     val begin = t.dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     val end = begin + 3_600_000
@@ -65,25 +71,30 @@ class TaskDetailFragment : Fragment() {
                         putExtra(CalendarContract.Events.TITLE, t.title)
                         putExtra(CalendarContract.Events.DESCRIPTION, t.description)
                         if (t.repeatInterval != null && t.repeatUnit != null) {
-                            val freq = when(t.repeatUnit) {
-                                "Minutes"->"MINUTELY"
-                                "Hours"  ->"HOURLY"
-                                "Days"   ->"DAILY"
-                                "Weeks"  ->"WEEKLY"
-                                "Months" ->"MONTHLY"
-                                "Years"  ->"YEARLY"
-                                else     ->""
+                            val freq = when (t.repeatUnit) {
+                                "Minutes" -> "MINUTELY"
+                                "Hours"   -> "HOURLY"
+                                "Days"    -> "DAILY"
+                                "Weeks"   -> "WEEKLY"
+                                "Months"  -> "MONTHLY"
+                                "Years"   -> "YEARLY"
+                                else      -> ""
                             }
                             putExtra(CalendarContract.Events.RRULE, "FREQ=$freq;INTERVAL=${t.repeatInterval}")
                         }
                     }.also(::startActivity)
                 }
+
                 b.btnDeleteTask.setOnClickListener {
+                    NotificationHelper.cancel(requireContext(), t.id)
                     AlertDialog.Builder(requireContext())
                         .setTitle(R.string.action_delete_task)
                         .setMessage(R.string.delete_pet_message)
-                        .setPositiveButton(R.string.action_delete_task){_,_-> tm.delete(t); findNavController().navigateUp() }
-                        .setNegativeButton(R.string.cancel,null)
+                        .setPositiveButton(R.string.action_delete_task) { _, _ ->
+                            tm.delete(t)
+                            findNavController().navigateUp()
+                        }
+                        .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
             }

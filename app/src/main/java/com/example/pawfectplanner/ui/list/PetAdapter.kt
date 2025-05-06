@@ -1,6 +1,6 @@
 package com.example.pawfectplanner.ui.list
 
-import android.net.Uri
+import androidx.core.net.toUri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -17,11 +17,16 @@ class PetAdapter(
 ) : ListAdapter<Pet, PetAdapter.PetViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PetViewHolder(ItemPetBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        PetViewHolder(
+            ItemPetBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
-    override fun onBindViewHolder(holder: PetViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PetViewHolder, position: Int) =
         holder.bind(getItem(position), onClick, onLongClick)
-    }
 
     class PetViewHolder(private val b: ItemPetBinding) :
         RecyclerView.ViewHolder(b.root) {
@@ -32,7 +37,7 @@ class PetAdapter(
             b.tvAge.text = b.root.context.getString(R.string.label_age_only, pet.age)
             if (pet.photoUri != null) {
                 Glide.with(b.root)
-                    .load(Uri.parse(pet.photoUri))
+                    .load(pet.photoUri.toUri())
                     .into(b.imgPetThumbnail)
             } else {
                 b.imgPetThumbnail.setImageResource(R.drawable.ic_photo_placeholder)

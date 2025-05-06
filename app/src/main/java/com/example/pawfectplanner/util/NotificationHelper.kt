@@ -1,16 +1,14 @@
 package com.example.pawfectplanner.util
 
-import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import androidx.annotation.RequiresPermission
 import com.example.pawfectplanner.data.model.Task
 import org.threeten.bp.ZoneId
 
 object NotificationHelper {
-    @RequiresPermission(Manifest.permission.SCHEDULE_EXACT_ALARM)
+
     fun schedule(context: Context, task: Task) {
         val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java).apply {
@@ -23,6 +21,14 @@ object NotificationHelper {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val triggerAt = task.dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            if (!mgr.canScheduleExactAlarms()) {
+                mgr.set(AlarmManager.RTC_WAKEUP, triggerAt, pi)
+                return
+            }
+        }
+
         if (task.repeatInterval != null && task.repeatUnit != null) {
             val intervalMs = when (task.repeatUnit) {
                 "Minutes" -> task.repeatInterval * 60_000L
@@ -38,6 +44,7 @@ object NotificationHelper {
                 return
             }
         }
+
         mgr.setExact(AlarmManager.RTC_WAKEUP, triggerAt, pi)
     }
 
