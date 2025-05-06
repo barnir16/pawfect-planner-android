@@ -26,7 +26,6 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 
 class TaskEditFragment : Fragment() {
-
     private var _binding: FragmentTaskEditBinding? = null
     private val binding get() = _binding!!
     private val args: TaskEditFragmentArgs by navArgs()
@@ -57,12 +56,6 @@ class TaskEditFragment : Fragment() {
         binding.inputDescription.doAfterTextChanged { updateSaveEnabled() }
         binding.inputRepeatInterval.doAfterTextChanged { }
 
-        binding.cardEvery.setOnClickListener {
-            binding.cardEvery.isChecked = !binding.cardEvery.isChecked
-            binding.inputRepeatInterval.isEnabled = binding.cardEvery.isChecked
-            binding.spinnerRepeatUnit.isEnabled = binding.cardEvery.isChecked
-        }
-
         binding.btnPickDate.setOnClickListener {
             val now = LocalDate.now()
             DatePickerDialog(
@@ -76,6 +69,7 @@ class TaskEditFragment : Fragment() {
             ).apply { datePicker.minDate = System.currentTimeMillis() }
                 .show()
         }
+
         binding.btnPickTime.setOnClickListener {
             val now = LocalTime.now()
             TimePickerDialog(
@@ -124,11 +118,8 @@ class TaskEditFragment : Fragment() {
                     binding.inputRepeatInterval.setText(t.repeatInterval?.toString() ?: "")
                     binding.spinnerRepeatUnit.setSelection(
                         resources.getStringArray(R.array.repeat_units)
-                            .indexOf(t.repeatUnit ?: "Never")
+                            .indexOf(t.repeatUnit ?: R.array.repeat_units.toString())
                     )
-                    binding.cardEvery.isChecked = t.repeatInterval != null
-                    binding.inputRepeatInterval.isEnabled = binding.cardEvery.isChecked
-                    binding.spinnerRepeatUnit.isEnabled = binding.cardEvery.isChecked
                     assignedPetIds = t.petIds
                     petVM.allPets.observe(viewLifecycleOwner) { pets ->
                         binding.tvAssignedPets.text =
@@ -146,12 +137,8 @@ class TaskEditFragment : Fragment() {
             val desc = binding.inputDescription.text.toString().trim()
             val date = pickedDate ?: return@setOnClickListener
             val time = pickedTime ?: return@setOnClickListener
-            val interval = if (binding.cardEvery.isChecked)
-                binding.inputRepeatInterval.text.toString().toIntOrNull()
-            else null
-            val unit = if (binding.cardEvery.isChecked)
-                binding.spinnerRepeatUnit.selectedItem as String
-            else null
+            val interval = binding.inputRepeatInterval.text.toString().toIntOrNull()
+            val unit = binding.spinnerRepeatUnit.selectedItem as String
             val dt = LocalDateTime.of(date, time)
 
             val task = Task(

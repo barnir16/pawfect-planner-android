@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -13,19 +14,16 @@
             android:divider="?attr/dividerVertical"
             android:showDividers="middle">
 
-            <!-- Title -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
-
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_task_title">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputTitle"
                         android:layout_width="match_parent"
@@ -35,19 +33,16 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Description -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
-
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_task_description">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputDescription"
                         android:layout_width="match_parent"
@@ -57,129 +52,79 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Date picker -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickDate"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
                     android:text="@string/label_task_date" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Time picker -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickTime"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
                     android:text="@string/label_task_time" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Repeat section (Every …) -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardEvery"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardElevation="2dp">
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:id="@+id/tvEvery"
-                        android:layout_width="wrap_content"
+                    android:hint="@string/label_task_every">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputRepeatInterval"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="@string/label_task_every"
-                        android:textAppearance="?attr/textAppearanceBody1" />
+                        android:inputType="number"
+                        android:enabled="true" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                    <Space
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent" />
+                <Spinner
+                    android:id="@+id/spinnerRepeatUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                    android:entries="@array/repeat_units" />
+            </LinearLayout>
 
-                    <!-- Interval first -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                        android:layout_width="72dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/label_task_interval">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/inputRepeatInterval"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:enabled="false" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent" />
-
-                    <!-- Unit spinner second -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:cardCornerRadius="8dp"
-                        app:cardBackgroundColor="?attr/colorSurface"
-                        app:cardElevation="2dp">
-
-                        <Spinner
-                            android:id="@+id/spinnerRepeatUnit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="12dp"
-                            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
-                    </com.google.android.material.card.MaterialCardView>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Assign pets -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAssignPets"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
                     android:text="@string/label_task_assign_pets" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Assigned pets list -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
-
                 <TextView
                     android:id="@+id/tvAssignedPets"
                     android:layout_width="match_parent"
@@ -189,20 +134,16 @@
                     android:textAppearance="?attr/textAppearanceBody2" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Save -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSave"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
                     android:text="@string/btn_save" />
             </com.google.android.material.card.MaterialCardView>
 
