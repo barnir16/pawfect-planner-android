@@ -38,11 +38,12 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = TaskAdapter { taskId ->
+        val adapter = TaskAdapter { taskId ->
             val action = TaskListFragmentDirections
                 .actionTaskListFragmentToTaskDetailFragment(taskId)
             view.findNavController().navigate(action)
         }
+        binding.recyclerView.adapter = adapter
 
         binding.fabAdd.setOnClickListener {
             val action = TaskListFragmentDirections
@@ -51,8 +52,8 @@ class TaskListFragment : Fragment() {
         }
 
         viewModel.allTasks.observe(viewLifecycleOwner) { tasks ->
-            (binding.recyclerView.adapter as TaskAdapter).submitList(tasks)
-            binding.labelNoTasks.visibility =
+            adapter.submitList(tasks)
+            binding.cardNoTasks.visibility =
                 if (tasks.isEmpty()) View.VISIBLE else View.GONE
         }
     }

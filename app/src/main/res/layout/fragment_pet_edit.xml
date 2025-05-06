@@ -17,7 +17,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_pet_name">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPetName"
                     android:layout_width="match_parent"
@@ -31,7 +30,6 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp"
                 app:cardBackgroundColor="?attr/colorSurface">
-
                 <Spinner
                     android:id="@+id/spinnerPetType"
                     android:layout_width="match_parent"
@@ -50,7 +48,6 @@
                 android:hint="@string/hint_pet_type"
                 android:layout_marginTop="8dp"
                 android:visibility="gone">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCustomType"
                     android:layout_width="match_parent"
@@ -63,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_pet_breed"
                 android:layout_marginTop="12dp">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPetBreed"
                     android:layout_width="match_parent"
@@ -76,7 +72,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_pet_weight"
                 android:layout_marginTop="12dp">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPetWeight"
                     android:layout_width="match_parent"
@@ -102,8 +97,8 @@
                     android:id="@+id/btnAddHealthIssue"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:text="@string/title_add_health_issue"/>
 
                 <Space android:layout_width="8dp" android:layout_height="wrap_content"/>
@@ -112,22 +107,31 @@
                     android:id="@+id/btnAddBehaviorIssue"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:text="@string/title_add_behavior_issue"/>
             </LinearLayout>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupHealth"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupBehavior"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"/>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupHealth"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+                <Space android:layout_width="8dp" android:layout_height="wrap_content"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupBehavior"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/imgPetPhoto"
@@ -148,8 +152,8 @@
                     android:id="@+id/btnPickImage"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:text="@string/action_upload_pet_picture"/>
 
                 <Space android:layout_width="8dp" android:layout_height="wrap_content"/>
@@ -158,8 +162,8 @@
                     android:id="@+id/btnSavePet"
                     style="@style/Widget.PawfectPlanner.Button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:enabled="false"
                     android:text="@string/btn_save"/>
             </LinearLayout>

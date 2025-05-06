@@ -24,7 +24,6 @@ import com.example.pawfectplanner.databinding.FragmentPetEditBinding
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.threeten.bp.LocalDate
 import org.threeten.bp.Period
@@ -42,22 +41,14 @@ class PetEditFragment : Fragment() {
     private val healthIssues = mutableListOf<String>()
     private val behaviorIssues = mutableListOf<String>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentPetEditBinding.inflate(inflater, container, false).also { _binding = it }.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        FragmentPetEditBinding.inflate(inflater, container, false).also { _binding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
-        viewModel = ViewModelProvider(
-            this,
-            PetViewModelFactory(PetRepository(dao))
-        )[PetViewModel::class.java]
+        viewModel = ViewModelProvider(this, PetViewModelFactory(PetRepository(dao)))[PetViewModel::class.java]
 
-        binding.etPetName.doAfterTextChanged { editable ->
-            binding.btnSavePet.isEnabled = editable?.isNotBlank() == true
-        }
+        binding.etPetName.doAfterTextChanged { binding.btnSavePet.isEnabled = it?.isNotBlank() == true }
 
         val types = listOf("Dog", "Cat", "Other")
         binding.spinnerPetType.adapter = android.widget.ArrayAdapter(
@@ -72,7 +63,7 @@ class PetEditFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        fun addIssue(titleRes: Int, list: MutableList<String>, chipGroup: ChipGroup) {
+        fun addIssue(titleRes: Int, list: MutableList<String>, chipGroup: com.google.android.material.chip.ChipGroup) {
             val input = EditText(requireContext()).apply { inputType = InputType.TYPE_CLASS_TEXT }
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(titleRes)
@@ -115,13 +106,9 @@ class PetEditFragment : Fragment() {
         binding.btnBirthdayAge.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setItems(
-                    arrayOf(
-                        getString(R.string.option_select_birthday),
-                        getString(R.string.option_enter_age)
-                    )
+                    arrayOf(getString(R.string.option_select_birthday), getString(R.string.option_enter_age))
                 ) { _, which ->
-                    if (which == 0) showDatePicker()
-                    else showAgeDialog()
+                    if (which == 0) showDatePicker() else showAgeDialog()
                 }
                 .show()
         }
@@ -150,6 +137,7 @@ class PetEditFragment : Fragment() {
                     }
 
                     pet.photoUri?.let {
+                        selectedImageUriString = it
                         Glide.with(this).load(it).into(binding.imgPetPhoto)
                     }
 

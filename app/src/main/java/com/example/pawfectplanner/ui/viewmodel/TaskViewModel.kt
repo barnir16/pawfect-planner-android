@@ -13,6 +13,7 @@ class TaskViewModel(private val repo: TaskRepository) : ViewModel() {
 }
 
 class TaskViewModelFactory(private val repo: TaskRepository) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(c: Class<T>) =
         if (c.isAssignableFrom(TaskViewModel::class.java))
             TaskViewModel(repo) as T
