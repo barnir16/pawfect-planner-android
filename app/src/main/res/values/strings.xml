@@ -14,7 +14,7 @@
     <string name="action_edit_pet">Edit</string>
     <string name="action_delete_pet">Delete</string>
     <string name="delete_pet_title">Delete Pet</string>
-    <string name="delete_pet_message">Are you sure you want to delete this pet?</string>
+    <string name="delete_message">Are you sure you want to delete this?</string>
 
     <string name="title_pet_details">Pet Details</string>
     <string name="label_pet_name">Name</string>

@@ -14,7 +14,7 @@
     <string name="action_edit_pet">ערוך</string>
     <string name="action_delete_pet">מחק</string>
     <string name="delete_pet_title">מחיקת חיה</string>
-    <string name="delete_pet_message">האם אתה בטוח שברצונך למחוק את החיה הזו?</string>
+    <string name="delete_message">האם אתה בטוח שברצונך למחוק?</string>
 
     <string name="title_pet_details">פרטי חיה</string>
     <string name="label_pet_name">שם</string>

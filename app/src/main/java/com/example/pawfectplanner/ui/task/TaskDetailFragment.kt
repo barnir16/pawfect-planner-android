@@ -20,6 +20,7 @@ import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
 import org.threeten.bp.ZoneId
+import android.content.DialogInterface
 
 class TaskDetailFragment : Fragment() {
     private var _b: FragmentTaskDetailBinding? = null
@@ -40,7 +41,9 @@ class TaskDetailFragment : Fragment() {
         inflater: android.view.LayoutInflater,
         container: android.view.ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentTaskDetailBinding.inflate(inflater, container, false).also { _b = it }.root
+    ) = FragmentTaskDetailBinding.inflate(inflater, container, false)
+        .also { _b = it }
+        .root
 
     override fun onViewCreated(v: android.view.View, s: Bundle?) {
         b.btnAddToCalendar.setOnClickListener(null)
@@ -50,16 +53,18 @@ class TaskDetailFragment : Fragment() {
                 b.tvTaskTitle.text = t.title
                 b.tvTaskDate.text = t.dateTime.toLocalDate().toString()
                 b.tvTaskTime.text = t.dateTime.toLocalTime().toString()
-                b.tvTaskRepeat.text = t.repeatInterval
-                    ?.let { getString(R.string.label_task_repeat, it, t.repeatUnit!!) }
+                b.tvTaskInterval.text = t.repeatInterval
+                    ?.let { interval ->
+                        getString(R.string.label_task_repeat, interval, t.repeatUnit!!)
+                    }
                     ?: getString(R.string.label_task_no_repeat)
 
                 pm.allPets.observe(viewLifecycleOwner) { pets ->
                     val names = pets.filter { t.petIds.contains(it.id) }.map { it.name }
-                    b.tvTaskPets.text = if (names.isEmpty())
+                    b.tvAssignedPets.text = if (names.isEmpty())
                         getString(R.string.label_task_no_pets_assigned)
                     else
-                        names.joinToString()
+                        names.joinToString(separator = ", ") { petName -> petName }
                 }
 
                 b.btnAddToCalendar.setOnClickListener {
@@ -80,7 +85,10 @@ class TaskDetailFragment : Fragment() {
                                 "Years"   -> "YEARLY"
                                 else      -> ""
                             }
-                            putExtra(CalendarContract.Events.RRULE, "FREQ=$freq;INTERVAL=${t.repeatInterval}")
+                            putExtra(
+                                CalendarContract.Events.RRULE,
+                                "FREQ=$freq;INTERVAL=${t.repeatInterval}"
+                            )
                         }
                     }.also(::startActivity)
                 }
@@ -89,8 +97,8 @@ class TaskDetailFragment : Fragment() {
                     NotificationHelper.cancel(requireContext(), t.id)
                     AlertDialog.Builder(requireContext())
                         .setTitle(R.string.action_delete_task)
-                        .setMessage(R.string.delete_pet_message)
-                        .setPositiveButton(R.string.action_delete_task) { _, _ ->
+                        .setMessage(R.string.delete_message)
+                        .setPositiveButton(R.string.action_delete_task) { dialog: DialogInterface, which: Int ->
                             tm.delete(t)
                             findNavController().navigateUp()
                         }
