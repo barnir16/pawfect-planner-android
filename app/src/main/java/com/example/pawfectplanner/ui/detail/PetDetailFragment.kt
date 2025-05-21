@@ -48,7 +48,7 @@ class PetDetailFragment : Fragment() {
                 binding.btnDelete.setOnClickListener {
                     AlertDialog.Builder(requireContext())
                         .setTitle(R.string.delete_pet_title)
-                        .setMessage(R.string.delete_pet_message)
+                        .setMessage(R.string.delete_message)
                         .setPositiveButton(R.string.action_delete_pet) { _, _ ->
                             viewModel.delete(pet)
                             findNavController().navigateUp()
