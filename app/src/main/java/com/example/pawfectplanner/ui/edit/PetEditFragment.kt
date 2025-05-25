@@ -93,7 +93,6 @@ class PetEditFragment : Fragment() {
         binding.btnAddBehaviorIssue.setOnClickListener {
             addIssue(R.string.title_add_behavior_issue, behaviorIssues, binding.chipGroupBehavior)
         }
-
         val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
                 selectedImageUriString = it.toString()
@@ -142,7 +141,9 @@ class PetEditFragment : Fragment() {
                     }
 
                     binding.chipGroupHealth.removeAllViews()
+                    healthIssues.clear()
                     pet.healthIssues.forEach { issue ->
+                        healthIssues.add(issue)
                         val chip = Chip(requireContext()).apply {
                             text = getString(R.string.label_bullet_item, issue)
                             isCloseIconVisible = true
@@ -155,7 +156,9 @@ class PetEditFragment : Fragment() {
                     }
 
                     binding.chipGroupBehavior.removeAllViews()
+                    behaviorIssues.clear()
                     pet.behaviorIssues.forEach { issue ->
+                        behaviorIssues.add(issue)
                         val chip = Chip(requireContext()).apply {
                             text = getString(R.string.label_bullet_item, issue)
                             isCloseIconVisible = true

@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.PawfectPlanner" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/button_background</item>
-        <item name="colorOnPrimary">@color/button_text</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/gray_medium</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor">@color/button_background</item>
@@ -26,5 +26,7 @@
         <item name="backgroundColor">?attr/colorSurface</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="materialButtonStyle">@style/Widget.PawfectPlanner.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.PawfectPlanner.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.PawfectPlanner.Button</item>
     </style>
 </resources>
