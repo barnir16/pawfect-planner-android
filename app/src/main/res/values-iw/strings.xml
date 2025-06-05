@@ -115,4 +115,9 @@
         <item>חודשים</item>
         <item>שנים</item>
     </string-array>
+
+    <string name="gemini_assistant_title">עוזר ג\'מיני</string>
+    <string name="gemini_assistant_description">שאל אותי כל דבר על טיפול בחיות מחמד, אילוף או בריאות!</string>
+    <string name="gemini_assistant_input_hint">הקלד את השאלה שלך כאן…</string>
+    <string name="gemini_assistant_send">שלח</string>
 </resources>

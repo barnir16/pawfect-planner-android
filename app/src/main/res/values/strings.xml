@@ -115,4 +115,9 @@
         <item>Months</item>
         <item>Years</item>
     </string-array>
+
+    <string name="gemini_assistant_title">Gemini Assistant</string>
+    <string name="gemini_assistant_description">Ask me anything about pet care, training, or health!</string>
+    <string name="gemini_assistant_input_hint">Type your question here…</string>
+    <string name="gemini_assistant_send">Send</string>
 </resources>

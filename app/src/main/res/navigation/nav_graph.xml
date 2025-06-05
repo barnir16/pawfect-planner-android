@@ -2,6 +2,7 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/aboutFragment">
 
@@ -92,4 +93,10 @@
         android:id="@+id/faqFragment"
         android:name="com.example.pawfectplanner.ui.faq.FAQFragment"
         android:label="@string/nav_faq" />
+
+    <fragment
+        android:id="@+id/geminiAssistantFragment"
+        android:name="com.example.pawfectplanner.ui.gemini.GeminiAssistantFragment"
+        android:label="@string/gemini_assistant_title"
+        tools:layout="@layout/fragment_gemini_assistant" />
 </navigation>
