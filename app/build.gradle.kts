@@ -40,6 +40,7 @@ repositories {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.16.0")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha04")
     implementation("androidx.room:room-runtime:2.7.1")
     ksp("androidx.room:room-compiler:2.7.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
