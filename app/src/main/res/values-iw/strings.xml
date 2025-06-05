@@ -6,6 +6,7 @@
     <string name="nav_settings">הגדרות</string>
     <string name="nav_about">אודות</string>
     <string name="nav_faq">שאלות נפוצות</string>
+    <string name="nav_api_keys">מפתחות API</string>
 
     <string name="title_pet_list">החיות שלי</string>
     <string name="label_no_pets">אין חיות נוספות עדיין.</string>
@@ -97,6 +98,15 @@
     <string name="navigation_drawer_close">סגור תפריט ניווט</string>
 
     <string name="label_settings_list">רשימת הגדרות</string>
+
+    <string name="api_keys_title">ניהול מפתחות API</string>
+    <string name="label_dog_api_key">The Dog API</string>
+    <string name="hint_dog_api_key">הזן את מפפתח ה API שלך עבור The Dog API</string>
+    <string name="button_save_api_key">שמור מפתח</string>
+    <string name="label_gemini_api_key">Gemini API</string>
+    <string name="hint_gemini_api_key">הזן את מפפתח ה API שלך עבור Gemini</string>
+    <string name="toast_key_saved">המפתח נשמר בהצלחה!</string>
+
 
     <string-array name="language_entries">
         <item>English</item>

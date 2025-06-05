@@ -18,6 +18,9 @@
             android:icon="@drawable/ic_faq"
             android:title="@string/nav_faq" />
         <item
+            android:id="@+id/apiKeyFragment"
+            android:title="@string/nav_api_keys" />
+        <item
             android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_settings"
             android:title="@string/nav_settings" />

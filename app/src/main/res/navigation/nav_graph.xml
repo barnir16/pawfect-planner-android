@@ -88,7 +88,6 @@
         android:name="com.example.pawfectplanner.ui.settings.SettingsFragment"
         android:label="@string/nav_settings" />
 
-    <!-- FAQ fragment must appear here with the same ID you used in drawer_menu.xml -->
     <fragment
         android:id="@+id/faqFragment"
         android:name="com.example.pawfectplanner.ui.faq.FAQFragment"
@@ -99,4 +98,9 @@
         android:name="com.example.pawfectplanner.ui.gemini.GeminiAssistantFragment"
         android:label="@string/gemini_assistant_title"
         tools:layout="@layout/fragment_gemini_assistant" />
+
+    <fragment
+        android:id="@+id/apiKeyFragment"
+        android:name="com.example.pawfectplanner.ui.settings.ApiKeyFragment"
+        android:label="@string/nav_api_keys" />
 </navigation>
