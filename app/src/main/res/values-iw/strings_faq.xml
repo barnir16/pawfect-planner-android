@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="faq_uses">למה משמשת האפליקציה PawfectPlanner?</string>
-    <string name="faq_uses_text">
+    <string name="faq_uses_text" formatted="false">
         האפליקציה מאפשרת:
         • יצירת פרופיל מפורט הניתן לשיתוף עבור חיית המחמד.
         • ניהול משימות הקשורות לחיה: חיסונים, טיפולים תקופתיים, תזכורות מותאמות אישית.
@@ -10,47 +10,47 @@
     </string>
 
     <string name="faq_missing_breed">למה איני מוצא את גזע חיית המחמד שלי?</string>
-    <string name="faq_missing_breed_text">
+    <string name="faq_missing_breed_text" formatted="false">
         האפליקציה משתמשת במאגרי מידע ציבוריים ותומכת כיום בגזעים מוכרים של כלבים וחתולים.
         אם מדובר בגזע מעורב או חיה מסוג אחר (כמו תוכי או אוגר) בחר "אחר" והזן את הפרטים בעצמך.
         חלק מהתכונות כמו משקל ממוצע או תוחלת חיים לא יעבדו עם חיות שאינן נתמכות.
     </string>
 
     <string name="faq_api_key">למה צריך מפתח API?</string>
-    <string name="faq_api_key_text">
+    <string name="faq_api_key_text" formatted="false">
         מדובר בפרויקט חינמי. יוצרי האפליקציה אינם רשאים לשתף מפתחות API.
-        המפתח נדרש כדי להפעיל את כל הפונקציות – כמו צ'אטבוט, מידע על גזעים ועוד.
+        המפתח נדרש כדי להפעיל את כל הפונקציות – כמו בינה מלאכותית, מידע על גזעים ועוד.
     </string>
 
     <string name="faq_api_get">איך ניתן להשיג מפתח API?</string>
-    <string name="faq_api_get_text">
-        • גזעי כלבים וחתולים: https://thedogapi.com / https://thecatapi.com
+    <string name="faq_api_get_text" formatted="false">
+        • גזעי כלבים: https://thedogapi.com
         • Gemini (Google AI): https://makersuite.google.com/app/apikey
     </string>
 
     <string name="faq_english_only">למה הגזעים מופיעים רק באנגלית?</string>
-    <string name="faq_english_only_text">
+    <string name="faq_english_only_text" formatted="false">
         המידע מתקבל ממקורות עולמיים הזמינים באנגלית בלבד.
         כרגע אין תמיכה בתרגום, אך ניתן להקליד תיאור מותאם אישית.
     </string>
 
     <string name="faq_offline">האם ניתן להשתמש באפליקציה ללא אינטרנט?</string>
-    <string name="faq_offline_text">
+    <string name="faq_offline_text" formatted="false">
         יצירת פרופיל ומידע גזעי דורשים חיבור לאינטרנט.
         ניתן להזין מידע ידנית במצב לא מקוון ולעדכן כאשר תהיה גישה לרשת.
         שים לב: PawfectGPT דורש חיבור יציב לרשת.
     </string>
 
     <string name="faq_backup">האם ניתן לגבות או לשתף את המידע?</string>
-    <string name="faq_backup_text">
+    <string name="faq_backup_text" formatted="false">
         בשלב זה הנתונים נשמרים רק במכשיר המקומי.
         ניתן לייצא ולשתף מידע כקובץ PDF או כטקסט. ייתכן שבקרוב תתווסף אפשרות לגיבוי בענן.
     </string>
 
     <string name="faq_privacy">האם המידע שלי פרטי?</string>
-    <string name="faq_privacy_text">
+    <string name="faq_privacy_text" formatted="false">
         המידע נשמר רק במכשיר ואינו נשלח ליוצרי האפליקציה.
-        עם זאת, בעת שימוש בממשקי API (למשל מידע על גזע או צ\'אטבוט), מפתח ה-API שלך מועבר לשירותים חיצוניים.
+        עם זאת, בעת שימוש בממשקי API (למשל מידע על גזע או בינה מלאכותית), מפתח ה-API שלך מועבר לשירותים חיצוניים.
         ייתכן שהם ישייכו מידע למייל שלך לפי אותו מפתח.
     </string>
 </resources>

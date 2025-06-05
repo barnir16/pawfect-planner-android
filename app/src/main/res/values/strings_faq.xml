@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="faq_uses">What can I use PawfectPlanner for?</string>
-    <string name="faq_uses_text">
+    <string name="faq_uses_text" formatted="false">
         PawfectPlanner helps you:
         • Create detailed, shareable pet profiles.
         • Manage all pet-related tasks: vaccinations, checkups, and custom reminders.
         • Get reminders via notifications or sync with your calendar.
-        • Use PawfectGPT to ask anything pet-related – even using your pet’s data if you want!
+        • Use PawfectGPT to ask anything pet-related \u2013 even using your pet\'s data if you want!
     </string>
 
-    <string name="faq_missing_breed">Why isn’t my pet’s breed available?</string>
-    <string name="faq_missing_breed_text">
+    <string name="faq_missing_breed">Why isn\'t my pet\'s breed available?</string>
+    <string name="faq_missing_breed_text" formatted="false">
         The app uses public pet databases. Currently, it supports known pure-bred cats and dogs.
         If your pet is a mix or a different type (like a parrot or hamster), choose "Other" and enter the type manually.
         Some features like breed-specific weight or lifespan may not work with unsupported pets.
     </string>
 
     <string name="faq_api_key">Why do I need an API key?</string>
-    <string name="faq_api_key_text">
+    <string name="faq_api_key_text" formatted="false">
         This is a free app, and we are not allowed to share commercial API keys.
         API keys are required to enable full features like chatbot, breed data, and insights.
     </string>
 
     <string name="faq_api_get">Where do I get an API key?</string>
-    <string name="faq_api_get_text">
+    <string name="faq_api_get_text" formatted="false">
         • Dog &amp; Cat Breeds: https://thedogapi.com / https://thecatapi.com
         • Gemini AI: https://makersuite.google.com/app/apikey
     </string>
 
     <string name="faq_english_only">Why are pet breeds only in English?</string>
-    <string name="faq_english_only_text">
+    <string name="faq_english_only_text" formatted="false">
         Breed data comes from international sources that are available only in English.
-        For now, translations aren’t supported, but you can type your own description.
+        For now, translations aren\u2019t supported, but you can type your own description.
     </string>
 
     <string name="faq_offline">Can I use the app offline?</string>
-    <string name="faq_offline_text">
+    <string name="faq_offline_text" formatted="false">
         Pet profile creation and breed-based insights require an internet connection.
-        Offline mode supports basic manual entry. All data can be updated once you’re online.
+        Offline mode supports basic manual entry. All data can be updated once you\u2019re online.
         Note: PawfectGPT needs a stable connection to work.
     </string>
 
-    <string name="faq_backup">Can I back up or share my pet’s data?</string>
-    <string name="faq_backup_text">
+    <string name="faq_backup">Can I back up or share my pet\'s data?</string>
+    <string name="faq_backup_text" formatted="false">
         Currently, data is saved only on your device.
         You can export and share data manually (PDF or text). A cloud backup may be added in the future.
     </string>
 
     <string name="faq_privacy">Is my data private?</string>
-    <string name="faq_privacy_text">
+    <string name="faq_privacy_text" formatted="false">
         Your data stays on your device and is never sent to us.
         However, when using APIs (like for breed info or chatbot), your API key may be shared with external providers.
         These services may associate your data with your API key email.

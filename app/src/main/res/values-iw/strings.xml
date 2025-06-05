@@ -82,6 +82,8 @@
     <string name="delete">מחק</string>
     <string name="cancel">ביטול</string>
 
+    <string name="nav_faq">שאלות נפוצות</string>
+
     <string name="notification_task_due">יש לך משימה שצריכה להתבצע: %1$s</string>
     <string name="notification_title">תזכורת מ-PawfectPlanner</string>
 

@@ -82,6 +82,8 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 
+    <string name="nav_faq">FAQ</string>
+
     <string name="notification_task_due">You have a task due: %1$s</string>
     <string name="notification_title">PawfectPlanner Reminder</string>
 
