@@ -2,15 +2,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/aboutFragment"
-            android:title="@string/nav_about"/>
+            android:title="@string/nav_about" />
         <item
             android:id="@+id/petListFragment"
-            android:title="@string/nav_pets"/>
+            android:title="@string/nav_pets" />
         <item
             android:id="@+id/taskListFragment"
-            android:title="@string/nav_tasks"/>
+            android:title="@string/nav_tasks" />
+        <item
+            android:id="@+id/faqFragment"
+            android:title="@string/nav_faq" />
         <item
             android:id="@+id/settingsFragment"
-            android:title="@string/nav_settings"/>
+            android:title="@string/nav_settings" />
     </group>
 </menu>

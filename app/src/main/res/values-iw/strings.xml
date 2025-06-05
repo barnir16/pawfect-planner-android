@@ -5,6 +5,7 @@
     <string name="nav_tasks">משימות</string>
     <string name="nav_settings">הגדרות</string>
     <string name="nav_about">אודות</string>
+    <string name="nav_faq">שאלות נפוצות</string>
 
     <string name="title_pet_list">החיות שלי</string>
     <string name="label_no_pets">אין חיות נוספות עדיין.</string>
@@ -81,8 +82,6 @@
     <string name="btn_close">סגור</string>
     <string name="delete">מחק</string>
     <string name="cancel">ביטול</string>
-
-    <string name="nav_faq">שאלות נפוצות</string>
 
     <string name="notification_task_due">יש לך משימה שצריכה להתבצע: %1$s</string>
     <string name="notification_title">תזכורת מ-PawfectPlanner</string>

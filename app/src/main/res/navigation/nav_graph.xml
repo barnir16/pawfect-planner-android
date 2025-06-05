@@ -87,6 +87,7 @@
         android:name="com.example.pawfectplanner.ui.settings.SettingsFragment"
         android:label="@string/nav_settings" />
 
+    <!-- FAQ fragment must appear here with the same ID you used in drawer_menu.xml -->
     <fragment
         android:id="@+id/faqFragment"
         android:name="com.example.pawfectplanner.ui.faq.FAQFragment"
