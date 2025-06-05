@@ -13,6 +13,9 @@
             android:id="@+id/faqFragment"
             android:title="@string/nav_faq" />
         <item
+            android:id="@+id/apiKeyFragment"
+            android:title="@string/nav_api_keys" />
+        <item
             android:id="@+id/settingsFragment"
             android:title="@string/nav_settings" />
     </group>
