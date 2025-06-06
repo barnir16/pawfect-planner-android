@@ -9,7 +9,7 @@
         <item name="android:navigationBarColor">@color/button_background</item>
         <item name="colorSurface">@color/background</item>
         <item name="colorOnSurface">@color/black</item>
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowBackground">@drawable/background</item>
         <item name="materialButtonStyle">@style/Widget.PawfectPlanner.Button</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.PawfectPlanner.AlertDialog</item>
     </style>

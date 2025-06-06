@@ -14,10 +14,11 @@
         android:fitsSystemWindows="true">
 
         <ImageView
+            android:id="@+id/background_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/background" />
+            android:src="@drawable/background_selector" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
