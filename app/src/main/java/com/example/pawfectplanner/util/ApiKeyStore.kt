@@ -1,43 +1,36 @@
 package com.example.pawfectplanner.util
 
 import android.content.Context
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import androidx.core.content.edit
 
+private const val PREFS_NAME = "api_keys_prefs"
+private const val DOG_API_KEY = "dog_api_key"
+private const val GEMINI_API_KEY = "gemini_api_key"
+
 object ApiKeyStore {
-    private const val PREFS_FILENAME = "secure_api_keys"
-    private const val KEY_DOG_API = "dog_api_key"
-    private const val KEY_GEMINI_API = "gemini_api_key"
+    fun getDogApiKey(context: Context): String? =
+        context
+            .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getString(DOG_API_KEY, null)
 
-    fun getDogApiKey(context: Context): String? {
-        val prefs = getEncryptedPrefs(context)
-        return prefs.getString(KEY_DOG_API, null)
+    fun setDogApiKey(context: Context, key: String) {
+        context
+            .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit {
+                putString(DOG_API_KEY, key)
+            }
     }
 
-    fun setDogApiKey(context: Context, apiKey: String) {
-        val prefs = getEncryptedPrefs(context)
-        prefs.edit() { putString(KEY_DOG_API, apiKey) }
-    }
+    fun getGeminiApiKey(context: Context): String? =
+        context
+            .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getString(GEMINI_API_KEY, null)
 
-    fun getGeminiApiKey(context: Context): String? {
-        val prefs = getEncryptedPrefs(context)
-        return prefs.getString(KEY_GEMINI_API, null)
+    fun setGeminiApiKey(context: Context, key: String) {
+        context
+            .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit {
+                putString(GEMINI_API_KEY, key)
+            }
     }
-
-    fun setGeminiApiKey(context: Context, apiKey: String) {
-        val prefs = getEncryptedPrefs(context)
-        prefs.edit() { putString(KEY_GEMINI_API, apiKey) }
-    }
-
-    private fun getEncryptedPrefs(context: Context) =
-        EncryptedSharedPreferences.create(
-            context,
-            PREFS_FILENAME,
-            MasterKey.Builder(context)
-                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                .build(),
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
 }
