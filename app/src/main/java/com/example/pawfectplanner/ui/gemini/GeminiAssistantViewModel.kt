@@ -4,13 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-data class ChatMessage(
-    val message: String,
-    val isUser: Boolean,
-    val timestamp: Long = System.currentTimeMillis()
-)
 
 class GeminiAssistantViewModel : ViewModel() {
     private val _chatMessages = MutableLiveData<List<ChatMessage>>(emptyList())
@@ -21,22 +16,20 @@ class GeminiAssistantViewModel : ViewModel() {
 
     fun sendMessage(message: String) {
         viewModelScope.launch {
-            val currentMessages = _chatMessages.value?.toMutableList() ?: mutableListOf()
-            currentMessages.add(ChatMessage(message, true))
-            _chatMessages.value = currentMessages
+            val current = _chatMessages.value!!.toMutableList()
+            current.add(ChatMessage(text = message, isUser = true))
+            _chatMessages.value = current
 
             _isLoading.value = true
 
             try {
-                // TODO: Gotta actually implement gemini here
-                kotlinx.coroutines.delay(1000)
-                val response = "אמרתי שזה לא עובד מה אתם מנסים סתם?"
-
-                currentMessages.add(ChatMessage(response, false))
-                _chatMessages.value = currentMessages
+                delay(1000)
+                val response = "Please try again"
+                current.add(ChatMessage(text = response, isUser = false))
+                _chatMessages.value = current
             } finally {
                 _isLoading.value = false
             }
         }
     }
-} 
+}

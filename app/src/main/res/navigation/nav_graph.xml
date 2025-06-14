@@ -96,8 +96,7 @@
     <fragment
         android:id="@+id/geminiAssistantFragment"
         android:name="com.example.pawfectplanner.ui.gemini.GeminiAssistantFragment"
-        android:label="@string/gemini_assistant_title"
-        tools:layout="@layout/fragment_gemini_assistant" />
+        android:label="@string/gemini_assistant_title"/>
 
     <fragment
         android:id="@+id/apiKeyFragment"
