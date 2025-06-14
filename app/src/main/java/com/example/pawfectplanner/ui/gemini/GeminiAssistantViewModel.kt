@@ -4,29 +4,34 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
+import com.example.pawfectplanner.data.repository.GeminiRepository
 import kotlinx.coroutines.launch
 
-class GeminiAssistantViewModel : ViewModel() {
+class GeminiAssistantViewModel(
+    private val repository: GeminiRepository
+) : ViewModel() {
+
     private val _chatMessages = MutableLiveData<List<ChatMessage>>(emptyList())
     val chatMessages: LiveData<List<ChatMessage>> = _chatMessages
 
-    private val _isLoading = MutableLiveData<Boolean>(false)
+    private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun sendMessage(message: String) {
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
+
+    fun sendMessage(text: String) {
         viewModelScope.launch {
-            val current = _chatMessages.value!!.toMutableList()
-            current.add(ChatMessage(text = message, isUser = true))
-            _chatMessages.value = current
-
+            val messages = _chatMessages.value.orEmpty().toMutableList()
+            messages.add(ChatMessage(text, true))
+            _chatMessages.value = messages
             _isLoading.value = true
-
             try {
-                delay(1000)
-                val response = "Please try again"
-                current.add(ChatMessage(text = response, isUser = false))
-                _chatMessages.value = current
+                val reply = repository.sendMessage(text)
+                messages.add(ChatMessage(reply, false))
+                _chatMessages.value = messages
+            } catch (e: Exception) {
+                _error.value = e.message
             } finally {
                 _isLoading.value = false
             }
