@@ -42,6 +42,34 @@ class MainActivity : AppCompatActivity() {
             if (handled) b.drawerLayout.closeDrawer(GravityCompat.START)
             handled
         }
+        
+        // Handle widget clicks
+        handleWidgetIntent(intent)
+    }
+    
+    override fun onNewIntent(intent: android.content.Intent?) {
+        super.onNewIntent(intent)
+        handleWidgetIntent(intent)
+    }
+    
+    private fun handleWidgetIntent(intent: android.content.Intent?) {
+        intent?.let {
+            if (it.getBooleanExtra("open_tasks", false)) {
+                val navHostFragment = supportFragmentManager
+                    .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+                val navController = navHostFragment.navController
+                
+                // Navigate to tasks fragment
+                navController.navigate(R.id.taskListFragment)
+                
+                // If a specific task was clicked, navigate to its detail
+                val taskId = it.getLongExtra("task_id", -1)
+                if (taskId != -1L) {
+                    // You might want to navigate to task detail here
+                    // For now, just navigate to task list
+                }
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean =

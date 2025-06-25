@@ -130,4 +130,15 @@
     <string name="gemini_assistant_description">שאל אותי כל דבר על טיפול בחיות מחמד, אילוף או בריאות!</string>
     <string name="gemini_assistant_input_hint">הקלד את השאלה שלך כאן…</string>
     <string name="gemini_assistant_send">שלח</string>
+    
+    <!-- Time remaining strings -->
+    <string name="time_overdue">באיחור</string>
+    <string name="time_now">היום</string>
+    <string name="time_days">%1$d ימים</string>
+    <string name="time_hours">%1$d שעות</string>
+    <string name="time_minutes">%1$d דקות</string>
+    <string name="appwidget_text">דוגמה</string>
+    <string name="add_widget">הוסף ווידג\'ט</string>
+    <string name="app_widget_description">זהו תיאור ווידג\'ט האפליקציה</string>
+    <string name="no_tasks_available">אין משימות זמינות</string>
 </resources>

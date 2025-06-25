@@ -28,7 +28,7 @@ class TaskDetailFragment : Fragment() {
     private val args: TaskDetailFragmentArgs by navArgs()
     private val app by lazy { requireActivity().application as PawfectPlannerApplication }
     private val tm: TaskViewModel by viewModels {
-        TaskViewModelFactory(TaskRepository(app.database.taskDao()))
+        TaskViewModelFactory(TaskRepository(app.database.taskDao(), requireContext()))
     }
     private val pm by lazy {
         ViewModelProvider(

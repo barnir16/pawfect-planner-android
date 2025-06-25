@@ -9,6 +9,9 @@ interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY dateTime")
     fun getAllTasks(): Flow<List<Task>>
 
+    @Query("SELECT * FROM tasks ORDER BY dateTime")
+    fun getAllTasksSync(): List<Task>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task): Long
 

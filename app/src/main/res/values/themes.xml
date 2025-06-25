@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.PawfectPlanner" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/button_background</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -28,5 +29,20 @@
         <item name="materialButtonStyle">@style/Widget.PawfectPlanner.Button</item>
         <item name="buttonBarPositiveButtonStyle">@style/Widget.PawfectPlanner.Button</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.PawfectPlanner.Button</item>
+    </style>
+
+    <style name="Theme.PawfectPlanner.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <!-- Radius of the outer bound of widgets to make the rounded corners -->
+        <item name="appWidgetRadius">16dp</item>
+        <!--
+        Radius of the inner view's bound of widgets to make the rounded corners.
+        It needs to be 8dp or less than the value of appWidgetRadius
+        -->
+        <item name="appWidgetInnerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.PawfectPlanner.AppWidgetContainer" parent="Theme.PawfectPlanner.AppWidgetContainerParent">
+        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
+        <item name="appWidgetPadding">16dp</item>
     </style>
 </resources>

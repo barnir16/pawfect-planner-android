@@ -129,4 +129,15 @@
     <string name="gemini_assistant_description">Ask me anything about pet care, training, or health!</string>
     <string name="gemini_assistant_input_hint">Type your question here…</string>
     <string name="gemini_assistant_send">Send</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="no_tasks_available">No tasks available</string>
+    
+    <!-- Time remaining strings -->
+    <string name="time_overdue">Overdue</string>
+    <string name="time_now">Now</string>
+    <string name="time_days">%1$dd</string>
+    <string name="time_hours">%1$dh</string>
+    <string name="time_minutes">%1$dm</string>
 </resources>

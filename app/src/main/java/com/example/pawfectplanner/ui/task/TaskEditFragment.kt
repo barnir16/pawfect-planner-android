@@ -31,7 +31,7 @@ class TaskEditFragment : Fragment() {
     private val args: TaskEditFragmentArgs by navArgs()
     private val app by lazy { requireActivity().application as PawfectPlannerApplication }
     private val taskVM: TaskViewModel by viewModels {
-        TaskViewModelFactory(TaskRepository(app.database.taskDao()))
+        TaskViewModelFactory(TaskRepository(app.database.taskDao(), requireContext()))
     }
     private val petVM: PetViewModel by lazy {
         ViewModelProvider(

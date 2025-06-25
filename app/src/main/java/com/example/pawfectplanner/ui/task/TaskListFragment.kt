@@ -22,7 +22,8 @@ class TaskListFragment : Fragment() {
     private val viewModel: TaskViewModel by viewModels {
         TaskViewModelFactory(
             TaskRepository(
-                (requireActivity().application as PawfectPlannerApplication).database.taskDao()
+                (requireActivity().application as PawfectPlannerApplication).database.taskDao(),
+                requireContext()
             )
         )
     }
