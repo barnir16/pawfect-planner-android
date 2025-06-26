@@ -133,6 +133,7 @@
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
     <string name="no_tasks_available">No tasks available</string>
+    <string name="label_repeat_prompt">repeat?</string>
     
     <!-- Time remaining strings -->
     <string name="time_overdue">Overdue</string>

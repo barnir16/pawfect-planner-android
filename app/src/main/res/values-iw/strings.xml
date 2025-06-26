@@ -141,4 +141,5 @@
     <string name="add_widget">הוסף ווידג\'ט</string>
     <string name="app_widget_description">זהו תיאור ווידג\'ט האפליקציה</string>
     <string name="no_tasks_available">אין משימות זמינות</string>
+    <string name="label_repeat_prompt">חזרה?</string>
 </resources>

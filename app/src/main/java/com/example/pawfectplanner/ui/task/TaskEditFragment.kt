@@ -24,6 +24,7 @@ import com.example.pawfectplanner.util.NotificationHelper
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TaskEditFragment : Fragment() {
     private var _binding: FragmentTaskEditBinding? = null
@@ -87,12 +88,12 @@ class TaskEditFragment : Fragment() {
             petVM.allPets.observe(viewLifecycleOwner) { pets ->
                 val names = pets.map { it.name }.toTypedArray()
                 val checked = BooleanArray(pets.size) { i -> assignedPetIds.contains(pets[i].id) }
-                AlertDialog.Builder(requireContext())
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.label_task_assign_pets)
                     .setMultiChoiceItems(names, checked) { _, which, isChecked ->
                         checked[which] = isChecked
                     }
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                    .setPositiveButton(R.string.btn_ok) { _, _ ->
                         assignedPetIds = pets.filterIndexed { i, _ -> checked[i] }.map { it.id }
                         binding.tvAssignedPets.text =
                             if (assignedPetIds.isEmpty())
@@ -101,7 +102,7 @@ class TaskEditFragment : Fragment() {
                                 pets.filter { assignedPetIds.contains(it.id) }
                                     .joinToString { it.name }
                     }
-                    .setNegativeButton(android.R.string.cancel, null)
+                    .setNegativeButton(R.string.btn_cancel, null)
                     .show()
             }
         }

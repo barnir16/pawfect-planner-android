@@ -1,0 +1,47 @@
+{
+  "mandatory": [],
+  "recommended": [
+    {
+      "name": "Rabies",
+      "frequency": "1 year",
+      "first_dose_age": "4 months",
+      "description": "Recommended for cats that roam outdoors. Fatal if contracted.",
+      "side_effects": ["lethargy", "mild fever"],
+      "age_restriction": { "min_weeks": 12, "max_years": null },
+      "last_updated": "2025-01-01"
+    },
+    {
+      "name": "Quadrivalent Vaccine",
+      "frequency": "1 year",
+      "kitten_schedule": ["8 weeks", "12 weeks"],
+      "description": "Protects against 4 diseases: Panleukopenia, Herpesvirus, Calicivirus, and Chlamydia.",
+      "side_effects": ["injection site swelling"],
+      "age_restriction": { "min_weeks": 8, "max_years": null },
+      "last_updated": "2025-01-01"
+    },
+    {
+      "name": "Feline Leukemia Virus (FeLV)",
+      "frequency": "1 year",
+      "description": "Recommended for outdoor cats. Prevents a viral infection that weakens the immune system, making cats vulnerable to other diseases.",
+      "side_effects": ["mild lethargy"],
+      "age_restriction": { "min_weeks": 9, "max_years": null },
+      "last_updated": "2025-01-01"
+    }
+  ],
+  "preventative_treatments": [
+    {
+      "name": "Fleas & Ticks Prevention",
+      "frequency": "Monthly or as advised by vet",
+      "description": "Protects against fleas and ticks, preventing severe itching, allergic reactions, and disease transmission (e.g., Hemobartonellosis).",
+      "common_treatments": ["Advantage", "Frontline", "Flea Collars", "Oral Medications"],
+      "last_updated": "2025-01-01"
+    },
+    {
+      "name": "Internal Parasites",
+      "frequency": "Every 3-6 months",
+      "description": "Prevents intestinal worms that can cause weight loss, vomiting, and diarrhea.",
+      "common_treatments": ["Drontal", "Profender", "Veterinary-prescribed options"],
+      "last_updated": "2025-01-01"
+    }
+  ]
+}
