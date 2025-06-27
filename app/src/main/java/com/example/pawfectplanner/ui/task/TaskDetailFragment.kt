@@ -3,7 +3,6 @@ package com.example.pawfectplanner.ui.task
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,7 @@ import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
 import org.threeten.bp.ZoneId
-import android.content.DialogInterface
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TaskDetailFragment : Fragment() {
     private var _b: FragmentTaskDetailBinding? = null
@@ -59,6 +58,8 @@ class TaskDetailFragment : Fragment() {
                     }
                     ?: getString(R.string.label_task_no_repeat)
 
+                b.tvTaskDescription.text = t.description ?: ""
+
                 pm.allPets.observe(viewLifecycleOwner) { pets ->
                     val names = pets.filter { t.petIds.contains(it.id) }.map { it.name }
                     b.tvAssignedPets.text = if (names.isEmpty())
@@ -95,15 +96,21 @@ class TaskDetailFragment : Fragment() {
 
                 b.btnDeleteTask.setOnClickListener {
                     NotificationHelper.cancel(requireContext(), t.id)
-                    AlertDialog.Builder(requireContext())
+                    MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.action_delete_task)
                         .setMessage(R.string.delete_message)
-                        .setPositiveButton(R.string.action_delete_task) { dialog: DialogInterface, which: Int ->
+                        .setPositiveButton(R.string.action_delete_task) { _, _ ->
                             tm.delete(t)
                             findNavController().navigateUp()
                         }
                         .setNegativeButton(R.string.cancel, null)
                         .show()
+                }
+
+                b.btnEditTask.setOnClickListener {
+                    val action = TaskDetailFragmentDirections
+                        .actionTaskDetailFragmentToTaskEditFragment(t.id)
+                    findNavController().navigate(action)
                 }
             }
         }

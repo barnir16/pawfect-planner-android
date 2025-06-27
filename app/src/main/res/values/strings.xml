@@ -134,6 +134,7 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="no_tasks_available">No tasks available</string>
     <string name="label_repeat_prompt">repeat?</string>
+    <string name="label_animal">Animal</string>
     
     <!-- Time remaining strings -->
     <string name="time_overdue">Overdue</string>
@@ -141,4 +142,12 @@
     <string name="time_days">%1$dd</string>
     <string name="time_hours">%1$dh</string>
     <string name="time_minutes">%1$dm</string>
+
+    <string name="pet_details_title">Pet Details</string>
+    <string name="pet_photo_description">Pet photo</string>
+    <string name="task_details_title">Task Details</string>
+    <string name="label_for_pet">For pet:</string>
+    <string name="health_issues_title">Health Issues</string>
+    <string name="behavior_issues_title">Behavior Issues</string>
+    <string name="no_issues">No issues</string>
 </resources>

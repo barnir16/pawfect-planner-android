@@ -13,6 +13,7 @@
         <item name="android:windowBackground">@drawable/background</item>
         <item name="materialButtonStyle">@style/Widget.PawfectPlanner.Button</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.PawfectPlanner.AlertDialog</item>
+        <item name="cardBackgroundColor">@color/card_background_light</item>
     </style>
 
     <style name="Widget.PawfectPlanner.Button" parent="Widget.MaterialComponents.Button">

@@ -1,5 +1,6 @@
 package com.example.pawfectplanner.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -7,8 +8,9 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.example.pawfectplanner.MainActivity
 import com.example.pawfectplanner.R
-import java.util.Locale
+import com.example.pawfectplanner.util.LocaleHelper
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -29,22 +31,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 else
                     AppCompatDelegate.MODE_NIGHT_YES
                 AppCompatDelegate.setDefaultNightMode(next)
-                requireActivity().recreate()
                 true
             }
 
         findPreference<ListPreference>("language")!!
             .setOnPreferenceChangeListener { _, newValue ->
-                val locale = Locale(newValue as String)
-                Locale.setDefault(locale)
-                val config = resources.configuration
-                config.setLocale(locale)
-                @Suppress("DEPRECATION")
-                requireActivity().resources.updateConfiguration(
-                    config,
-                    requireActivity().resources.displayMetrics
-                )
-                requireActivity().recreate()
+                val newLanguage = newValue as String
+                // Apply the new locale
+                LocaleHelper.setNewLocale(requireContext(), newLanguage)
+                
+                // Restart the activity to apply the language change
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
                 true
             }
     }

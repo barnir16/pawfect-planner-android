@@ -142,4 +142,12 @@
     <string name="app_widget_description">זהו תיאור ווידג\'ט האפליקציה</string>
     <string name="no_tasks_available">אין משימות זמינות</string>
     <string name="label_repeat_prompt">חזרה?</string>
+    <string name="label_animal">חיה</string>
+    <string name="pet_details_title">פרטי חיה</string>
+    <string name="pet_photo_description">תמונת חיה</string>
+    <string name="task_details_title">פרטי משימה</string>
+    <string name="label_for_pet">עבור חיה:</string>
+    <string name="health_issues_title">בעיות בריאות</string>
+    <string name="behavior_issues_title">בעיות התנהגות</string>
+    <string name="no_issues">אין בעיות</string>
 </resources>
