@@ -13,12 +13,8 @@
         android:title="Toggle Dark Mode"
         android:layout="@layout/preference_card_list"/>
 
-    <ListPreference
+    <Preference
         android:key="language"
         android:title="@string/pref_language"
-        android:entries="@array/language_entries"
-        android:entryValues="@array/language_values"
-        android:defaultValue="en"
-        android:layout="@layout/preference_card_list"
-        app:useSimpleSummaryProvider="true"/>
+        android:layout="@layout/preference_card_list"/>
 </PreferenceScreen>
