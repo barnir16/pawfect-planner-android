@@ -31,13 +31,11 @@ class ChatAdapter : ListAdapter<ChatMessage, ChatAdapter.ChatViewHolder>(ChatDif
         fun bind(msg: ChatMessage) {
             b.tvMessage.text = msg.text
 
-            // align left / right
             val lp = (b.cardBubble.layoutParams as FrameLayout.LayoutParams).apply {
                 gravity = if (msg.isUser) Gravity.END else Gravity.START
             }
             b.cardBubble.layoutParams = lp
 
-            // grab the Material theme colours by attr
             val bgAttr = if (msg.isUser) MaterialR.attr.colorPrimary else MaterialR.attr.colorSurface
             val fgAttr = if (msg.isUser) MaterialR.attr.colorOnPrimary else MaterialR.attr.colorOnSurface
 

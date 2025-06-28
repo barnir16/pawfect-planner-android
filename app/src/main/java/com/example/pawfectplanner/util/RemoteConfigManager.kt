@@ -1,34 +1,27 @@
 package com.example.pawfectplanner.util
 
-import com.google.firebase.ktx.Firebase
+import android.util.Log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.coroutines.tasks.await
 
 object RemoteConfigManager {
-    private val config: FirebaseRemoteConfig = Firebase.remoteConfig
+    private val remoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
 
     fun init() {
-        val settings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
-        }
-        config.setConfigSettingsAsync(settings)
-        config.setDefaultsAsync(
-            mapOf(
-                "pets_api_key" to "",
-                "gemini_api_key" to ""
-            )
-        )
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(3600)
+            .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
     }
 
     suspend fun fetchAndActivate() {
-        config.fetchAndActivate().await()
+        val result = remoteConfig.fetchAndActivate().await()
+        Log.d("RemoteConfig", "Fetch result: $result")
+        Log.d("RemoteConfig", "Gemini key: ${getGeminiApiKey()}")
+        Log.d("RemoteConfig", "Pets key: ${getPetsApiKey()}")
     }
 
-    fun getPetsApiKey(): String =
-        config.getString("pets_api_key")
-
-    fun getGeminiApiKey(): String =
-        config.getString("gemini_api_key")
+    fun getGeminiApiKey(): String = remoteConfig.getString("gemini_api_key")
+    fun getPetsApiKey(): String = remoteConfig.getString("pets_api_key")
 }

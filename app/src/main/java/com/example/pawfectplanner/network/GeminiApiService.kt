@@ -2,27 +2,30 @@ package com.example.pawfectplanner.network
 
 import com.squareup.moshi.JsonClass
 import retrofit2.http.Body
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface GeminiApiService {
     @JsonClass(generateAdapter = true)
-    data class MessagePrompt(val text: String)
+    data class MessagePart(val text: String)
 
     @JsonClass(generateAdapter = true)
-    data class GenerateMessageRequest(val prompt: MessagePrompt)
+    data class Content(val parts: List<MessagePart>)
 
     @JsonClass(generateAdapter = true)
-    data class GenerateMessageResponse(val candidates: List<Candidate>) {
+    data class GenerateContentRequest(val contents: List<Content>)
+
+    @JsonClass(generateAdapter = true)
+    data class GenerateContentResponse(val candidates: List<Candidate>) {
         @JsonClass(generateAdapter = true)
-        data class Candidate(val content: String)
+        data class Candidate(val content: Content?)
     }
 
-    @POST("v1/models/{model}:generateMessage")
+    @POST("models/{model}:generateContent")
     suspend fun generateMessage(
         @Path("model") model: String,
-        @Header("Authorization") authorization: String,
-        @Body request: GenerateMessageRequest
-    ): GenerateMessageResponse
+        @Query("key") apiKey: String,
+        @Body request: GenerateContentRequest
+    ): GenerateContentResponse
 }

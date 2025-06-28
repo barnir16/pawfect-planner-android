@@ -23,14 +23,14 @@ class PawfectPlannerApplication : Application() {
 
         FirebaseApp.initializeApp(this)
         RemoteConfigManager.init()
+
         CoroutineScope(Dispatchers.IO).launch {
             RemoteConfigManager.fetchAndActivate()
-            ApiKeyManager.petsApiKey   = RemoteConfigManager.getPetsApiKey()
+            ApiKeyManager.petsApiKey = RemoteConfigManager.getPetsApiKey()
             ApiKeyManager.geminiApiKey = RemoteConfigManager.getGeminiApiKey()
         }
 
         AndroidThreeTen.init(this)
-
         LocaleHelper.initializeDarkMode(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
