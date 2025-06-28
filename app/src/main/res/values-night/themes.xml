@@ -65,7 +65,7 @@
     </style>
 
     <style name="Widget.PawfectPlanner.Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">8dp</item>

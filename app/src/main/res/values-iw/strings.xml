@@ -89,6 +89,11 @@
 
     <string name="error_missing_fields">אנא מלא את כל השדות הנדרשים.</string>
     <string name="error_invalid_date">תאריך שנבחר אינו תקין.</string>
+    <string name="error_missing_title">כותרת נדרשת</string>
+    <string name="error_missing_date">תאריך נדרש</string>
+    <string name="error_missing_time">שעה נדרשת</string>
+    <string name="error_missing_pets">יש להקצות לפחות חיה אחת</string>
+    <string name="error_invalid_repeat_interval">מרווח החזרה חייב להיות מספר חיובי</string>
     <string name="message_pet_saved">החיה נשמרה בהצלחה.</string>
     <string name="message_task_saved">המשימה נשמרה בהצלחה.</string>
     <string name="message_pet_deleted">החיה נמחקה.</string>
@@ -133,7 +138,7 @@
     
     <!-- Time remaining strings -->
     <string name="time_overdue">באיחור</string>
-    <string name="time_now">היום</string>
+    <string name="time_now">עכשיו</string>
     <string name="time_days">%1$d ימים</string>
     <string name="time_hours">%1$d שעות</string>
     <string name="time_minutes">%1$d דקות</string>
@@ -150,4 +155,73 @@
     <string name="health_issues_title">בעיות בריאות</string>
     <string name="behavior_issues_title">בעיות התנהגות</string>
     <string name="no_issues">אין בעיות</string>
+    <string name="vaccine_suggestions_title">הצעות לחיסונים</string>
+    <string name="btn_vaccine_suggestions">קבל הצעות לחיסונים</string>
+    
+    <!-- Vaccine Names -->
+    <string name="vaccine_rabies">חיסון כלבת (Rabies)</string>
+    <string name="vaccine_rabies_cat">חיסון כלבת לחתולים (Rabies Cat)</string>
+    <string name="vaccine_rabies_dog">חיסון כלבת לכלבים (Rabies Dog)</string>
+    <string name="vaccine_quadrivalent">חיסון מרובע לחתולים (Quadrivalent)</string>
+    <string name="vaccine_felv">חיסון נגד וירוס לוקמיה של חתולים (FeLV)</string>
+    <string name="vaccine_hexavalent">חיסון משושה לכלבים (Hexavalent)</string>
+    <string name="vaccine_spirocerca">מניעת תולעת הפארק (Spirocerca Lupi)</string>
+    <string name="vaccine_parkworm">מניעת תולעת הפארק (Parkworm)</string>
+    <string name="vaccine_kennel_cough">חיסון נגד שיעול המלונה (Kennel Cough)</string>
+    <string name="vaccine_fleas_ticks">מניעת פרעושים וקרציות (Fleas &amp; Ticks)</string>
+    <string name="vaccine_internal_parasites">טיפול נגד תולעים פנימיות (Internal Parasites)</string>
+    
+    <!-- Vaccine Frequencies -->
+    <string name="vaccine_freq_yearly">שנתי</string>
+    <string name="vaccine_freq_2_years">כל 2 שנים</string>
+    <string name="vaccine_freq_3_months">כל 3 חודשים</string>
+    <string name="vaccine_freq_2_months">כל חודשיים</string>
+    <string name="vaccine_freq_6_months">כל 6 חודשים</string>
+    <string name="vaccine_freq_monthly">חודשי או לפי המלצת הווטרינר</string>
+    <string name="vaccine_freq_3_6_months">כל 3-6 חודשים</string>
+    
+    <!-- Vaccine Descriptions -->
+    <string name="vaccine_desc_rabies_cat">חיסון חיוני לחתולים שיוצאים החוצה. כלבת היא מחלה ויראלית קטלנית שיכולה להיות מועברת לבני אדם. נדרשת חיסון שנתי. מגן מפני וירוס קטלני זה הפוגע במערכת העצבים.</string>
+    <string name="vaccine_desc_rabies_dog">חיסון חיוני לכל הכלבים. כלבת היא מחלה ויראלית קטלנית שיכולה להיות מועברת לבני אדם. מנה ראשונה כוללת השתלת שבב. נדרש על פי החוק הישראלי. מגן מפני וירוס קטלני זה הפוגע במערכת העצבים.</string>
+    <string name="vaccine_desc_quadrivalent">מגן מפני 4 מחלות: פנליאוקופניה, הרפסוירוס, קליציווירוס וכלמידיה.</string>
+    <string name="vaccine_desc_felv">מומלץ לחתולים שיוצאים החוצה. מונע זיהום ויראלי שמחליש את מערכת החיסון, מה שהופך חתולים לפגיעים למחלות אחרות.</string>
+    <string name="vaccine_desc_hexavalent">מגן מפני 6 מחלות: וירוס הדיסטמפר של כלבים (CDV), אדנווירוס כלבים סוג 2 (CAV-2), פרוווירוס כלבים (CPV), לפטוספירוזיס (שני סרוטיפים), וירוס הפרה-אינפלואנזה של כלבים (CPiV) וקורונה של כלבים (CCV).</string>
+    <string name="vaccine_desc_spirocerca">מונע זיהום על ידי תולעת טפילית נפוצה בישראל, שיכולה לגרום למחלה קשה, כולל גידולים בוושט.</string>
+    <string name="vaccine_desc_parkworm">מונע התקפה על ידי תולעת טפילית המועברת דרך חיפושיות.</string>
+    <string name="vaccine_desc_kennel_cough">מגן מפני שיעול המלונה, זיהום נשימתי קל.</string>
+    <string name="vaccine_desc_fleas_ticks_cat">מגן מפני פרעושים וקרציות, מונע גירוד חמור, תגובות אלרגיות והעברת מחלות (למשל, המוברטונלוזיס).</string>
+    <string name="vaccine_desc_fleas_ticks_dog">מגן מפני התקפות שגורמות לגירוי עור, אנמיה והעברת מחלות (למשל, ארליכיוזיס מקרציות).</string>
+    <string name="vaccine_desc_internal_parasites_cat">מונע תולעים מעיים שיכולות לגרום לירידה במשקל, הקאות ושלשול.</string>
+    <string name="vaccine_desc_internal_parasites_dog">מונע תולעים עגולות, תולעי סרט, תולעי קרס ותולעים מעיים אחרות.</string>
+    
+    <!-- Side Effects -->
+    <string name="vaccine_side_lethargy">עייפות</string>
+    <string name="vaccine_side_mild_fever">חום קל</string>
+    <string name="vaccine_side_fever">חום</string>
+    <string name="vaccine_side_injection_swelling">נפיחות באתר ההזרקה</string>
+    <string name="vaccine_side_diarrhea">שלשול</string>
+    <string name="vaccine_side_nausea">בחילה</string>
+    <string name="vaccine_side_sneezing">התעטשות</string>
+    
+    <!-- Common Treatments -->
+    <string name="vaccine_treatment_advantage">אדוונטג\'</string>
+    <string name="vaccine_treatment_frontline">פרונטליין</string>
+    <string name="vaccine_treatment_advantix">אדוונטיקס</string>
+    <string name="vaccine_treatment_bravecto">ברבקטו</string>
+    <string name="vaccine_treatment_nexgard">נקס-גרד</string>
+    <string name="vaccine_treatment_flea_collars">קולרים נגד פרעושים</string>
+    <string name="vaccine_treatment_oral_medications">תרופות דרך הפה</string>
+    <string name="vaccine_treatment_drontal">דרונטל</string>
+    <string name="vaccine_treatment_profender">פרופנדר</string>
+    <string name="vaccine_treatment_milbemax">מילבמקס</string>
+    <string name="vaccine_treatment_vet_prescribed">אפשרויות במרשם וטרינר</string>
+    <string name="vaccine_treatment_vet_prescribed_meds">תרופות במרשם וטרינר</string>
+    
+    <!-- Age Information -->
+    <string name="vaccine_age_4_months">4 חודשים</string>
+    <string name="vaccine_age_3_months">3 חודשים</string>
+    <string name="vaccine_age_8_weeks">8 שבועות</string>
+    <string name="vaccine_age_9_weeks">9 שבועות</string>
+    <string name="vaccine_age_12_weeks">12 שבועות</string>
+    <string name="vaccine_age_6_weeks">6 שבועות</string>
 </resources>

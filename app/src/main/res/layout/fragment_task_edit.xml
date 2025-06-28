@@ -21,6 +21,7 @@
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilTitle"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -28,7 +29,8 @@
                     app:boxCornerRadiusTopStart="16dp"
                     app:boxCornerRadiusTopEnd="16dp"
                     app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusBottomEnd="16dp">
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:errorEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputTitle"
                         android:layout_width="match_parent"
@@ -64,6 +66,16 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Vaccine Suggestions Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVaccineSuggestions"
+                style="@style/Widget.PawfectPlanner.Button.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/btn_vaccine_suggestions"
+                app:icon="@drawable/ic_assistant" />
 
             <!-- Date and Time Row -->
             <LinearLayout
@@ -188,6 +200,18 @@
                     android:textSize="16sp"
                     android:textColor="@color/gray_medium" />
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Error Text -->
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:textColor="?attr/colorError"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="8dp" />
 
             <!-- Save Button -->
             <com.google.android.material.button.MaterialButton
