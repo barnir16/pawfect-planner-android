@@ -14,7 +14,7 @@ class GeminiAssistantFragment : Fragment() {
     private var _binding: FragmentGeminiAssistantBinding? = null
     private val binding get() = _binding!!
     private val viewModel: GeminiAssistantViewModel by viewModels {
-        GeminiAssistantViewModelFactory(requireContext())
+        GeminiAssistantViewModelFactory()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
