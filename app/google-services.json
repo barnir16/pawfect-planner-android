@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "987441405086",
+    "project_id": "pawfectplanner-b3b59",
+    "storage_bucket": "pawfectplanner-b3b59.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987441405086:android:af5f589c30f2adbba16f8f",
+        "android_client_info": {
+          "package_name": "com.example.pawfectplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaGLyFyd1mbtBkcjQDn7uRZdLv-Nck0dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987441405086:android:c64c846546af3c1ba16f8f",
+        "android_client_info": {
+          "package_name": "com.example.pawfectplanner_server"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaGLyFyd1mbtBkcjQDn7uRZdLv-Nck0dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
