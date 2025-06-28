@@ -14,7 +14,6 @@ object NetworkModule {
 
     private val geminiRetrofit by lazy {
         Retrofit.Builder()
-            // note the v1beta2 here
             .baseUrl("https://generativelanguage.googleapis.com/v1beta2/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
