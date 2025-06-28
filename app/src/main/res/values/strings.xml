@@ -89,6 +89,11 @@
 
     <string name="error_missing_fields">Please fill out all required fields.</string>
     <string name="error_invalid_date">Invalid date selected.</string>
+    <string name="error_missing_title">Title is required</string>
+    <string name="error_missing_date">Date is required</string>
+    <string name="error_missing_time">Time is required</string>
+    <string name="error_missing_pets">At least one pet must be assigned</string>
+    <string name="error_invalid_repeat_interval">Repeat interval must be a positive number</string>
     <string name="message_pet_saved">Pet saved successfully.</string>
     <string name="message_task_saved">Task saved successfully.</string>
     <string name="message_pet_deleted">Pet deleted.</string>
@@ -150,4 +155,73 @@
     <string name="health_issues_title">Health Issues</string>
     <string name="behavior_issues_title">Behavior Issues</string>
     <string name="no_issues">No issues</string>
+    <string name="vaccine_suggestions_title">Vaccine Suggestions</string>
+    <string name="btn_vaccine_suggestions">Get Vaccine Suggestions</string>
+    
+    <!-- Vaccine Names -->
+    <string name="vaccine_rabies">Rabies</string>
+    <string name="vaccine_rabies_cat">Rabies (Cat)</string>
+    <string name="vaccine_rabies_dog">Rabies (Dog)</string>
+    <string name="vaccine_quadrivalent">Quadrivalent Vaccine</string>
+    <string name="vaccine_felv">Feline Leukemia Virus (FeLV)</string>
+    <string name="vaccine_hexavalent">Hexavalent Vaccine</string>
+    <string name="vaccine_spirocerca">Spirocerca Lupi (Park Worm) Prevention</string>
+    <string name="vaccine_parkworm">Parkworm Prevention</string>
+    <string name="vaccine_kennel_cough">Kennel Cough</string>
+    <string name="vaccine_fleas_ticks">Fleas &amp; Ticks Prevention</string>
+    <string name="vaccine_internal_parasites">Internal Parasites</string>
+    
+    <!-- Vaccine Frequencies -->
+    <string name="vaccine_freq_yearly">Yearly</string>
+    <string name="vaccine_freq_2_years">Every 2 years</string>
+    <string name="vaccine_freq_3_months">Every 3 months</string>
+    <string name="vaccine_freq_2_months">Every 2 months</string>
+    <string name="vaccine_freq_6_months">Every 6 months</string>
+    <string name="vaccine_freq_monthly">Monthly or as advised by vet</string>
+    <string name="vaccine_freq_3_6_months">Every 3-6 months</string>
+    
+    <!-- Vaccine Descriptions -->
+    <string name="vaccine_desc_rabies_cat">Essential vaccine for cats that go outdoors. Rabies is a fatal viral disease that can be transmitted to humans. Annual vaccination required. Protects against this deadly virus that affects the nervous system.</string>
+    <string name="vaccine_desc_rabies_dog">Essential vaccine for all dogs. Rabies is a fatal viral disease that can be transmitted to humans. First dose includes microchipping. Required by Israeli law. Protects against this deadly virus that affects the nervous system.</string>
+    <string name="vaccine_desc_quadrivalent">Protects against 4 diseases: Panleukopenia, Herpesvirus, Calicivirus, and Chlamydia.</string>
+    <string name="vaccine_desc_felv">Recommended for outdoor cats. Prevents a viral infection that weakens the immune system, making cats vulnerable to other diseases.</string>
+    <string name="vaccine_desc_hexavalent">Protects against 6 diseases: Canine Distemper Virus (CDV), Canine Adenovirus Type 2 (CAV-2), Canine Parvovirus (CPV), Leptospirosis (Two Serovars), Canine Parainfluenza Virus (CPiV), and Canine Coronavirus (CCV).</string>
+    <string name="vaccine_desc_spirocerca">Prevents infection by a parasitic worm common in Israel, which can cause severe illness, including esophageal tumors.</string>
+    <string name="vaccine_desc_parkworm">Prevents infestation by a parasitic worm transmitted through beetles.</string>
+    <string name="vaccine_desc_kennel_cough">Protects against Kennel Cough, a mild respiratory infection.</string>
+    <string name="vaccine_desc_fleas_ticks_cat">Protects against fleas and ticks, preventing severe itching, allergic reactions, and disease transmission (e.g., Hemobartonellosis).</string>
+    <string name="vaccine_desc_fleas_ticks_dog">Protects against infestations that cause skin irritation, anemia, and disease transmission (e.g., Ehrlichiosis from ticks).</string>
+    <string name="vaccine_desc_internal_parasites_cat">Prevents intestinal worms that can cause weight loss, vomiting, and diarrhea.</string>
+    <string name="vaccine_desc_internal_parasites_dog">Prevents roundworms, tapeworms, hookworms, and other intestinal parasites.</string>
+    
+    <!-- Side Effects -->
+    <string name="vaccine_side_lethargy">lethargy</string>
+    <string name="vaccine_side_mild_fever">mild fever</string>
+    <string name="vaccine_side_fever">fever</string>
+    <string name="vaccine_side_injection_swelling">injection site swelling</string>
+    <string name="vaccine_side_diarrhea">diarrhea</string>
+    <string name="vaccine_side_nausea">nausea</string>
+    <string name="vaccine_side_sneezing">sneezing</string>
+    
+    <!-- Common Treatments -->
+    <string name="vaccine_treatment_advantage">Advantage</string>
+    <string name="vaccine_treatment_frontline">Frontline</string>
+    <string name="vaccine_treatment_advantix">Advantix</string>
+    <string name="vaccine_treatment_bravecto">Bravecto</string>
+    <string name="vaccine_treatment_nexgard">NexGard</string>
+    <string name="vaccine_treatment_flea_collars">Flea Collars</string>
+    <string name="vaccine_treatment_oral_medications">Oral Medications</string>
+    <string name="vaccine_treatment_drontal">Drontal</string>
+    <string name="vaccine_treatment_profender">Profender</string>
+    <string name="vaccine_treatment_milbemax">Milbemax</string>
+    <string name="vaccine_treatment_vet_prescribed">Veterinary-prescribed options</string>
+    <string name="vaccine_treatment_vet_prescribed_meds">Veterinary-prescribed medications</string>
+    
+    <!-- Age Information -->
+    <string name="vaccine_age_4_months">4 months</string>
+    <string name="vaccine_age_3_months">3 months</string>
+    <string name="vaccine_age_8_weeks">8 weeks</string>
+    <string name="vaccine_age_9_weeks">9 weeks</string>
+    <string name="vaccine_age_12_weeks">12 weeks</string>
+    <string name="vaccine_age_6_weeks">6 weeks</string>
 </resources>

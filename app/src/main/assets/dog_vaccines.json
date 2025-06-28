@@ -2,9 +2,10 @@
   "mandatory": [
     {
       "name": "Rabies",
-      "frequency": "1 year",
+      "frequency": "2 years",
       "first_dose_age": "3 months",
-      "description": "A viral disease fatal to dogs and humans. First dose includes microchipping. Required by Israeli law.",
+      "description": "A viral disease fatal to dogs and humans. First dose includes microchipping.",
+      "notes": "Required by Israeli law.",
       "side_effects": ["lethargy", "fever"],
       "age_restriction": { "min_weeks": 12, "max_years": null },
       "last_updated": "2025-01-01"
@@ -15,33 +16,25 @@
       "name": "Hexavalent Vaccine",
       "frequency": "Yearly",
       "puppy_schedule": ["6 weeks", "9 weeks", "12 weeks"],
-      "description": "Protects against 6 diseases: Canine Distemper Virus (CDV), Canine Adenovirus Type 2 (CAV-2), Canine Parvovirus (CPV), Leptospirosis (Two Serovars), Canine Parainfluenza Virus (CPiV), and Canine Coronavirus (CCV).",
+      "description": "Protects against 6 diseases: Parvovirus, Distemper, Hepatitis, Influenza, and Leptospirosis.",
       "side_effects": ["mild fever"],
       "age_restriction": { "min_weeks": 6, "max_years": null },
       "last_updated": "2025-01-01"
     },
     {
-      "name": "Spirocerca Lupi (Park Worm) Prevention",
-      "frequency": "Every 3 months",
-      "description": "Prevents infection by a parasitic worm common in Israel, which can cause severe illness, including esophageal tumors.",
+      "name": "Parkworm Prevention",
+      "frequency": "2 months",
+      "description": "Prevents infestation by a parasitic worm transmitted through beetles.",
       "side_effects": ["diarrhea", "nausea"],
-      "age_restriction": { "min_weeks": 8, "max_years": null },
-      "last_updated": "2025-01-01"
-    }
-  ],
-  "preventative_treatments": [
-    {
-      "name": "Fleas & Ticks Prevention",
-      "frequency": "Monthly or as advised by vet",
-      "description": "Protects against infestations that cause skin irritation, anemia, and disease transmission (e.g., Ehrlichiosis from ticks).",
-      "common_treatments": ["Advantix", "Frontline", "Bravecto", "NexGard", "Flea Collars"],
+      "age_restriction": { "min_weeks": 8, "max_years": 10 },
       "last_updated": "2025-01-01"
     },
     {
-      "name": "Internal Parasites",
-      "frequency": "Every 3-6 months",
-      "description": "Prevents roundworms, tapeworms, hookworms, and other intestinal parasites.",
-      "common_treatments": ["Drontal", "Milbemax", "Veterinary-prescribed medications"],
+      "name": "Kennel Cough",
+      "frequency": "6 months",
+      "description": "Protects against Kennel Cough, a mild respiratory infection.",
+      "side_effects": ["sneezing"],
+      "age_restriction": { "min_weeks": 8, "max_years": null },
       "last_updated": "2025-01-01"
     }
   ]
