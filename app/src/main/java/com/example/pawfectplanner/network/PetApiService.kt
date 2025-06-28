@@ -1,19 +1,15 @@
 package com.example.pawfectplanner.network
 
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Header
 import retrofit2.http.Query
 
-enum class PetType { DOG, CAT }
+data class PetImageResponse(val url: String)
 
 interface PetApiService {
-    @GET("{type}/breeds/image/random")
-    suspend fun getRandomBreedImage(
-        @Path("type") type: String,
-        @Query("api_key") apiKey: String
-    ): PetImageResponse
+    @GET("images/search")
+    suspend fun getRandomImage(
+        @Header("x-api-key") apiKey: String,
+        @Query("limit") limit: Int = 1
+    ): List<PetImageResponse>
 }
-
-data class PetImageResponse(
-    val url: String
-)

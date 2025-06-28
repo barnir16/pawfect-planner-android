@@ -6,17 +6,31 @@ import android.app.NotificationManager
 import android.os.Build
 import androidx.room.Room
 import com.example.pawfectplanner.data.local.AppDatabase
+import com.example.pawfectplanner.util.ApiKeyManager
+import com.example.pawfectplanner.util.RemoteConfigManager
 import com.example.pawfectplanner.util.LocaleHelper
+import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PawfectPlannerApplication : Application() {
     lateinit var database: AppDatabase
 
     override fun onCreate() {
         super.onCreate()
+
+        FirebaseApp.initializeApp(this)
+        RemoteConfigManager.init()
+        CoroutineScope(Dispatchers.IO).launch {
+            RemoteConfigManager.fetchAndActivate()
+            ApiKeyManager.petsApiKey   = RemoteConfigManager.getPetsApiKey()
+            ApiKeyManager.geminiApiKey = RemoteConfigManager.getGeminiApiKey()
+        }
+
         AndroidThreeTen.init(this)
 
-        // Initialize dark mode setting
         LocaleHelper.initializeDarkMode(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
