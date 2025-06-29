@@ -15,9 +15,14 @@ import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.data.model.Task
 import com.example.pawfectplanner.data.model.Vaccine
+import com.example.pawfectplanner.data.repository.BreedsRepository
 import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.data.repository.TaskRepository
 import com.example.pawfectplanner.databinding.FragmentTaskEditBinding
+import com.example.pawfectplanner.network.BreedsCatApiService
+import com.example.pawfectplanner.network.BreedsDogApiService
+import com.example.pawfectplanner.network.CatApiClient
+import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
@@ -37,9 +42,13 @@ class TaskEditFragment : Fragment() {
         TaskViewModelFactory(TaskRepository(app.database.taskDao(), requireContext()))
     }
     private val petVM: PetViewModel by lazy {
+        val breedsRepository = BreedsRepository(
+            DogApiClient.retrofit.create(BreedsDogApiService::class.java),
+            CatApiClient.retrofit.create(BreedsCatApiService::class.java)
+        )
         ViewModelProvider(
             this,
-            PetViewModelFactory(PetRepository(app.database.petDao()))
+            PetViewModelFactory(PetRepository(app.database.petDao()), breedsRepository)
         )[PetViewModel::class.java]
     }
     private var pickedDate: LocalDate? = null
@@ -199,16 +208,23 @@ class TaskEditFragment : Fragment() {
             errors.add(getString(R.string.error_missing_time))
         }
         
-        if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull()?.let { it <= 0 } == true) {
-            errors.add(getString(R.string.error_invalid_repeat_interval))
+        if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull() == null) {
+            errors.add(getString(R.string.error_invalid_interval))
+        }
+        
+        if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull() != null && repeatInterval.toInt() <= 0) {
+            errors.add(getString(R.string.error_interval_must_be_positive))
         }
         
         if (errors.isNotEmpty()) {
-            showError(errors.joinToString("\n"))
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.validation_errors)
+                .setMessage(errors.joinToString("\n"))
+                .setPositiveButton(R.string.btn_ok, null)
+                .show()
             return false
         }
         
-        clearError()
         return true
     }
 
@@ -216,31 +232,12 @@ class TaskEditFragment : Fragment() {
         val title = binding.inputTitle.text.toString().trim()
         val repeatInterval = binding.inputRepeatInterval.text.toString().trim()
         
-        clearFieldErrors()
+        // Clear previous errors
+        binding.tilTitle.error = null
         
-        val errors = mutableListOf<String>()
-        
+        // Real-time validation
         if (title.isEmpty()) {
             binding.tilTitle.error = getString(R.string.error_missing_title)
-            errors.add(getString(R.string.error_missing_title))
-        }
-        
-        if (pickedDate == null) {
-            errors.add(getString(R.string.error_missing_date))
-        }
-        
-        if (pickedTime == null) {
-            errors.add(getString(R.string.error_missing_time))
-        }
-        
-        if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull()?.let { it <= 0 } == true) {
-            errors.add(getString(R.string.error_invalid_repeat_interval))
-        }
-        
-        if (errors.isNotEmpty()) {
-            showError(errors.joinToString("\n"))
-        } else {
-            clearError()
         }
     }
 
@@ -248,86 +245,58 @@ class TaskEditFragment : Fragment() {
         binding.tilTitle.error = null
     }
 
-    private fun showError(message: String) {
-        try {
-            binding.tvError.text = message
-            binding.tvError.visibility = android.view.View.VISIBLE
-            binding.tvError.invalidate()
-        } catch (e: Exception) {
-            android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun clearError() {
-        try {
-            binding.tvError.visibility = android.view.View.GONE
-            clearFieldErrors()
-        } catch (e: Exception) {
-            android.widget.Toast.makeText(requireContext(), "Error clearing", android.widget.Toast.LENGTH_SHORT).show()
-        }
+    private fun updateSaveEnabled() {
+        val title = binding.inputTitle.text.toString().trim()
+        val hasDate = pickedDate != null
+        val hasTime = pickedTime != null
+        val hasPets = assignedPetIds.isNotEmpty()
+        
+        binding.btnSave.isEnabled = title.isNotEmpty() && hasDate && hasTime && hasPets
     }
 
     private fun showVaccineSuggestions() {
-        VaccineSuggestionDialog.newInstance(assignedPets) { vaccine ->
-            binding.inputTitle.setText(vaccine.name)
-            binding.inputDescription.setText("${vaccine.description}\n\nFrequency: ${vaccine.frequency}")
+        if (assignedPets.isEmpty()) {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.no_pets_assigned)
+                .setMessage(R.string.assign_pets_first)
+                .setPositiveButton(R.string.btn_ok, null)
+                .show()
+            return
+        }
 
-            val frequency = vaccine.frequency.lowercase()
-            val numberPattern = Regex("(\\d+)")
-            val numberMatch = numberPattern.find(frequency)
-            var intervalNumber = numberMatch?.value?.toIntOrNull() ?: 1
-            var unitIndex = 0
-
-            when {
-                frequency.contains("חודשיים") -> {
-                    intervalNumber = 2
-                    unitIndex = 5 // Months
+        val suggestions = mutableListOf<String>()
+        
+        assignedPets.forEach { pet ->
+            when (pet.breedType.lowercase()) {
+                "dog" -> {
+                    suggestions.add("${pet.name}: Rabies vaccine - Essential vaccine for all dogs")
+                    suggestions.add("${pet.name}: Hexavalent vaccine - Protects against 6 diseases")
+                    suggestions.add("${pet.name}: Kennel Cough vaccine - Protects against respiratory infection")
                 }
-                frequency.contains("שנתיים") -> {
-                    intervalNumber = 2
-                    unitIndex = 6 // Years
-                }
-                frequency.contains("year") || 
-                frequency.contains("שנה") ||
-                frequency.contains("שנים") ||
-                frequency.contains("שנתי") -> {
-                    unitIndex = 6 // Years
-                }
-                frequency.contains("month") || 
-                frequency.contains("חודש") -> {
-                    unitIndex = 5 // Months
-                }
-                frequency.contains("week") || 
-                frequency.contains("שבוע") -> {
-                    unitIndex = 4 // Weeks
-                }
-                frequency.contains("day") || 
-                frequency.contains("יום") -> {
-                    unitIndex = 3 // Days
-                }
-                frequency.contains("hour") || 
-                frequency.contains("שעה") -> {
-                    unitIndex = 2 // Hours
-                }
-                frequency.contains("minute") || 
-                frequency.contains("דקה") -> {
-                    unitIndex = 1 // Minutes
+                "cat" -> {
+                    suggestions.add("${pet.name}: Rabies vaccine - Essential vaccine for cats that go outdoors")
+                    suggestions.add("${pet.name}: Quadrivalent vaccine - Protects against 4 diseases")
+                    suggestions.add("${pet.name}: Feline Leukemia vaccine - Recommended for outdoor cats")
                 }
                 else -> {
-                    intervalNumber = 1
-                    unitIndex = 0 // None
+                    suggestions.add("${pet.name}: Consult your veterinarian for appropriate vaccines")
                 }
             }
-            binding.inputRepeatInterval.setText(intervalNumber.toString())
-            binding.spinnerRepeatUnit.setSelection(unitIndex)
-        }.show(childFragmentManager, "vaccine_suggestions")
-    }
-
-    private fun updateSaveEnabled() {
-        val title = binding.inputTitle.text.toString().trim()
-        val isFormValid = title.isNotBlank() && pickedDate != null && pickedTime != null
+        }
         
-        binding.btnSave.isEnabled = isFormValid
+        if (suggestions.isEmpty()) {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.no_vaccine_suggestions)
+                .setMessage(R.string.no_vaccines_available)
+                .setPositiveButton(R.string.btn_ok, null)
+                .show()
+        } else {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.vaccine_suggestions)
+                .setItems(suggestions.toTypedArray()) { _, _ -> }
+                .setPositiveButton(R.string.btn_ok, null)
+                .show()
+        }
     }
 
     override fun onDestroyView() {

@@ -239,4 +239,23 @@
     <string name="vaccine_age_9_weeks">9 שבועות</string>
     <string name="vaccine_age_12_weeks">12 שבועות</string>
     <string name="vaccine_age_6_weeks">6 שבועות</string>
+
+    <!-- Breed Information -->
+    <string name="breed_info_title">מידע על הגזע: %1$s</string>
+    <string name="label_life_span">תוחלת חיים:</string>
+    <string name="label_weight">משקל:</string>
+    <string name="label_temperament">טמפרמנט:</string>
+    <string name="label_breed_group">קבוצת גזע:</string>
+    <string name="label_bred_for">גודל עבור:</string>
+    <string name="label_weight_error">המשקל עשוי להיות מחוץ לטווח הנורמלי לגזע זה</string>
+    <string name="error_invalid_interval">מרווח לא תקין</string>
+    <string name="error_interval_must_be_positive">המרווח חייב להיות חיובי</string>
+    <string name="validation_errors">שגיאות אימות</string>
+    <string name="no_pets_assigned">לא הוקצו חיות</string>
+    <string name="assign_pets_first">אנא הקצה חיות תחילה כדי לקבל הצעות לחיסונים</string>
+    <string name="no_vaccine_suggestions">אין הצעות לחיסונים</string>
+    <string name="no_vaccines_available">אין חיסונים זמינים לחיות שהוקצו</string>
+    <string name="vaccine_suggestions">הצעות לחיסונים</string>
+
+    <string name="select_breed">בחר גזע</string>
 </resources>

@@ -11,8 +11,13 @@ import androidx.navigation.fragment.navArgs
 import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.databinding.FragmentTaskDetailBinding
+import com.example.pawfectplanner.data.repository.BreedsRepository
 import com.example.pawfectplanner.data.repository.TaskRepository
 import com.example.pawfectplanner.data.repository.PetRepository
+import com.example.pawfectplanner.network.BreedsCatApiService
+import com.example.pawfectplanner.network.BreedsDogApiService
+import com.example.pawfectplanner.network.CatApiClient
+import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
@@ -30,9 +35,13 @@ class TaskDetailFragment : Fragment() {
         TaskViewModelFactory(TaskRepository(app.database.taskDao(), requireContext()))
     }
     private val pm by lazy {
+        val breedsRepository = BreedsRepository(
+            DogApiClient.retrofit.create(BreedsDogApiService::class.java),
+            CatApiClient.retrofit.create(BreedsCatApiService::class.java)
+        )
         ViewModelProvider(
             this,
-            PetViewModelFactory(PetRepository(app.database.petDao()))
+            PetViewModelFactory(PetRepository(app.database.petDao()), breedsRepository)
         )[PetViewModel::class.java]
     }
 

@@ -146,6 +146,7 @@
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPetBreed"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,13 +155,14 @@
                     app:boxCornerRadiusTopEnd="16dp"
                     app:boxCornerRadiusBottomStart="16dp"
                     app:boxCornerRadiusBottomEnd="16dp">
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/etPetBreed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:completionThreshold="1" />
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.card.MaterialCardView>
 

@@ -30,6 +30,7 @@
     <string name="hint_pet_type">Enter pet type (e.g. Dog, Cat, Other)</string>
     <string name="hint_pet_name">Enter pet name</string>
     <string name="hint_pet_breed">Enter breed</string>
+    <string name="select_breed">Select Breed</string>
     <string name="hint_pet_birthdate">Select birthdate</string>
     <string name="hint_pet_notes">Additional notes</string>
     <string name="hint_pet_weight">Enter weight (kg, optional)</string>
@@ -239,4 +240,21 @@
     <string name="vaccine_age_9_weeks">9 weeks</string>
     <string name="vaccine_age_12_weeks">12 weeks</string>
     <string name="vaccine_age_6_weeks">6 weeks</string>
+
+    <!-- Breed Information -->
+    <string name="breed_info_title">Breed Information: %1$s</string>
+    <string name="label_life_span">Life Span:</string>
+    <string name="label_weight">Weight:</string>
+    <string name="label_temperament">Temperament:</string>
+    <string name="label_breed_group">Breed Group:</string>
+    <string name="label_bred_for">Bred For:</string>
+    <string name="label_weight_error">Weight may be outside normal range for this breed</string>
+    <string name="error_invalid_interval">Invalid interval</string>
+    <string name="error_interval_must_be_positive">Interval must be positive</string>
+    <string name="validation_errors">Validation Errors</string>
+    <string name="no_pets_assigned">No Pets Assigned</string>
+    <string name="assign_pets_first">Please assign pets first to get vaccine suggestions</string>
+    <string name="no_vaccine_suggestions">No Vaccine Suggestions</string>
+    <string name="no_vaccines_available">No vaccines available for the assigned pets</string>
+    <string name="vaccine_suggestions">Vaccine Suggestions</string>
 </resources>
