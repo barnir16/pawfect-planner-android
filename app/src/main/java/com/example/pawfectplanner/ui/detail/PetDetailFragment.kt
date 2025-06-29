@@ -24,15 +24,13 @@ import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.example.pawfectplanner.util.ApiKeyManager
 
 class PetDetailFragment : Fragment() {
     private var _binding: FragmentPetDetailBinding? = null
     private val binding get() = _binding!!
     private val args: PetDetailFragmentArgs by navArgs()
     private lateinit var viewModel: PetViewModel
-
-    private val dogApiKey = "live_KCJboOYwRJ09Qdsv3AF6G2iueJJiYKW1MEMtXG1UHYyWI77tJTyTPSAyx1GXQLa"
-    private val catApiKey = "live_D26ZgGdwwyiKTlIf8eH4ie6WHYEiOtLAakaZvkY3zEQ2101DN2o2kTGyO57JUaSP"
 
     override fun onCreateView(inflater: android.view.LayoutInflater, container: android.view.ViewGroup?, savedInstanceState: Bundle?) =
         FragmentPetDetailBinding.inflate(inflater, container, false).also { _binding = it }.root
@@ -57,6 +55,10 @@ class PetDetailFragment : Fragment() {
                 
                 // Hide breed card initially
                 binding.breedInfoCard.visibility = View.GONE
+
+                // Get API keys from ApiKeyManager
+                val dogApiKey = ApiKeyManager.petsApiKey ?: ""
+                val catApiKey = ApiKeyManager.petsApiKey ?: ""
 
                 if (pet.breedType.equals("Dog", ignoreCase = true)) {
                     viewModel.fetchDogBreed(pet.breed, dogApiKey)

@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.Period
 import java.util.Calendar
+import com.example.pawfectplanner.util.ApiKeyManager
 
 class PetEditFragment : Fragment() {
     private var _binding: FragmentPetEditBinding? = null
@@ -48,9 +49,6 @@ class PetEditFragment : Fragment() {
     private var selectedImageUriString: String? = null
     private val healthIssues = mutableListOf<String>()
     private val behaviorIssues = mutableListOf<String>()
-
-    private val dogApiKey = "live_KCJboOYwRJ09Qdsv3AF6G2iueJJiYKW1MEMtXG1UHYyWI77tJTyTPSAyx1GXQLa"
-    private val catApiKey = "live_D26ZgGdwwyiKTlIf8eH4ie6WHYEiOtLAakaZvkY3zEQ2101DN2o2kTGyO57JUaSP"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentPetEditBinding.inflate(inflater, container, false).also { _binding = it }.root
@@ -79,6 +77,10 @@ class PetEditFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, v: View?, pos: Int, id: Long) {
                 val selectedType = types[pos]
                 binding.tilCustomType.isVisible = selectedType == "Other"
+                
+                // Get API keys from ApiKeyManager
+                val dogApiKey = ApiKeyManager.petsApiKey ?: ""
+                val catApiKey = ApiKeyManager.petsApiKey ?: ""
                 viewModel.fetchBreeds(selectedType, dogApiKey, catApiKey)
             }
 
