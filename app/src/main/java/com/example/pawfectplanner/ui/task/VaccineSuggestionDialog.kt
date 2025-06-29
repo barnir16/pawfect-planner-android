@@ -64,18 +64,16 @@ class VaccineSuggestionDialog : DialogFragment() {
         val repository = vaccineRepository ?: return emptyList()
         val catVaccines = repository.getCatVaccines()
         val dogVaccines = repository.getDogVaccines()
+        
         val merged = mutableMapOf<String, VaccineWithSpecies>()
-
-        fun addVaccine(v: Vaccine, species: Species) {
-            val key = v.name.trim().lowercase()
-            val existing = merged[key]
-            if (existing == null) {
-                merged[key] = VaccineWithSpecies(v, speciesSet = mutableSetOf(species))
-            } else {
-                existing.speciesSet.add(species)
+        
+        fun addVaccine(vaccine: Vaccine, species: Species) {
+            val key = vaccine.name.lowercase()
+            if (!merged.containsKey(key)) {
+                merged[key] = VaccineWithSpecies(vaccine, species)
             }
         }
-
+        
         if (assignedPets.isEmpty()) {
             catVaccines.forEach { addVaccine(it, Species.CAT) }
             dogVaccines.forEach { addVaccine(it, Species.DOG) }
@@ -85,11 +83,12 @@ class VaccineSuggestionDialog : DialogFragment() {
             if (showCat) catVaccines.forEach { addVaccine(it, Species.CAT) }
             if (showDog) dogVaccines.forEach { addVaccine(it, Species.DOG) }
         }
-        return merged.values.sortedBy { it.vaccine.name }
+        
+        return merged.values.toList()
     }
 
     private enum class Species { CAT, DOG }
-    private data class VaccineWithSpecies(val vaccine: Vaccine, val speciesSet: MutableSet<Species>)
+    private data class VaccineWithSpecies(val vaccine: Vaccine, val species: Species)
     
     private inner class VaccineAdapter(
         private val vaccines: List<VaccineWithSpecies>,
@@ -121,9 +120,9 @@ class VaccineSuggestionDialog : DialogFragment() {
                 tvName.text = vaccine.name
                 tvFrequency.text = vaccine.frequency
                 tvDescription.text = vaccine.description
-                val species = vaccineWithSpecies.speciesSet
-                ivCat.visibility = if (species.contains(Species.CAT)) View.VISIBLE else View.GONE
-                ivDog.visibility = if (species.contains(Species.DOG)) View.VISIBLE else View.GONE
+                val species = vaccineWithSpecies.species
+                ivCat.visibility = if (species == Species.CAT) View.VISIBLE else View.GONE
+                ivDog.visibility = if (species == Species.DOG) View.VISIBLE else View.GONE
                 cardView.setOnClickListener {
                     onVaccineClick(vaccine)
                 }

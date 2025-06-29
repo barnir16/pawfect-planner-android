@@ -28,6 +28,7 @@ import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
+import com.example.pawfectplanner.ui.task.VaccineSuggestionDialog
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -66,12 +67,10 @@ class TaskEditFragment : Fragment() {
 
     override fun onViewCreated(v: android.view.View, s: Bundle?) {
         binding.inputTitle.doAfterTextChanged { 
-            updateSaveEnabled()
             validateFormRealTime()
         }
-        binding.inputDescription.doAfterTextChanged { updateSaveEnabled() }
+        binding.inputDescription.doAfterTextChanged { }
         binding.inputRepeatInterval.doAfterTextChanged { 
-            updateSaveEnabled()
             validateFormRealTime()
         }
 
@@ -82,7 +81,6 @@ class TaskEditFragment : Fragment() {
                 { _, y, m, d ->
                     pickedDate = LocalDate.of(y, m + 1, d)
                     binding.btnPickDate.text = pickedDate.toString()
-                    updateSaveEnabled()
                     validateFormRealTime()
                 },
                 now.year, now.monthValue - 1, now.dayOfMonth
@@ -97,7 +95,6 @@ class TaskEditFragment : Fragment() {
                 { _, h, m ->
                     pickedTime = LocalTime.of(h, m)
                     binding.btnPickTime.text = pickedTime.toString()
-                    updateSaveEnabled()
                     validateFormRealTime()
                 },
                 now.hour, now.minute, true
@@ -121,7 +118,6 @@ class TaskEditFragment : Fragment() {
                                 getString(R.string.label_task_no_pets_assigned)
                             else
                                 assignedPets.joinToString { it.name }
-                        updateSaveEnabled()
                         validateFormRealTime()
                     }
                     .setNegativeButton(R.string.btn_cancel, null)
@@ -154,7 +150,6 @@ class TaskEditFragment : Fragment() {
                             assignedPets.joinToString { it.name }
                     }
                     binding.btnSave.text = getString(R.string.btn_update_task)
-                    updateSaveEnabled()
                     validateFormRealTime()
                 }
             }
@@ -193,35 +188,38 @@ class TaskEditFragment : Fragment() {
         
         clearFieldErrors()
         
-        val errors = mutableListOf<String>()
+        val missingFields = mutableListOf<String>()
         
         if (title.isEmpty()) {
-            binding.tilTitle.error = getString(R.string.error_missing_title)
-            errors.add(getString(R.string.error_missing_title))
+            binding.tilTitle.error = getString(R.string.field_required)
+            missingFields.add(getString(R.string.label_task_title))
+        } else {
+            binding.tilTitle.error = null
         }
         
         if (pickedDate == null) {
-            errors.add(getString(R.string.error_missing_date))
+            missingFields.add(getString(R.string.label_task_date))
         }
         
         if (pickedTime == null) {
-            errors.add(getString(R.string.error_missing_time))
+            missingFields.add(getString(R.string.label_task_time))
+        }
+        
+        if (assignedPetIds.isEmpty()) {
+            missingFields.add(getString(R.string.label_task_assign_pets))
         }
         
         if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull() == null) {
-            errors.add(getString(R.string.error_invalid_interval))
+            missingFields.add(getString(R.string.error_invalid_interval))
         }
         
         if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull() != null && repeatInterval.toInt() <= 0) {
-            errors.add(getString(R.string.error_interval_must_be_positive))
+            missingFields.add(getString(R.string.error_interval_must_be_positive))
         }
         
-        if (errors.isNotEmpty()) {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.validation_errors)
-                .setMessage(errors.joinToString("\n"))
-                .setPositiveButton(R.string.btn_ok, null)
-                .show()
+        if (missingFields.isNotEmpty()) {
+            val message = getString(R.string.toast_missing_fields, missingFields.joinToString(", "))
+            android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_LONG).show()
             return false
         }
         
@@ -237,21 +235,12 @@ class TaskEditFragment : Fragment() {
         
         // Real-time validation
         if (title.isEmpty()) {
-            binding.tilTitle.error = getString(R.string.error_missing_title)
+            binding.tilTitle.error = getString(R.string.field_required)
         }
     }
 
     private fun clearFieldErrors() {
         binding.tilTitle.error = null
-    }
-
-    private fun updateSaveEnabled() {
-        val title = binding.inputTitle.text.toString().trim()
-        val hasDate = pickedDate != null
-        val hasTime = pickedTime != null
-        val hasPets = assignedPetIds.isNotEmpty()
-        
-        binding.btnSave.isEnabled = title.isNotEmpty() && hasDate && hasTime && hasPets
     }
 
     private fun showVaccineSuggestions() {
@@ -264,38 +253,59 @@ class TaskEditFragment : Fragment() {
             return
         }
 
-        val suggestions = mutableListOf<String>()
-        
-        assignedPets.forEach { pet ->
-            when (pet.breedType.lowercase()) {
-                "dog" -> {
-                    suggestions.add("${pet.name}: Rabies vaccine - Essential vaccine for all dogs")
-                    suggestions.add("${pet.name}: Hexavalent vaccine - Protects against 6 diseases")
-                    suggestions.add("${pet.name}: Kennel Cough vaccine - Protects against respiratory infection")
-                }
-                "cat" -> {
-                    suggestions.add("${pet.name}: Rabies vaccine - Essential vaccine for cats that go outdoors")
-                    suggestions.add("${pet.name}: Quadrivalent vaccine - Protects against 4 diseases")
-                    suggestions.add("${pet.name}: Feline Leukemia vaccine - Recommended for outdoor cats")
-                }
-                else -> {
-                    suggestions.add("${pet.name}: Consult your veterinarian for appropriate vaccines")
-                }
-            }
+        // Use the proper VaccineSuggestionDialog with autocomplete functionality
+        val dialog = VaccineSuggestionDialog.newInstance(assignedPets) { vaccine ->
+            val vaccineInfo = "${vaccine.name} - ${vaccine.frequency}\n${vaccine.description}"
+            binding.inputDescription.setText(vaccineInfo)
+            binding.inputTitle.setText("${vaccine.name} - ${vaccine.frequency}")
+            
+            // Parse frequency and set repeat interval and unit
+            parseAndSetFrequency(vaccine.frequency)
+            
+            validateFormRealTime()
         }
+        dialog.show(childFragmentManager, "vaccine_suggestions")
+    }
+
+    private fun parseAndSetFrequency(frequency: String) {
+        val frequencyLower = frequency.lowercase()
+        val repeatUnits = resources.getStringArray(R.array.repeat_units)
         
-        if (suggestions.isEmpty()) {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.no_vaccine_suggestions)
-                .setMessage(R.string.no_vaccines_available)
-                .setPositiveButton(R.string.btn_ok, null)
-                .show()
-        } else {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.vaccine_suggestions)
-                .setItems(suggestions.toTypedArray()) { _, _ -> }
-                .setPositiveButton(R.string.btn_ok, null)
-                .show()
+        when {
+            frequencyLower.contains("yearly") || frequencyLower.contains("year") -> {
+                binding.inputRepeatInterval.setText("1")
+                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Years"))
+            }
+            frequencyLower.contains("month") -> {
+                val months = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(months.toString())
+                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Months"))
+            }
+            frequencyLower.contains("week") -> {
+                val weeks = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(weeks.toString())
+                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Weeks"))
+            }
+            frequencyLower.contains("day") -> {
+                val days = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(days.toString())
+                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Days"))
+            }
+            frequencyLower.contains("hour") -> {
+                val hours = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(hours.toString())
+                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Hours"))
+            }
+            frequencyLower.contains("minute") -> {
+                val minutes = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(minutes.toString())
+                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Minutes"))
+            }
+            else -> {
+                // Default to yearly if frequency is not recognized
+                binding.inputRepeatInterval.setText("1")
+                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Years"))
+            }
         }
     }
 

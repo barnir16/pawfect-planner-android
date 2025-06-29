@@ -27,12 +27,12 @@
 
     <string name="title_add_pet">הוסף חיה חדשה</string>
     <string name="title_edit_pet">עריכת חיה</string>
-    <string name="hint_pet_type">הכנס סוג חיה (למשל כלב, חתול, אחר)</string>
-    <string name="hint_pet_name">הכנס שם חיה</string>
-    <string name="hint_pet_breed">הכנס גזע</string>
+    <string name="hint_pet_type">הזן סוג חיית מחמד (למשל כלב, חתול, אחר)</string>
+    <string name="hint_pet_name">הזן שם חיית מחמד *</string>
+    <string name="hint_pet_breed">הזן גזע *</string>
     <string name="hint_pet_birthdate">בחר תאריך לידה</string>
     <string name="hint_pet_notes">הערות נוספות</string>
-    <string name="hint_pet_weight">הכנס משקל (ק"ג, אופציונלי)</string>
+    <string name="hint_pet_weight">הזן משקל (ק"ג, אופציונלי)</string>
     <string name="btn_birthday_age">תאריך לידה או גיל</string>
     <string name="option_select_birthday">בחר תאריך לידה</string>
     <string name="option_enter_age">הכנס גיל</string>
@@ -52,7 +52,7 @@
     <string name="action_add_task">הוסף משימה</string>
     <string name="action_edit_task">ערוך משימה</string>
     <string name="action_delete_task">מחק משימה</string>
-    <string name="label_task_title">כותרת</string>
+    <string name="label_task_title">כותרת משימה *</string>
     <string name="label_task_description">תיאור</string>
     <string name="label_task_date">תאריך</string>
     <string name="label_task_time">שעה</string>
@@ -63,6 +63,7 @@
     <string name="label_task_repeat">כל %1$d %2$s</string>
     <string name="label_task_no_repeat">ללא חזרה</string>
     <string name="label_task_assign_pets">הקצה חיות מחמד</string>
+    <string name="label_assigned_pets">חיות שהוקצו</string>
     <string name="label_task_no_pets_assigned">לא הוקצו חיות</string>
     <string name="btn_add_to_calendar">הוסף ליומן</string>
 
@@ -74,6 +75,15 @@
     <string name="title_about">אודות</string>
     <string name="about_description">PawfectPlanner עוזרת לך לטפל בחיות המחמד שלך בצורה יעילה וקלילה.</string>
     <string name="about_version">גרסה</string>
+    <string name="about_version_info">גרסה 1.0.0</string>
+    <string name="about_welcome_title">ברוכים הבאים ל-PawfectPlanner! 🐾</string>
+    <string name="about_features_title">מה אנחנו מציעים</string>
+    <string name="about_feature_scheduling">תזמון חכם וניהול משימות לכל צרכי הטיפול בחיות המחמד שלך</string>
+    <string name="about_feature_vaccines">מעקב מקיף אחר חיסונים ותזכורות עם המלצות מומחים</string>
+    <string name="about_feature_breeds">מידע מפורט על גזעים והנחיות טיפול לכלבים וחתולים</string>
+    <string name="about_feature_reminders">תזכורות חכמות והתראות לשמירה על בריאות חיות המחמד שלך</string>
+    <string name="about_thank_you">תודה שבחרת ב-PawfectPlanner!</string>
+    <string name="about_enjoy">אנו מקווים שהאפליקציה הזו תעזור לך לספק את הטיפול הטוב ביותר לחיות המחמד האהובות שלך. תהנה מהמסע יחד! 🐕🐱</string>
 
     <string name="btn_ok">אישור</string>
     <string name="btn_yes">כן</string>
@@ -258,4 +268,8 @@
     <string name="vaccine_suggestions">הצעות לחיסונים</string>
 
     <string name="select_breed">בחר גזע</string>
+
+    <string name="toast_fill_required_fields">אנא מלא את כל השדות הנדרשים המסומנים ב-*</string>
+    <string name="toast_missing_fields">אנא מלא: %1$s</string>
+    <string name="field_required">שדה זה נדרש</string>
 </resources>

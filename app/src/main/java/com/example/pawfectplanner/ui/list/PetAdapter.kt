@@ -25,32 +25,59 @@ class PetAdapter(
             )
         )
 
-    override fun onBindViewHolder(holder: PetViewHolder, position: Int) =
-        holder.bind(getItem(position), onClick, onLongClick)
+    override fun onBindViewHolder(holder: PetViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
-    class PetViewHolder(private val b: ItemPetBinding) :
-        RecyclerView.ViewHolder(b.root) {
+    inner class PetViewHolder(
+        private val binding: ItemPetBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(pet: Pet, onClick: (Pet) -> Unit, onLongClick: (Pet) -> Boolean) {
-            b.tvName.text = pet.name
-            b.tvBreed.text = pet.breed
-            b.tvAge.text = b.root.context.getString(R.string.label_age_only, pet.age)
-            if (pet.photoUri != null) {
-                Glide.with(b.root)
-                    .load(pet.photoUri.toUri())
-                    .into(b.imgPetThumbnail)
-            } else {
-                b.imgPetThumbnail.setImageResource(R.drawable.ic_photo_placeholder)
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onClick(getItem(position))
+                }
             }
-            b.root.setOnClickListener { onClick(pet) }
-            b.root.setOnLongClickListener { onLongClick(pet) }
+
+            binding.root.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onLongClick(getItem(position))
+                } else {
+                    false
+                }
+            }
+        }
+
+        fun bind(pet: Pet) {
+            binding.apply {
+                petName.text = pet.name
+                petBreed.text = pet.breed
+                petAge.text = itemView.context.getString(R.string.label_age_only, pet.age)
+                if (!pet.photoUri.isNullOrEmpty()) {
+                    Glide.with(itemView.context)
+                        .load(pet.photoUri.toUri())
+                        .placeholder(R.drawable.ic_photo_placeholder)
+                        .error(R.drawable.ic_photo_placeholder)
+                        .into(petImage)
+                } else {
+                    petImage.setImageResource(R.drawable.ic_photo_placeholder)
+                }
+            }
         }
     }
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Pet>() {
-            override fun areItemsTheSame(old: Pet, new: Pet) = old.id == new.id
-            override fun areContentsTheSame(old: Pet, new: Pet) = old == new
+            override fun areItemsTheSame(oldItem: Pet, newItem: Pet): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Pet, newItem: Pet): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }

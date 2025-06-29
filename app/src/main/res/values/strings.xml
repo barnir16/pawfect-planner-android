@@ -28,8 +28,8 @@
     <string name="title_add_pet">Add New Pet</string>
     <string name="title_edit_pet">Edit Pet</string>
     <string name="hint_pet_type">Enter pet type (e.g. Dog, Cat, Other)</string>
-    <string name="hint_pet_name">Enter pet name</string>
-    <string name="hint_pet_breed">Enter breed</string>
+    <string name="hint_pet_name">Enter pet name *</string>
+    <string name="hint_pet_breed">Enter breed *</string>
     <string name="select_breed">Select Breed</string>
     <string name="hint_pet_birthdate">Select birthdate</string>
     <string name="hint_pet_notes">Additional notes</string>
@@ -53,7 +53,7 @@
     <string name="action_add_task">Add Task</string>
     <string name="action_edit_task">Edit Task</string>
     <string name="action_delete_task">Delete Task</string>
-    <string name="label_task_title">Title</string>
+    <string name="label_task_title">Task Title *</string>
     <string name="label_task_description">Description</string>
     <string name="label_task_date">Date</string>
     <string name="label_task_time">Time</string>
@@ -64,6 +64,7 @@
     <string name="label_task_repeat">Every %1$d %2$s</string>
     <string name="label_task_no_repeat">Never</string>
     <string name="label_task_assign_pets">Assign Pets</string>
+    <string name="label_assigned_pets">Assigned Pets</string>
     <string name="label_task_no_pets_assigned">No pets assigned.</string>
     <string name="btn_add_to_calendar">Add to Calendar</string>
 
@@ -75,6 +76,15 @@
     <string name="title_about">About</string>
     <string name="about_description">PawfectPlanner helps you manage everything related to pets – from schedules, vaccines, we have it all!</string>
     <string name="about_version">Version</string>
+    <string name="about_version_info">Version 1.0.0</string>
+    <string name="about_welcome_title">Welcome to PawfectPlanner! 🐾</string>
+    <string name="about_features_title">What We Offer</string>
+    <string name="about_feature_scheduling">Smart scheduling and task management for all your pet care needs</string>
+    <string name="about_feature_vaccines">Comprehensive vaccine tracking and reminders with expert suggestions</string>
+    <string name="about_feature_breeds">Detailed breed information and care guidelines for dogs and cats</string>
+    <string name="about_feature_reminders">Intelligent reminders and notifications to keep your pets healthy</string>
+    <string name="about_thank_you">Thank you for choosing PawfectPlanner!</string>
+    <string name="about_enjoy">We hope this app helps you provide the best care for your beloved pets. Enjoy your journey together! 🐕🐱</string>
 
     <string name="btn_ok">OK</string>
     <string name="btn_yes">Yes</string>
@@ -257,4 +267,8 @@
     <string name="no_vaccine_suggestions">No Vaccine Suggestions</string>
     <string name="no_vaccines_available">No vaccines available for the assigned pets</string>
     <string name="vaccine_suggestions">Vaccine Suggestions</string>
+
+    <string name="toast_fill_required_fields">Please fill in all required fields marked with *</string>
+    <string name="toast_missing_fields">Please fill in: %1$s</string>
+    <string name="field_required">This field is required</string>
 </resources>

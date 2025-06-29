@@ -37,6 +37,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.Period
 import java.util.Calendar
 import com.example.pawfectplanner.util.ApiKeyManager
+import android.widget.Toast
 
 class PetEditFragment : Fragment() {
     private var _binding: FragmentPetEditBinding? = null
@@ -98,8 +99,6 @@ class PetEditFragment : Fragment() {
             }
         }
 
-        binding.etPetName.doAfterTextChanged { binding.btnSavePet.isEnabled = it?.isNotBlank() == true }
-
         val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
                 selectedImageUriString = it.toString()
@@ -132,13 +131,12 @@ class PetEditFragment : Fragment() {
         viewModel.allPets.observe(viewLifecycleOwner) { list ->
             list.firstOrNull { it.id == args.petId }?.let { pet ->
                 binding.etPetName.setText(pet.name)
-                binding.btnSavePet.isEnabled = true
+                binding.etPetBreed.setText(pet.breed)
 
                 val pos = types.indexOf(pet.breedType).takeIf { it >= 0 } ?: 2
                 binding.spinnerPetType.setSelection(pos)
                 if (pos == 2) binding.etCustomType.setText(pet.breedType)
 
-                binding.etPetBreed.setText(pet.breed)
                 binding.etPetWeight.setText(pet.weightKg?.toString() ?: "")
 
                 selectedBirthDate = pet.birthDate
@@ -183,6 +181,29 @@ class PetEditFragment : Fragment() {
         val birthDate = selectedBirthDate
             ?: LocalDate.now().minusYears(selectedAge?.toLong() ?: 0)
         val age = selectedAge ?: Period.between(birthDate, LocalDate.now()).years
+
+        // Validate required fields
+        val missingFields = mutableListOf<String>()
+        
+        if (name.isEmpty()) {
+            binding.tilPetName.error = getString(R.string.field_required)
+            missingFields.add(getString(R.string.hint_pet_name))
+        } else {
+            binding.tilPetName.error = null
+        }
+        
+        if (breed.isEmpty()) {
+            binding.tilPetBreed.error = getString(R.string.field_required)
+            missingFields.add(getString(R.string.hint_pet_breed))
+        } else {
+            binding.tilPetBreed.error = null
+        }
+        
+        if (missingFields.isNotEmpty()) {
+            val message = getString(R.string.toast_missing_fields, missingFields.joinToString(", "))
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            return
+        }
 
         val pet = Pet(
             id = if (args.petId != -1) args.petId else 0,
