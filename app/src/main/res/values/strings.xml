@@ -130,17 +130,32 @@
         <item>Years</item>
     </string-array>
 
-    <string name="gemini_assistant_title">Gemini Assistant</string>
-    <string name="gemini_assistant_description">Ask me anything about pet care, training, or health!</string>
-    <string name="gemini_assistant_input_hint">Type your question here…</string>
-    <string name="gemini_assistant_send">Send</string>
+    <string name="gemini_assistant_title">PawfectPal</string>
+    <string name="gemini_assistant_subtitle">Ask me anything about pet care, training, or health!</string>
+    <string name="gemini_placeholder">Type your question here…</string>
+    <string name="gemini_send_button">Send</string>
+    <string name="gemini_error_generic">Oops! Something went wrong. Please try again.</string>
+    <string name="gemini_error_network">Network error. Please check your connection.</string>
+    <string name="gemini_error_unauthorized">Authorization failed. Please contact support.</string>
+    <string name="gemini_prompt_introduction">
+    You are PawfectPal, a kind and helpful assistant that answers only pet-related questions.
+    Please politely refuse any queries unrelated to pet care, training, health or behavior.
+</string>
+    <string name="gemini_prompt_pet_data">
+    Pet data: %1$s
+</string>
+    <string name="gemini_prompt_question">
+    Question: %1$s
+</string>
+    <string name="gemini_chat_list_description">List of chat messages</string>
+
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
     <string name="no_tasks_available">No tasks available</string>
     <string name="label_repeat_prompt">repeat?</string>
     <string name="label_animal">Animal</string>
-    
+
     <!-- Time remaining strings -->
     <string name="time_overdue">Overdue</string>
     <string name="time_now">Now</string>
@@ -157,7 +172,7 @@
     <string name="no_issues">No issues</string>
     <string name="vaccine_suggestions_title">Vaccine Suggestions</string>
     <string name="btn_vaccine_suggestions">Get Vaccine Suggestions</string>
-    
+
     <!-- Vaccine Names -->
     <string name="vaccine_rabies">Rabies</string>
     <string name="vaccine_rabies_cat">Rabies (Cat)</string>
@@ -170,7 +185,7 @@
     <string name="vaccine_kennel_cough">Kennel Cough</string>
     <string name="vaccine_fleas_ticks">Fleas &amp; Ticks Prevention</string>
     <string name="vaccine_internal_parasites">Internal Parasites</string>
-    
+
     <!-- Vaccine Frequencies -->
     <string name="vaccine_freq_yearly">Yearly</string>
     <string name="vaccine_freq_2_years">Every 2 years</string>
@@ -179,7 +194,7 @@
     <string name="vaccine_freq_6_months">Every 6 months</string>
     <string name="vaccine_freq_monthly">Monthly or as advised by vet</string>
     <string name="vaccine_freq_3_6_months">Every 3-6 months</string>
-    
+
     <!-- Vaccine Descriptions -->
     <string name="vaccine_desc_rabies_cat">Essential vaccine for cats that go outdoors. Rabies is a fatal viral disease that can be transmitted to humans. Annual vaccination required. Protects against this deadly virus that affects the nervous system.</string>
     <string name="vaccine_desc_rabies_dog">Essential vaccine for all dogs. Rabies is a fatal viral disease that can be transmitted to humans. First dose includes microchipping. Required by Israeli law. Protects against this deadly virus that affects the nervous system.</string>
@@ -193,7 +208,7 @@
     <string name="vaccine_desc_fleas_ticks_dog">Protects against infestations that cause skin irritation, anemia, and disease transmission (e.g., Ehrlichiosis from ticks).</string>
     <string name="vaccine_desc_internal_parasites_cat">Prevents intestinal worms that can cause weight loss, vomiting, and diarrhea.</string>
     <string name="vaccine_desc_internal_parasites_dog">Prevents roundworms, tapeworms, hookworms, and other intestinal parasites.</string>
-    
+
     <!-- Side Effects -->
     <string name="vaccine_side_lethargy">lethargy</string>
     <string name="vaccine_side_mild_fever">mild fever</string>
@@ -202,7 +217,7 @@
     <string name="vaccine_side_diarrhea">diarrhea</string>
     <string name="vaccine_side_nausea">nausea</string>
     <string name="vaccine_side_sneezing">sneezing</string>
-    
+
     <!-- Common Treatments -->
     <string name="vaccine_treatment_advantage">Advantage</string>
     <string name="vaccine_treatment_frontline">Frontline</string>
@@ -216,7 +231,7 @@
     <string name="vaccine_treatment_milbemax">Milbemax</string>
     <string name="vaccine_treatment_vet_prescribed">Veterinary-prescribed options</string>
     <string name="vaccine_treatment_vet_prescribed_meds">Veterinary-prescribed medications</string>
-    
+
     <!-- Age Information -->
     <string name="vaccine_age_4_months">4 months</string>
     <string name="vaccine_age_3_months">3 months</string>

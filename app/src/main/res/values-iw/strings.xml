@@ -131,11 +131,26 @@
         <item>שנים</item>
     </string-array>
 
-    <string name="gemini_assistant_title">עוזר ג\'מיני</string>
-    <string name="gemini_assistant_description">שאל אותי כל דבר על טיפול בחיות מחמד, אילוף או בריאות!</string>
-    <string name="gemini_assistant_input_hint">הקלד את השאלה שלך כאן…</string>
-    <string name="gemini_assistant_send">שלח</string>
-    
+    <string name="gemini_assistant_title">PawfectPal</string>
+    <string name="gemini_assistant_subtitle">שאלו אותי כל דבר על בריאות, אילוף או טיפול בבעלי חיים!</string>
+    <string name="gemini_placeholder">הקלידו כאן את השאלה…</string>
+    <string name="gemini_send_button">שליחה</string>
+    <string name="gemini_error_generic">אירעה שגיאה. אנא נסו שוב.</string>
+    <string name="gemini_error_network">אין חיבור לרשת. בדקו את החיבור שלכם.</string>
+    <string name="gemini_error_unauthorized">הרשאה נכשלה. צרו קשר עם התמיכה.</string>
+    <string name="gemini_prompt_introduction">
+    אתה PawfectPal, עוזר נחמד וחכם שעונה אך ורק על שאלות הקשורות לחיות מחמד.
+    אנא סרב בנימוס לשאלות שאינן קשורות לטיפול, אילוף, בריאות או התנהגות.
+</string>
+    <string name="gemini_prompt_pet_data">
+    נתוני חיית המחמד: %1$s
+</string>
+    <string name="gemini_prompt_question">
+    שאלה: %1$s
+</string>
+    <string name="gemini_chat_list_description">רשימת הודעות צ\'אט</string>
+
+
     <!-- Time remaining strings -->
     <string name="time_overdue">באיחור</string>
     <string name="time_now">עכשיו</string>
@@ -157,7 +172,7 @@
     <string name="no_issues">אין בעיות</string>
     <string name="vaccine_suggestions_title">הצעות לחיסונים</string>
     <string name="btn_vaccine_suggestions">קבל הצעות לחיסונים</string>
-    
+
     <!-- Vaccine Names -->
     <string name="vaccine_rabies">חיסון כלבת (Rabies)</string>
     <string name="vaccine_rabies_cat">חיסון כלבת לחתולים (Rabies Cat)</string>
@@ -170,7 +185,7 @@
     <string name="vaccine_kennel_cough">חיסון נגד שיעול המלונה (Kennel Cough)</string>
     <string name="vaccine_fleas_ticks">מניעת פרעושים וקרציות (Fleas &amp; Ticks)</string>
     <string name="vaccine_internal_parasites">טיפול נגד תולעים פנימיות (Internal Parasites)</string>
-    
+
     <!-- Vaccine Frequencies -->
     <string name="vaccine_freq_yearly">שנתי</string>
     <string name="vaccine_freq_2_years">כל 2 שנים</string>
@@ -179,7 +194,7 @@
     <string name="vaccine_freq_6_months">כל 6 חודשים</string>
     <string name="vaccine_freq_monthly">חודשי או לפי המלצת הווטרינר</string>
     <string name="vaccine_freq_3_6_months">כל 3-6 חודשים</string>
-    
+
     <!-- Vaccine Descriptions -->
     <string name="vaccine_desc_rabies_cat">חיסון חיוני לחתולים שיוצאים החוצה. כלבת היא מחלה ויראלית קטלנית שיכולה להיות מועברת לבני אדם. נדרשת חיסון שנתי. מגן מפני וירוס קטלני זה הפוגע במערכת העצבים.</string>
     <string name="vaccine_desc_rabies_dog">חיסון חיוני לכל הכלבים. כלבת היא מחלה ויראלית קטלנית שיכולה להיות מועברת לבני אדם. מנה ראשונה כוללת השתלת שבב. נדרש על פי החוק הישראלי. מגן מפני וירוס קטלני זה הפוגע במערכת העצבים.</string>
@@ -193,7 +208,7 @@
     <string name="vaccine_desc_fleas_ticks_dog">מגן מפני התקפות שגורמות לגירוי עור, אנמיה והעברת מחלות (למשל, ארליכיוזיס מקרציות).</string>
     <string name="vaccine_desc_internal_parasites_cat">מונע תולעים מעיים שיכולות לגרום לירידה במשקל, הקאות ושלשול.</string>
     <string name="vaccine_desc_internal_parasites_dog">מונע תולעים עגולות, תולעי סרט, תולעי קרס ותולעים מעיים אחרות.</string>
-    
+
     <!-- Side Effects -->
     <string name="vaccine_side_lethargy">עייפות</string>
     <string name="vaccine_side_mild_fever">חום קל</string>
@@ -202,7 +217,7 @@
     <string name="vaccine_side_diarrhea">שלשול</string>
     <string name="vaccine_side_nausea">בחילה</string>
     <string name="vaccine_side_sneezing">התעטשות</string>
-    
+
     <!-- Common Treatments -->
     <string name="vaccine_treatment_advantage">אדוונטג\'</string>
     <string name="vaccine_treatment_frontline">פרונטליין</string>
@@ -216,7 +231,7 @@
     <string name="vaccine_treatment_milbemax">מילבמקס</string>
     <string name="vaccine_treatment_vet_prescribed">אפשרויות במרשם וטרינר</string>
     <string name="vaccine_treatment_vet_prescribed_meds">תרופות במרשם וטרינר</string>
-    
+
     <!-- Age Information -->
     <string name="vaccine_age_4_months">4 חודשים</string>
     <string name="vaccine_age_3_months">3 חודשים</string>

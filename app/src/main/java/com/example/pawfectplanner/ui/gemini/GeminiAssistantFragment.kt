@@ -13,12 +13,19 @@ import com.example.pawfectplanner.databinding.FragmentGeminiAssistantBinding
 class GeminiAssistantFragment : Fragment() {
     private var _binding: FragmentGeminiAssistantBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: GeminiAssistantViewModel by viewModels {
         GeminiAssistantViewModelFactory()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentGeminiAssistantBinding.inflate(inflater, container, false).also { _binding = it }.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = FragmentGeminiAssistantBinding
+        .inflate(inflater, container, false)
+        .also { _binding = it }
+        .root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = ChatAdapter()
@@ -30,23 +37,34 @@ class GeminiAssistantFragment : Fragment() {
                 ?.toString()
                 ?.trim()
                 ?.takeIf { it.isNotEmpty() }
-                ?.let {
-                    viewModel.sendMessage(it)
+                ?.let { question ->
+                    viewModel.sendMessage(question)
                     binding.inputMessage.text?.clear()
                 }
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            binding.progressIndicator.visibility = if (it) View.VISIBLE else View.GONE
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            binding.progressIndicator.visibility = if (loading) View.VISIBLE else View.GONE
         }
 
-        viewModel.chatMessages.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            binding.rvChat.scrollToPosition(it.lastIndex)
+        viewModel.chatMessages.observe(viewLifecycleOwner) { pairs ->
+            val messages = pairs.map { (text, isUser) ->
+                ChatMessage(text = text, isUser = isUser)
+            }
+            adapter.submitList(messages)
+            if (messages.isNotEmpty()) {
+                binding.rvChat.scrollToPosition(messages.lastIndex)
+            }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
-            it?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() }
+        viewModel.error.observe(viewLifecycleOwner) { err ->
+            err?.let {
+                Toast.makeText(
+                    requireContext(),
+                    it,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

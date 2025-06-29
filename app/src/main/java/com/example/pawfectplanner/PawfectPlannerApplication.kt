@@ -16,10 +16,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PawfectPlannerApplication : Application() {
+
+    companion object {
+        lateinit var instance: PawfectPlannerApplication
+            private set
+    }
+
     lateinit var database: AppDatabase
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
 
         FirebaseApp.initializeApp(this)
         RemoteConfigManager.init()
