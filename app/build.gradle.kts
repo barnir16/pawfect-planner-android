@@ -74,4 +74,6 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:1.15.0")
     implementation ("com.squareup.moshi:moshi-kotlin:1.15.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation ("io.noties.markwon:core:4.6.2")
+    implementation ("io.noties.markwon:html:4.6.2")
 }
