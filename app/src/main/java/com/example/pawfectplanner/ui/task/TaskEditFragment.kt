@@ -3,7 +3,6 @@ package com.example.pawfectplanner.ui.task
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +13,6 @@ import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.data.model.Task
-import com.example.pawfectplanner.data.model.Vaccine
 import com.example.pawfectplanner.data.repository.BreedsRepository
 import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.data.repository.TaskRepository
@@ -28,7 +26,6 @@ import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
-import com.example.pawfectplanner.ui.task.VaccineSuggestionDialog
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -230,10 +227,8 @@ class TaskEditFragment : Fragment() {
         val title = binding.inputTitle.text.toString().trim()
         val repeatInterval = binding.inputRepeatInterval.text.toString().trim()
         
-        // Clear previous errors
         binding.tilTitle.error = null
         
-        // Real-time validation
         if (title.isEmpty()) {
             binding.tilTitle.error = getString(R.string.field_required)
         }
@@ -253,13 +248,11 @@ class TaskEditFragment : Fragment() {
             return
         }
 
-        // Use the proper VaccineSuggestionDialog with autocomplete functionality
         val dialog = VaccineSuggestionDialog.newInstance(assignedPets) { vaccine ->
             val vaccineInfo = "${vaccine.name} - ${vaccine.frequency}\n${vaccine.description}"
             binding.inputDescription.setText(vaccineInfo)
             binding.inputTitle.setText("${vaccine.name} - ${vaccine.frequency}")
             
-            // Parse frequency and set repeat interval and unit
             parseAndSetFrequency(vaccine.frequency)
             
             validateFormRealTime()

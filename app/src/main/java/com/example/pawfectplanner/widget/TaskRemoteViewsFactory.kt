@@ -5,28 +5,24 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.example.pawfectplanner.MainActivity
+import com.example.pawfectplanner.ui.MainActivity
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.model.Task
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
-import java.util.concurrent.TimeUnit
 
 class TaskRemoteViewsFactory(private val context: Context) : RemoteViewsService.RemoteViewsFactory {
     private var tasks: List<Task> = emptyList()
 
     override fun onCreate() {
-        // Load tasks here (from DB, SharedPreferences, etc.)
         tasks = loadTasks(context)
     }
 
     override fun onDataSetChanged() {
-        // This is called when the widget needs to refresh its data
         tasks = loadTasks(context)
     }
 
     override fun onDestroy() {
-        // Clean up resources if needed
         tasks = emptyList()
     }
 
@@ -39,11 +35,9 @@ class TaskRemoteViewsFactory(private val context: Context) : RemoteViewsService.
             val task = tasks[position]
             views.setTextViewText(R.id.widget_task_item_text, task.title)
             
-            // Calculate and display time remaining
             val timeRemaining = calculateTimeRemaining(task.dateTime)
             views.setTextViewText(R.id.widget_task_item_time, timeRemaining)
-            
-            // Set click intent
+
             val intent = Intent(context, MainActivity::class.java).apply {
                 putExtra("task_id", task.id)
                 putExtra("open_tasks", true)
@@ -55,7 +49,6 @@ class TaskRemoteViewsFactory(private val context: Context) : RemoteViewsService.
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
-            // Set click on the entire item container
             views.setOnClickPendingIntent(R.id.widget_task_item_container, pendingIntent)
         }
         
@@ -75,10 +68,8 @@ class TaskRemoteViewsFactory(private val context: Context) : RemoteViewsService.
                 "pawfect_planner_db"
             ).allowMainThreadQueries().build()
             
-            // Get tasks and sort them by date/time
             db.taskDao().getAllTasksSync().sortedBy { it.dateTime }
         } catch (e: Exception) {
-            // Return empty list if database access fails
             emptyList()
         }
     }
@@ -86,7 +77,6 @@ class TaskRemoteViewsFactory(private val context: Context) : RemoteViewsService.
     private fun calculateTimeRemaining(taskDateTime: LocalDateTime): String {
         val now = LocalDateTime.now()
         
-        // If task is in the past, show "Overdue"
         if (taskDateTime.isBefore(now)) {
             return context.getString(R.string.time_overdue)
         }

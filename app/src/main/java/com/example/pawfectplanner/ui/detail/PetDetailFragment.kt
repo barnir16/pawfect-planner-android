@@ -53,10 +53,8 @@ class PetDetailFragment : Fragment() {
             if (pet != null) {
                 setupPetDetails(pet)
                 
-                // Hide breed card initially
                 binding.breedInfoCard.visibility = View.GONE
 
-                // Get API keys from ApiKeyManager
                 val dogApiKey = ApiKeyManager.petsApiKey ?: ""
                 val catApiKey = ApiKeyManager.petsApiKey ?: ""
 
@@ -67,7 +65,6 @@ class PetDetailFragment : Fragment() {
                     viewModel.fetchCatBreed(pet.breed, catApiKey)
                     observeCatBreed(pet.weightKg)
                 }
-                // For other pet types, the breed card remains hidden
             }
         }
     }
@@ -125,7 +122,6 @@ class PetDetailFragment : Fragment() {
             getString(R.string.label_age_only, pet.age)
         }
 
-        // Load pet image
         if (!pet.photoUri.isNullOrEmpty()) {
             try {
                 Glide.with(this)
@@ -141,14 +137,12 @@ class PetDetailFragment : Fragment() {
             binding.ivPetPhoto.setImageResource(R.drawable.ic_photo_placeholder)
         }
 
-        // Display health issues
         binding.tvHealthIssues.text = if (pet.healthIssues.isEmpty()) {
             getString(R.string.no_issues)
         } else {
             pet.healthIssues.joinToString("\n") { getString(R.string.label_bullet_item, it) }
         }
 
-        // Display behavior issues
         binding.tvBehaviorIssues.text = if (pet.behaviorIssues.isEmpty()) {
             getString(R.string.no_issues)
         } else {

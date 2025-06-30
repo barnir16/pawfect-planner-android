@@ -8,7 +8,6 @@ class VaccineLocalizedRepository(private val context: Context) {
     
     fun getCatVaccines(): List<Vaccine> {
         return listOf(
-            // Mandatory vaccines
             Vaccine(
                 name = context.getString(R.string.vaccine_rabies_cat),
                 frequency = context.getString(R.string.vaccine_freq_yearly),
@@ -20,7 +19,6 @@ class VaccineLocalizedRepository(private val context: Context) {
                 ),
                 lastUpdated = "2025-01-01"
             ),
-            // Recommended vaccines
             Vaccine(
                 name = context.getString(R.string.vaccine_quadrivalent),
                 frequency = context.getString(R.string.vaccine_freq_yearly),
@@ -37,7 +35,6 @@ class VaccineLocalizedRepository(private val context: Context) {
     
     fun getDogVaccines(): List<Vaccine> {
         return listOf(
-            // Mandatory vaccines
             Vaccine(
                 name = context.getString(R.string.vaccine_rabies_dog),
                 frequency = context.getString(R.string.vaccine_freq_2_years),
@@ -49,7 +46,6 @@ class VaccineLocalizedRepository(private val context: Context) {
                 ),
                 lastUpdated = "2025-01-01"
             ),
-            // Recommended vaccines
             Vaccine(
                 name = context.getString(R.string.vaccine_hexavalent),
                 frequency = context.getString(R.string.vaccine_freq_yearly),

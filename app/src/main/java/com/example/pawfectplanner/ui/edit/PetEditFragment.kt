@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -79,7 +78,6 @@ class PetEditFragment : Fragment() {
                 val selectedType = types[pos]
                 binding.tilCustomType.isVisible = selectedType == "Other"
                 
-                // Get API keys from ApiKeyManager
                 val dogApiKey = ApiKeyManager.petsApiKey ?: ""
                 val catApiKey = ApiKeyManager.petsApiKey ?: ""
                 viewModel.fetchBreeds(selectedType, dogApiKey, catApiKey)
@@ -182,7 +180,6 @@ class PetEditFragment : Fragment() {
             ?: LocalDate.now().minusYears(selectedAge?.toLong() ?: 0)
         val age = selectedAge ?: Period.between(birthDate, LocalDate.now()).years
 
-        // Validate required fields
         val missingFields = mutableListOf<String>()
         
         if (name.isEmpty()) {

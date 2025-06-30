@@ -1,11 +1,14 @@
-package com.example.pawfectplanner
+package com.example.pawfectplanner.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.example.pawfectplanner.R
 import com.example.pawfectplanner.databinding.ActivityMainBinding
 import com.example.pawfectplanner.util.LocaleHelper
 
@@ -14,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var b: ActivityMainBinding
     private lateinit var appBarCfg: AppBarConfiguration
 
-    override fun attachBaseContext(newBase: android.content.Context?) {
+    override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.let { LocaleHelper.setLocale(it) })
     }
 
@@ -47,26 +50,26 @@ class MainActivity : AppCompatActivity() {
             if (handled) b.drawerLayout.closeDrawer(GravityCompat.START)
             handled
         }
-        
+
         // Handle widget clicks
         handleWidgetIntent(intent)
     }
-    
-    override fun onNewIntent(intent: android.content.Intent?) {
+
+    override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         handleWidgetIntent(intent)
     }
-    
-    private fun handleWidgetIntent(intent: android.content.Intent?) {
+
+    private fun handleWidgetIntent(intent: Intent?) {
         intent?.let {
             if (it.getBooleanExtra("open_tasks", false)) {
                 val navHostFragment = supportFragmentManager
                     .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
                 val navController = navHostFragment.navController
-                
+
                 // Navigate to tasks fragment
                 navController.navigate(R.id.taskListFragment)
-                
+
                 // If a specific task was clicked, navigate to its detail
                 val taskId = it.getLongExtra("task_id", -1)
                 if (taskId != -1L) {

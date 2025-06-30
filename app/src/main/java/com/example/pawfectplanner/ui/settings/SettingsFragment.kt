@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import com.example.pawfectplanner.MainActivity
+import com.example.pawfectplanner.ui.MainActivity
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.util.LocaleHelper
 
@@ -45,7 +45,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val languages = resources.getStringArray(R.array.language_entries)
         val languageValues = resources.getStringArray(R.array.language_values)
         
-        // Get current language to pre-select it
         val currentLanguage = LocaleHelper.getCurrentLanguage(requireContext())
         val currentIndex = languageValues.indexOf(currentLanguage)
         
@@ -54,10 +53,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             .setSingleChoiceItems(languages, currentIndex) { dialog, which ->
                 val selectedLanguage = languageValues[which]
                 if (selectedLanguage != currentLanguage) {
-                    // Apply the new locale
                     LocaleHelper.setNewLocale(requireContext(), selectedLanguage)
                     
-                    // Restart the activity to apply the language change
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

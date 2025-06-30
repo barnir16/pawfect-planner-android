@@ -10,7 +10,7 @@
 
     <Preference
         android:key="dark_mode"
-        android:title="Toggle Dark Mode"
+        android:title="@string/pref_dark_mode"
         android:layout="@layout/preference_card_list"/>
 
     <Preference
