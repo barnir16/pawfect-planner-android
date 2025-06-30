@@ -1,6 +1,9 @@
 package com.example.pawfectplanner.ui.gemini
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.data.repository.GeminiRepository
 import com.example.pawfectplanner.data.repository.PetRepository
@@ -29,8 +32,8 @@ class GeminiAssistantViewModel(
         viewModelScope.launch {
             try {
                 val pets = petRepository.allPets.first()
-                val petContext = buildPetContext(pets)
-                val response = geminiRepository.sendMessage(userInput, petContext)
+                val context = buildPetContext(pets)
+                val response = geminiRepository.sendMessage(userInput, context)
                 addMessage(response, isUser = false)
             } catch (e: Exception) {
                 _error.value = "Failed to process message."
@@ -41,21 +44,25 @@ class GeminiAssistantViewModel(
     }
 
     private fun addMessage(message: String, isUser: Boolean) {
-        val updated = _chatMessages.value.orEmpty() + Pair(message, isUser)
+        val updated = _chatMessages.value.orEmpty() + (message to isUser)
         _chatMessages.value = updated
     }
 
     private fun buildPetContext(pets: List<Pet>): String {
         if (pets.isEmpty()) return "The user has not added any pets yet."
 
-        return pets.joinToString(separator = "\n\n") { pet ->
+        return pets.joinToString("\n\n") { pet ->
             buildString {
                 append("Pet name: ${pet.name}. ")
                 append("Breed: ${pet.breedType} - ${pet.breed}. ")
-                if (pet.age > 0) append("Age: ${pet.age} years. ")
+                pet.age?.takeIf { it > 0 }?.let { append("Age: $it years. ") }
                 pet.weightKg?.let { append("Weight: $it kg. ") }
-                if (pet.healthIssues.isNotEmpty()) append("Health issues: ${pet.healthIssues.joinToString()}. ")
-                if (pet.behaviorIssues.isNotEmpty()) append("Behavior issues: ${pet.behaviorIssues.joinToString()}. ")
+                if (pet.healthIssues.isNotEmpty()) {
+                    append("Health issues: ${pet.healthIssues.joinToString()}. ")
+                }
+                if (pet.behaviorIssues.isNotEmpty()) {
+                    append("Behavior issues: ${pet.behaviorIssues.joinToString()}. ")
+                }
             }.trim()
         }
     }

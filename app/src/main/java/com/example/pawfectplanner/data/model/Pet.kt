@@ -11,7 +11,7 @@ data class Pet(
     val breedType: String,
     val breed: String,
     val birthDate: LocalDate?,
-    val age: Int,
+    val age: Int?,
     val isBirthdayGiven: Boolean = birthDate != null,
     val weightKg: Double? = null,
     val photoUri: String? = null,

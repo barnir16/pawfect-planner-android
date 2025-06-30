@@ -1,11 +1,17 @@
 package com.example.pawfectplanner.network
 
+import com.example.pawfectplanner.util.Weight
+import com.squareup.moshi.Json
+
 data class BreedInfoResponse(
     val id: Int,
     val name: String,
-    val life_span: String?,
+    @Json(name = "life_span")
+    val lifeSpan: String?,
     val temperament: String?,
     val weight: Weight?,
-    val bred_for: String?,
-    val breed_group: String?
-) 
+    @Json(name = "bred_for")
+    val bredFor: String?,
+    @Json(name = "breed_group")
+    val breedGroup: String?
+)

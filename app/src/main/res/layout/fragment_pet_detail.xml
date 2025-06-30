@@ -3,33 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data/>
-    
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal">
-
-            <!-- Pet Image Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
                     android:padding="24dp">
-
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ivPetPhoto"
                         android:layout_width="120dp"
@@ -39,8 +33,7 @@
                         android:background="@color/gray_light"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.PawfectPlanner.Circle"
                         android:src="@drawable/ic_photo_placeholder"
-                        android:contentDescription="@string/pet_photo_description" />
-
+                        android:contentDescription="@string/pet_photo_description"/>
                     <TextView
                         android:id="@+id/tvPetName"
                         android:layout_width="wrap_content"
@@ -50,7 +43,6 @@
                         android:textStyle="bold"
                         android:gravity="center"
                         android:layout_marginBottom="8dp"/>
-
                     <TextView
                         android:id="@+id/tvPetBreed"
                         android:layout_width="wrap_content"
@@ -59,24 +51,19 @@
                         android:textColor="?attr/colorOnSurface"
                         android:gravity="center"
                         android:layout_marginBottom="4dp"/>
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- Pet Details Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="20dp">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -85,7 +72,6 @@
                         android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold"
                         android:layout_marginBottom="16dp"/>
-
                     <TextView
                         android:id="@+id/tvPetBirth"
                         android:layout_width="match_parent"
@@ -94,22 +80,26 @@
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="16dp"
                         android:drawablePadding="12dp"/>
-
-                    <!-- Issues Section -->
+                    <TextView
+                        android:id="@+id/tvPetWeightProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?attr/colorOnSurface"
+                        android:visibility="gone"
+                        android:layout_marginBottom="16dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:baselineAligned="false"
                         android:orientation="horizontal"
                         android:weightSum="2">
-
-                        <!-- Health Issues -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:layout_marginEnd="8dp">
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -118,7 +108,6 @@
                                 android:textColor="?attr/colorOnSurface"
                                 android:textStyle="bold"
                                 android:layout_marginBottom="8dp"/>
-
                             <TextView
                                 android:id="@+id/tvHealthIssues"
                                 android:layout_width="match_parent"
@@ -127,17 +116,13 @@
                                 android:textColor="?attr/colorOnSurface"
                                 android:lineSpacingExtra="4dp"
                                 android:minHeight="40dp"/>
-
                         </LinearLayout>
-
-                        <!-- Behavior Issues -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:layout_marginStart="8dp">
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -146,7 +131,6 @@
                                 android:textColor="?attr/colorOnSurface"
                                 android:textStyle="bold"
                                 android:layout_marginBottom="8dp"/>
-
                             <TextView
                                 android:id="@+id/tvBehaviorIssues"
                                 android:layout_width="match_parent"
@@ -155,15 +139,10 @@
                                 android:textColor="?attr/colorOnSurface"
                                 android:lineSpacingExtra="4dp"
                                 android:minHeight="40dp"/>
-
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- Breed Information Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/breedInfoCard"
                 android:layout_width="match_parent"
@@ -171,13 +150,11 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="20dp">
-
                     <TextView
                         android:id="@+id/breedInfoTitle"
                         android:layout_width="wrap_content"
@@ -187,8 +164,6 @@
                         android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold"
                         android:layout_marginBottom="16dp"/>
-
-                    <!-- Life Span -->
                     <LinearLayout
                         android:id="@+id/labelLifeSpan"
                         android:layout_width="match_parent"
@@ -196,7 +171,6 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
                         android:visibility="gone">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -205,7 +179,6 @@
                             android:textColor="?attr/colorOnSurface"
                             android:textStyle="bold"
                             android:layout_marginEnd="8dp"/>
-
                         <TextView
                             android:id="@+id/breedLifeSpan"
                             android:layout_width="0dp"
@@ -213,10 +186,7 @@
                             android:layout_weight="1"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?attr/colorOnSurface"/>
-
                     </LinearLayout>
-
-                    <!-- Weight -->
                     <LinearLayout
                         android:id="@+id/labelWeight"
                         android:layout_width="match_parent"
@@ -224,7 +194,6 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
                         android:visibility="gone">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -233,7 +202,6 @@
                             android:textColor="?attr/colorOnSurface"
                             android:textStyle="bold"
                             android:layout_marginEnd="8dp"/>
-
                         <TextView
                             android:id="@+id/breedWeight"
                             android:layout_width="0dp"
@@ -241,10 +209,7 @@
                             android:layout_weight="1"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?attr/colorOnSurface"/>
-
                     </LinearLayout>
-
-                    <!-- Temperament -->
                     <LinearLayout
                         android:id="@+id/labelTemperament"
                         android:layout_width="match_parent"
@@ -252,7 +217,6 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
                         android:visibility="gone">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -261,7 +225,6 @@
                             android:textColor="?attr/colorOnSurface"
                             android:textStyle="bold"
                             android:layout_marginEnd="8dp"/>
-
                         <TextView
                             android:id="@+id/breedTemperament"
                             android:layout_width="0dp"
@@ -269,10 +232,7 @@
                             android:layout_weight="1"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?attr/colorOnSurface"/>
-
                     </LinearLayout>
-
-                    <!-- Breed Group -->
                     <LinearLayout
                         android:id="@+id/labelBreedGroup"
                         android:layout_width="match_parent"
@@ -280,7 +240,6 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
                         android:visibility="gone">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -289,7 +248,6 @@
                             android:textColor="?attr/colorOnSurface"
                             android:textStyle="bold"
                             android:layout_marginEnd="8dp"/>
-
                         <TextView
                             android:id="@+id/breedGroup"
                             android:layout_width="0dp"
@@ -297,10 +255,7 @@
                             android:layout_weight="1"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?attr/colorOnSurface"/>
-
                     </LinearLayout>
-
-                    <!-- Bred For -->
                     <LinearLayout
                         android:id="@+id/labelBredFor"
                         android:layout_width="match_parent"
@@ -308,7 +263,6 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
                         android:visibility="gone">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -317,7 +271,6 @@
                             android:textColor="?attr/colorOnSurface"
                             android:textStyle="bold"
                             android:layout_marginEnd="8dp"/>
-
                         <TextView
                             android:id="@+id/breedBredFor"
                             android:layout_width="0dp"
@@ -325,10 +278,7 @@
                             android:layout_weight="1"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?attr/colorOnSurface"/>
-
                     </LinearLayout>
-
-                    <!-- Weight Error -->
                     <TextView
                         android:id="@+id/tvWeightError"
                         android:layout_width="match_parent"
@@ -338,18 +288,14 @@
                         android:textColor="@color/error_color"
                         android:visibility="gone"
                         android:layout_marginTop="8dp"/>
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- Action Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:weightSum="2">
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnEdit"
                     style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -358,8 +304,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     android:text="@string/action_edit_pet"
-                    app:icon="@drawable/ic_edit" />
-
+                    app:icon="@drawable/ic_edit"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"
                     style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -368,8 +313,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="@string/action_delete_pet"
-                    app:icon="@drawable/ic_delete" />
-
+                    app:icon="@drawable/ic_delete"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

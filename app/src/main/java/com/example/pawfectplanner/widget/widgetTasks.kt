@@ -7,9 +7,6 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.example.pawfectplanner.R
 
-/**
- * Implementation of App Widget functionality.
- */
 class widget_tasks : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,

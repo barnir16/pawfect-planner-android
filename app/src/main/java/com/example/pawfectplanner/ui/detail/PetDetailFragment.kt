@@ -25,85 +25,38 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.example.pawfectplanner.util.ApiKeyManager
+import androidx.core.net.toUri
 
-class PetDetailFragment : Fragment() {
+class PetDetailFragment : Fragment(R.layout.fragment_pet_detail) {
     private var _binding: FragmentPetDetailBinding? = null
     private val binding get() = _binding!!
     private val args: PetDetailFragmentArgs by navArgs()
     private lateinit var viewModel: PetViewModel
 
-    override fun onCreateView(inflater: android.view.LayoutInflater, container: android.view.ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentPetDetailBinding.inflate(inflater, container, false).also { _binding = it }.root
-
-    override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        _binding = FragmentPetDetailBinding.bind(view)
         val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
         val breedsRepository = BreedsRepository(
             DogApiClient.retrofit.create(BreedsDogApiService::class.java),
             CatApiClient.retrofit.create(BreedsCatApiService::class.java)
         )
-
         viewModel = ViewModelProvider(
             this,
             PetViewModelFactory(PetRepository(dao), breedsRepository)
         )[PetViewModel::class.java]
 
         viewModel.allPets.observe(viewLifecycleOwner) { list ->
-            val pet = list.firstOrNull { it.id == args.petId }
-
-            if (pet != null) {
+            list.firstOrNull { it.id == args.petId }?.let { pet ->
                 setupPetDetails(pet)
-                
                 binding.breedInfoCard.visibility = View.GONE
-
                 val dogApiKey = ApiKeyManager.petsApiKey ?: ""
                 val catApiKey = ApiKeyManager.petsApiKey ?: ""
-
-                if (pet.breedType.equals("Dog", ignoreCase = true)) {
+                if (pet.breedType.equals("Dog", true)) {
                     viewModel.fetchDogBreed(pet.breed, dogApiKey)
                     observeDogBreed(pet.weightKg)
-                } else if (pet.breedType.equals("Cat", ignoreCase = true)) {
+                } else if (pet.breedType.equals("Cat", true)) {
                     viewModel.fetchCatBreed(pet.breed, catApiKey)
                     observeCatBreed(pet.weightKg)
-                }
-            }
-        }
-    }
-
-    private fun observeDogBreed(userWeight: Double?) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.dogBreed.collectLatest { info ->
-                if (info != null) {
-                    binding.breedInfoCard.visibility = View.VISIBLE
-                    bindBreedInfo(
-                        lifeSpan = info.life_span,
-                        weight = info.weight?.metric,
-                        temperament = info.temperament,
-                        breedGroup = info.breed_group,
-                        bredFor = info.bred_for,
-                        userWeight = userWeight
-                    )
-                } else {
-                    binding.breedInfoCard.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-    private fun observeCatBreed(userWeight: Double?) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.catBreed.collectLatest { info ->
-                if (info != null) {
-                    binding.breedInfoCard.visibility = View.VISIBLE
-                    bindBreedInfo(
-                        lifeSpan = info.life_span,
-                        weight = info.weight?.metric,
-                        temperament = info.temperament,
-                        breedGroup = info.origin,
-                        bredFor = null,
-                        userWeight = userWeight
-                    )
-                } else {
-                    binding.breedInfoCard.visibility = View.GONE
                 }
             }
         }
@@ -114,18 +67,33 @@ class PetDetailFragment : Fragment() {
         binding.tvPetBreed.text = pet.breed
         binding.breedInfoTitle.text = getString(R.string.breed_info_title, pet.breed)
 
-        binding.tvPetBirth.text = if (pet.isBirthdayGiven && pet.birthDate != null) {
-            val bd = getString(R.string.label_birthday, pet.birthDate.toString())
-            val ag = getString(R.string.label_age_only, pet.age)
-            getString(R.string.label_birthday_age, bd, ag)
-        } else {
-            getString(R.string.label_age_only, pet.age)
+        when {
+            pet.isBirthdayGiven && pet.birthDate != null -> {
+                val bd = getString(R.string.label_birthday, pet.birthDate.toString())
+                val ag = getString(R.string.label_age_only, pet.age)
+                binding.tvPetBirth.visibility = View.VISIBLE
+                binding.tvPetBirth.text = getString(R.string.label_birthday_age, bd, ag)
+            }
+            pet.age != null && pet.age > 0 -> {
+                binding.tvPetBirth.visibility = View.VISIBLE
+                binding.tvPetBirth.text = getString(R.string.label_age_only, pet.age)
+            }
+            else -> {
+                binding.tvPetBirth.visibility = View.GONE
+            }
+        }
+
+        pet.weightKg?.let {
+            binding.tvPetWeightProfile.visibility = View.VISIBLE
+            binding.tvPetWeightProfile.text = getString(R.string.label_pet_weight, it)
+        } ?: run {
+            binding.tvPetWeightProfile.visibility = View.GONE
         }
 
         if (!pet.photoUri.isNullOrEmpty()) {
             try {
                 Glide.with(this)
-                    .load(Uri.parse(pet.photoUri))
+                    .load(pet.photoUri.toUri())
                     .placeholder(R.drawable.ic_photo_placeholder)
                     .error(R.drawable.ic_photo_placeholder)
                     .centerCrop()
@@ -150,7 +118,10 @@ class PetDetailFragment : Fragment() {
         }
 
         binding.btnEdit.setOnClickListener {
-            findNavController().navigate(PetDetailFragmentDirections.actionPetDetailFragmentToPetEditFragment(pet.id))
+            findNavController().navigate(
+                PetDetailFragmentDirections
+                    .actionPetDetailFragmentToPetEditFragment(pet.id)
+            )
         }
         binding.btnDelete.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
@@ -162,6 +133,46 @@ class PetDetailFragment : Fragment() {
                 }
                 .setNegativeButton(R.string.cancel, null)
                 .show()
+        }
+    }
+
+    private fun observeDogBreed(userWeight: Double?) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.dogBreed.collectLatest { info ->
+                if (info != null) {
+                    binding.breedInfoCard.visibility = View.VISIBLE
+                    bindBreedInfo(
+                        lifeSpan = info.lifeSpan,
+                        weight = info.weight?.metric,
+                        temperament = info.temperament,
+                        breedGroup = info.breedGroup,
+                        bredFor = info.bredFor,
+                        userWeight = userWeight
+                    )
+                } else {
+                    binding.breedInfoCard.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    private fun observeCatBreed(userWeight: Double?) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.catBreed.collectLatest { info ->
+                if (info != null) {
+                    binding.breedInfoCard.visibility = View.VISIBLE
+                    bindBreedInfo(
+                        lifeSpan = info.lifeSpan,
+                        weight = info.weight?.metric,
+                        temperament = info.temperament,
+                        breedGroup = info.origin,
+                        bredFor = null,
+                        userWeight = userWeight
+                    )
+                } else {
+                    binding.breedInfoCard.visibility = View.GONE
+                }
+            }
         }
     }
 
@@ -177,24 +188,20 @@ class PetDetailFragment : Fragment() {
         showOrHide(binding.labelWeight, binding.breedWeight, weight?.let { "$it kg" })
         showOrHide(binding.labelTemperament, binding.breedTemperament, temperament)
         showOrHide(binding.labelBreedGroup, binding.breedGroup, breedGroup)
-
         if (bredFor != null) {
             showOrHide(binding.labelBredFor, binding.breedBredFor, bredFor)
         } else {
             binding.labelBredFor.visibility = View.GONE
             binding.breedBredFor.visibility = View.GONE
         }
-
-        userWeight?.let {
-            checkWeight(it, weight)
-        }
+        userWeight?.let { checkWeight(it, weight) }
     }
 
     private fun showOrHide(label: View, valueView: TextView, value: String?) {
         if (!value.isNullOrEmpty()) {
-            valueView.text = value
             label.visibility = View.VISIBLE
             valueView.visibility = View.VISIBLE
+            valueView.text = value
         } else {
             label.visibility = View.GONE
             valueView.visibility = View.GONE
@@ -210,23 +217,16 @@ class PetDetailFragment : Fragment() {
             showWeightError(true)
             return
         }
-
-        val numbers = apiWeight.split("-").map { it.trim().toDoubleOrNull() }.filterNotNull()
-
+        val numbers = apiWeight
+            .split("-")
+            .mapNotNull { it.trim().toDoubleOrNull() }
         if (numbers.isEmpty()) {
             showWeightError(true)
             return
         }
-
-        if (numbers.size == 1) {
-            val exact = numbers[0]
-            val margin = exact * 0.2
-            showWeightError(userWeight !in (exact - margin)..(exact + margin))
-        } else if (numbers.size == 2) {
-            val min = numbers.minOrNull()!!
-            val max = numbers.maxOrNull()!!
-            showWeightError(userWeight !in min..max)
-        }
+        val min = numbers.minOrNull()!!
+        val max = numbers.maxOrNull()!!
+        showWeightError(userWeight < min || userWeight > max)
     }
 
     override fun onDestroyView() {

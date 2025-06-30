@@ -39,18 +39,15 @@ class TaskRepository(
             )
             
             if (appWidgetIds.isNotEmpty()) {
-                // Send broadcast to update widgets
                 val intent = Intent(context, widget_tasks::class.java).apply {
                     action = "com.example.pawfectplanner.ACTION_TASK_UPDATED"
                     putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
                 }
                 context.sendBroadcast(intent)
                 
-                // Also force update immediately using the modern approach
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_task_list)
             }
         } catch (e: Exception) {
-            // Log error but don't crash
             e.printStackTrace()
         }
     }

@@ -20,14 +20,12 @@
                 android:layout_marginBottom="8dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp"
                     android:gravity="center">
-
                     <ImageView
                         android:id="@+id/imgPetPhoto"
                         android:layout_width="160dp"
@@ -35,8 +33,7 @@
                         android:contentDescription="@string/action_upload_pet_picture"
                         android:scaleType="centerCrop"
                         android:background="@drawable/ic_photo_placeholder"
-                        android:padding="8dp"/>
-
+                        android:padding="8dp" />
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnPickImage"
                         style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -45,7 +42,6 @@
                         android:layout_marginTop="12dp"
                         android:text="@string/action_upload_pet_picture"
                         app:icon="@drawable/ic_add" />
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -84,14 +80,12 @@
                 android:layout_marginBottom="8dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="12dp"
                     android:gravity="center_vertical">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -100,7 +94,6 @@
                         android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold"
                         android:layout_marginEnd="12dp" />
-
                     <Spinner
                         android:id="@+id/spinnerPetType"
                         style="@style/Widget.PawfectPlanner.Spinner"
@@ -108,7 +101,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:popupTheme="?attr/materialAlertDialogTheme" />
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -169,6 +161,34 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Custom-Breed Input (Hidden by default) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tilCustomBreed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_custom_breed"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCustomBreed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Weight Input (Optional) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -213,7 +233,6 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="8dp"
                 android:weightSum="2">
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddHealthIssue"
                     style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -223,7 +242,6 @@
                     android:layout_marginEnd="4dp"
                     android:text="@string/title_add_health_issue"
                     app:icon="@drawable/ic_add" />
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddBehaviorIssue"
                     style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -233,7 +251,6 @@
                     android:layout_marginStart="4dp"
                     android:text="@string/title_add_behavior_issue"
                     app:icon="@drawable/ic_add" />
-
             </LinearLayout>
 
             <!-- Chip Groups -->
@@ -242,20 +259,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="16dp">
-
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupHealth"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
-
-                <Space android:layout_width="8dp" android:layout_height="wrap_content"/>
-
+                    android:layout_height="wrap_content" />
+                <Space android:layout_width="8dp" android:layout_height="wrap_content" />
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupBehavior"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <!-- Save Button -->

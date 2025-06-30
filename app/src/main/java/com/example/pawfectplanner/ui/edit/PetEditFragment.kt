@@ -1,6 +1,7 @@
 package com.example.pawfectplanner.ui.edit
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -29,14 +31,13 @@ import com.example.pawfectplanner.network.CatApiClient
 import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
+import com.example.pawfectplanner.util.ApiKeyManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.Period
 import java.util.Calendar
-import com.example.pawfectplanner.util.ApiKeyManager
-import android.widget.Toast
 
 class PetEditFragment : Fragment() {
     private var _binding: FragmentPetEditBinding? = null
@@ -50,50 +51,56 @@ class PetEditFragment : Fragment() {
     private val healthIssues = mutableListOf<String>()
     private val behaviorIssues = mutableListOf<String>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentPetEditBinding.inflate(inflater, container, false).also { _binding = it }.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = FragmentPetEditBinding.inflate(inflater, container, false)
+        .also { _binding = it }
+        .root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
-        val breedsRepository = BreedsRepository(
+        val breedsRepo = BreedsRepository(
             DogApiClient.retrofit.create(BreedsDogApiService::class.java),
             CatApiClient.retrofit.create(BreedsCatApiService::class.java)
         )
-
         viewModel = ViewModelProvider(
             this,
-            PetViewModelFactory(PetRepository(dao), breedsRepository)
+            PetViewModelFactory(PetRepository(dao), breedsRepo)
         )[PetViewModel::class.java]
 
-        val types: List<String> = listOf("Dog", "Cat", "Other")
-
+        val entries = resources.getStringArray(R.array.pet_type_entries).toList()
+        val values = resources.getStringArray(R.array.pet_type_values).toList()
         binding.spinnerPetType.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
-            types
+            entries
         )
-
         binding.spinnerPetType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, v: View?, pos: Int, id: Long) {
-                val selectedType = types[pos]
+                val selectedType = values[pos]
                 binding.tilCustomType.isVisible = selectedType == "Other"
-                
-                val dogApiKey = ApiKeyManager.petsApiKey ?: ""
-                val catApiKey = ApiKeyManager.petsApiKey ?: ""
-                viewModel.fetchBreeds(selectedType, dogApiKey, catApiKey)
+                val dogKey = ApiKeyManager.petsApiKey.orEmpty()
+                val catKey = ApiKeyManager.petsApiKey.orEmpty()
+                viewModel.fetchBreeds(selectedType, dogKey, catKey)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
         lifecycleScope.launch {
             viewModel.breedList.collect { breeds ->
+                val withOther = breeds + getString(R.string.option_other_breed)
                 val adapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_dropdown_item_1line,
-                    breeds
+                    withOther
                 )
                 binding.etPetBreed.setAdapter(adapter)
+                binding.etPetBreed.setOnItemClickListener { _, _, pos, _ ->
+                    binding.tilCustomBreed.isVisible =
+                        withOther[pos] == getString(R.string.option_other_breed)
+                }
             }
         }
 
@@ -108,43 +115,48 @@ class PetEditFragment : Fragment() {
 
         binding.btnBirthdayAge.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
-                .setItems(arrayOf(getString(R.string.option_select_birthday), getString(R.string.option_enter_age))) { _, which ->
+                .setItems(
+                    arrayOf(
+                        getString(R.string.option_select_birthday),
+                        getString(R.string.option_enter_age)
+                    )
+                ) { _, which ->
                     if (which == 0) showDatePicker() else showAgeDialog()
                 }
                 .show()
         }
 
         setupIssuesButtons()
-
-        if (args.petId != -1) {
-            loadExistingPetData(types)
-        }
-
-        binding.btnSavePet.setOnClickListener {
-            savePet(types)
-        }
+        if (args.petId != -1) loadExistingPetData(values)
+        binding.btnSavePet.setOnClickListener { savePet(values) }
     }
 
-    private fun loadExistingPetData(types: List<String>) {
+    private fun loadExistingPetData(typeValues: List<String>) {
         viewModel.allPets.observe(viewLifecycleOwner) { list ->
             list.firstOrNull { it.id == args.petId }?.let { pet ->
                 binding.etPetName.setText(pet.name)
-                binding.etPetBreed.setText(pet.breed)
 
-                val pos = types.indexOf(pet.breedType).takeIf { it >= 0 } ?: 2
-                binding.spinnerPetType.setSelection(pos)
-                if (pos == 2) binding.etCustomType.setText(pet.breedType)
+                val ti = typeValues.indexOf(pet.breedType).takeIf { it >= 0 } ?: 2
+                binding.spinnerPetType.setSelection(ti)
+                if (ti == 2) binding.etCustomType.setText(pet.breedType)
 
-                binding.etPetWeight.setText(pet.weightKg?.toString() ?: "")
+                if (pet.breedListContains(pet.breed, requireContext())) {
+                    binding.etPetBreed.setText(pet.breed)
+                } else {
+                    binding.tilCustomBreed.isVisible = true
+                    binding.etCustomBreed.setText(pet.breed)
+                }
 
+                binding.etPetWeight.setText(pet.weightKg?.toString().orEmpty())
                 selectedBirthDate = pet.birthDate
                 selectedAge = pet.age
-
                 binding.btnBirthdayAge.text = when {
                     selectedBirthDate != null ->
                         getString(R.string.label_birthday, selectedBirthDate.toString())
-                    else ->
+                    selectedAge != null ->
                         getString(R.string.label_age_only, selectedAge)
+                    else ->
+                        getString(R.string.btn_birthday_age)
                 }
 
                 pet.photoUri?.let {
@@ -156,49 +168,53 @@ class PetEditFragment : Fragment() {
                 behaviorIssues.clear()
                 binding.chipGroupHealth.removeAllViews()
                 binding.chipGroupBehavior.removeAllViews()
-
-                pet.healthIssues.forEach { issue ->
-                    addChip(issue, healthIssues, binding.chipGroupHealth)
-                }
-
-                pet.behaviorIssues.forEach { issue ->
-                    addChip(issue, behaviorIssues, binding.chipGroupBehavior)
-                }
+                pet.healthIssues.forEach { addChip(it, healthIssues, binding.chipGroupHealth) }
+                pet.behaviorIssues.forEach { addChip(it, behaviorIssues, binding.chipGroupBehavior) }
             }
         }
     }
 
-    private fun savePet(types: List<String>) {
+    private fun savePet(typeValues: List<String>) {
         val name = binding.etPetName.text.toString().trim()
         val type = if (binding.tilCustomType.isVisible)
             binding.etCustomType.text.toString().trim()
         else
-            binding.spinnerPetType.selectedItem as String
-        val breed = binding.etPetBreed.text.toString().trim()
+            typeValues[binding.spinnerPetType.selectedItemPosition]
+        val breed = if (binding.tilCustomBreed.isVisible)
+            binding.etCustomBreed.text.toString().trim()
+        else
+            binding.etPetBreed.text.toString().trim()
         val weight = binding.etPetWeight.text.toString().toDoubleOrNull()
         val birthDate = selectedBirthDate
             ?: LocalDate.now().minusYears(selectedAge?.toLong() ?: 0)
         val age = selectedAge ?: Period.between(birthDate, LocalDate.now()).years
 
-        val missingFields = mutableListOf<String>()
-        
+        val missing = mutableListOf<String>()
         if (name.isEmpty()) {
-            binding.tilPetName.error = getString(R.string.field_required)
-            missingFields.add(getString(R.string.hint_pet_name))
+            binding.etPetName.error = getString(R.string.field_required)
+            missing += getString(R.string.hint_pet_name)
         } else {
-            binding.tilPetName.error = null
+            binding.etPetName.error = null
         }
-        
+
         if (breed.isEmpty()) {
-            binding.tilPetBreed.error = getString(R.string.field_required)
-            missingFields.add(getString(R.string.hint_pet_breed))
+            if (binding.tilCustomBreed.isVisible) {
+                binding.etCustomBreed.error = getString(R.string.field_required)
+            } else {
+                binding.etPetBreed.error = getString(R.string.field_required)
+            }
+            missing += getString(R.string.hint_pet_breed)
         } else {
-            binding.tilPetBreed.error = null
+            binding.etPetBreed.error = null
+            binding.etCustomBreed.error = null
         }
-        
-        if (missingFields.isNotEmpty()) {
-            val message = getString(R.string.toast_missing_fields, missingFields.joinToString(", "))
-            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+
+        if (missing.isNotEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.toast_missing_fields, missing.joinToString(", ")),
+                Toast.LENGTH_LONG
+            ).show()
             return
         }
 
@@ -227,14 +243,14 @@ class PetEditFragment : Fragment() {
             { _, y, m, d ->
                 selectedBirthDate = LocalDate.of(y, m + 1, d)
                 selectedAge = null
-                binding.btnBirthdayAge.text = getString(R.string.label_birthday, selectedBirthDate.toString())
+                binding.btnBirthdayAge.text =
+                    getString(R.string.label_birthday, selectedBirthDate.toString())
             },
             now.get(Calendar.YEAR),
             now.get(Calendar.MONTH),
             now.get(Calendar.DAY_OF_MONTH)
-        ).apply {
-            datePicker.maxDate = System.currentTimeMillis()
-        }.show()
+        ).apply { datePicker.maxDate = System.currentTimeMillis() }
+            .show()
     }
 
     private fun showAgeDialog() {
@@ -246,7 +262,8 @@ class PetEditFragment : Fragment() {
                 input.text.toString().toIntOrNull()?.let {
                     selectedAge = it
                     selectedBirthDate = null
-                    binding.btnBirthdayAge.text = getString(R.string.label_age_only, selectedAge)
+                    binding.btnBirthdayAge.text =
+                        getString(R.string.label_age_only, it)
                 }
             }
             .setNegativeButton(android.R.string.cancel, null)
@@ -262,22 +279,29 @@ class PetEditFragment : Fragment() {
         }
     }
 
-    private fun showIssueDialog(titleRes: Int, list: MutableList<String>, chipGroup: com.google.android.material.chip.ChipGroup) {
+    private fun showIssueDialog(
+        titleRes: Int,
+        list: MutableList<String>,
+        chipGroup: com.google.android.material.chip.ChipGroup
+    ) {
         val input = EditText(requireContext()).apply { inputType = InputType.TYPE_CLASS_TEXT }
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(titleRes)
             .setView(input)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                val issue = input.text.toString().trim()
-                if (issue.isNotEmpty()) {
-                    addChip(issue, list, chipGroup)
+                input.text.toString().trim().takeIf { it.isNotEmpty() }?.let {
+                    addChip(it, list, chipGroup)
                 }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 
-    private fun addChip(issue: String, list: MutableList<String>, chipGroup: com.google.android.material.chip.ChipGroup) {
+    private fun addChip(
+        issue: String,
+        list: MutableList<String>,
+        chipGroup: com.google.android.material.chip.ChipGroup
+    ) {
         list += issue
         val chip = Chip(requireContext()).apply {
             text = getString(R.string.label_bullet_item, issue)
@@ -294,4 +318,9 @@ class PetEditFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
+
+private fun Pet.breedListContains(breed: String, context: Context): Boolean {
+    val list = context.resources.getStringArray(R.array.pet_type_entries)
+    return breed in list
 }

@@ -3,6 +3,8 @@ package com.example.pawfectplanner.ui.task
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,10 +28,10 @@ import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TaskEditFragment : Fragment() {
     private var _binding: FragmentTaskEditBinding? = null
@@ -62,14 +64,26 @@ class TaskEditFragment : Fragment() {
         .also { _binding = it }
         .root
 
-    override fun onViewCreated(v: android.view.View, s: Bundle?) {
-        binding.inputTitle.doAfterTextChanged { 
-            validateFormRealTime()
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.inputTitle.doAfterTextChanged { validateFormRealTime() }
         binding.inputDescription.doAfterTextChanged { }
-        binding.inputRepeatInterval.doAfterTextChanged { 
-            validateFormRealTime()
-        }
+        binding.inputRepeatInterval.doAfterTextChanged { validateFormRealTime() }
+
+        binding.spinnerRepeatUnit.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                    if (position == 0) {
+                        binding.tilRepeatInterval.visibility = View.GONE
+                        binding.inputRepeatInterval.setText("")
+                    } else {
+                        binding.tilRepeatInterval.visibility = View.VISIBLE
+                    }
+                }
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    binding.tilRepeatInterval.visibility = View.GONE
+                }
+            }
 
         binding.btnPickDate.setOnClickListener {
             val now = LocalDate.now()
@@ -123,7 +137,29 @@ class TaskEditFragment : Fragment() {
         }
 
         binding.btnVaccineSuggestions.setOnClickListener {
-            showVaccineSuggestions()
+            if (assignedPets.isEmpty()) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.no_pets_assigned)
+                    .setMessage(R.string.assign_pets_first)
+                    .setPositiveButton(R.string.btn_ok, null)
+                    .show()
+            } else {
+                VaccineSuggestionDialog.newInstance(assignedPets) { vaccine ->
+                    binding.inputTitle.setText(
+                        getString(R.string.vaccine_title_format, vaccine.name, vaccine.frequency)
+                    )
+                    binding.inputDescription.setText(
+                        getString(
+                            R.string.vaccine_info_format,
+                            vaccine.name,
+                            vaccine.frequency,
+                            vaccine.description
+                        )
+                    )
+                    parseAndSetFrequency(vaccine.frequency)
+                    validateFormRealTime()
+                }.show(childFragmentManager, "vaccine_suggestions")
+            }
         }
 
         if (args.taskId != -1) {
@@ -135,16 +171,23 @@ class TaskEditFragment : Fragment() {
                     pickedTime = t.dateTime.toLocalTime()
                     binding.btnPickDate.text = pickedDate.toString()
                     binding.btnPickTime.text = pickedTime.toString()
-                    binding.inputRepeatInterval.setText(t.repeatInterval?.toString() ?: "")
+                    val repeatUnits = resources.getStringArray(R.array.repeat_units)
                     binding.spinnerRepeatUnit.setSelection(
-                        resources.getStringArray(R.array.repeat_units)
-                            .indexOf(t.repeatUnit ?: resources.getStringArray(R.array.repeat_units)[0])
+                        repeatUnits.indexOf(t.repeatUnit ?: repeatUnits[0])
                     )
+                    if (t.repeatInterval != null) {
+                        binding.inputRepeatInterval.setText(t.repeatInterval.toString())
+                    } else {
+                        binding.inputRepeatInterval.setText("")
+                    }
                     assignedPetIds = t.petIds
                     petVM.allPets.observe(viewLifecycleOwner) { pets ->
                         assignedPets = pets.filter { assignedPetIds.contains(it.id) }
                         binding.tvAssignedPets.text =
-                            assignedPets.joinToString { it.name }
+                            if (assignedPetIds.isEmpty())
+                                getString(R.string.label_task_no_pets_assigned)
+                            else
+                                assignedPets.joinToString { it.name }
                     }
                     binding.btnSave.text = getString(R.string.btn_update_task)
                     validateFormRealTime()
@@ -158,20 +201,19 @@ class TaskEditFragment : Fragment() {
                 val desc = binding.inputDescription.text.toString().trim()
                 val date = pickedDate ?: return@setOnClickListener
                 val time = pickedTime ?: return@setOnClickListener
-                val interval = binding.inputRepeatInterval.text.toString().toIntOrNull()
-                val unit = binding.spinnerRepeatUnit.selectedItem as String
+                val pos = binding.spinnerRepeatUnit.selectedItemPosition
+                val interval = binding.inputRepeatInterval.text.toString().trim().toIntOrNull()
+                val unit = if (pos == 0) null else binding.spinnerRepeatUnit.selectedItem as String
                 val dt = LocalDateTime.of(date, time)
-
                 val task = Task(
                     id = if (args.taskId != -1) args.taskId else 0,
                     title = title,
                     description = desc,
                     dateTime = dt,
-                    repeatInterval = interval,
+                    repeatInterval = if (pos == 0) null else interval,
                     repeatUnit = unit,
                     petIds = assignedPetIds
                 )
-
                 if (args.taskId == -1) taskVM.insert(task) else taskVM.update(task)
                 NotificationHelper.schedule(requireContext(), task)
                 findNavController().popBackStack()
@@ -180,124 +222,70 @@ class TaskEditFragment : Fragment() {
     }
 
     private fun validateForm(): Boolean {
-        val title = binding.inputTitle.text.toString().trim()
-        val repeatInterval = binding.inputRepeatInterval.text.toString().trim()
-        
-        clearFieldErrors()
-        
-        val missingFields = mutableListOf<String>()
-        
-        if (title.isEmpty()) {
+        val missing = mutableListOf<String>()
+        if (binding.inputTitle.text.toString().trim().isEmpty()) {
             binding.tilTitle.error = getString(R.string.field_required)
-            missingFields.add(getString(R.string.label_task_title))
+            missing.add(getString(R.string.label_task_title))
         } else {
             binding.tilTitle.error = null
         }
-        
-        if (pickedDate == null) {
-            missingFields.add(getString(R.string.label_task_date))
+        if (pickedDate == null) missing.add(getString(R.string.label_task_date))
+        if (pickedTime == null) missing.add(getString(R.string.label_task_time))
+        if (assignedPetIds.isEmpty()) missing.add(getString(R.string.label_task_assign_pets))
+        if (binding.spinnerRepeatUnit.selectedItemPosition > 0) {
+            val iv = binding.inputRepeatInterval.text.toString().trim().toIntOrNull()
+            if (iv == null) missing.add(getString(R.string.error_invalid_interval))
+            else if (iv <= 0) missing.add(getString(R.string.error_interval_must_be_positive))
         }
-        
-        if (pickedTime == null) {
-            missingFields.add(getString(R.string.label_task_time))
-        }
-        
-        if (assignedPetIds.isEmpty()) {
-            missingFields.add(getString(R.string.label_task_assign_pets))
-        }
-        
-        if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull() == null) {
-            missingFields.add(getString(R.string.error_invalid_interval))
-        }
-        
-        if (repeatInterval.isNotEmpty() && repeatInterval.toIntOrNull() != null && repeatInterval.toInt() <= 0) {
-            missingFields.add(getString(R.string.error_interval_must_be_positive))
-        }
-        
-        if (missingFields.isNotEmpty()) {
-            val message = getString(R.string.toast_missing_fields, missingFields.joinToString(", "))
-            android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_LONG).show()
-            return false
-        }
-        
-        return true
+        return if (missing.isNotEmpty()) {
+            val msg = getString(R.string.toast_missing_fields, missing.joinToString(", "))
+            android.widget.Toast.makeText(requireContext(), msg, android.widget.Toast.LENGTH_LONG).show()
+            false
+        } else true
     }
 
     private fun validateFormRealTime() {
-        val title = binding.inputTitle.text.toString().trim()
-        val repeatInterval = binding.inputRepeatInterval.text.toString().trim()
-        
         binding.tilTitle.error = null
-        
-        if (title.isEmpty()) {
+        if (binding.inputTitle.text.toString().trim().isEmpty())
             binding.tilTitle.error = getString(R.string.field_required)
-        }
-    }
-
-    private fun clearFieldErrors() {
-        binding.tilTitle.error = null
-    }
-
-    private fun showVaccineSuggestions() {
-        if (assignedPets.isEmpty()) {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.no_pets_assigned)
-                .setMessage(R.string.assign_pets_first)
-                .setPositiveButton(R.string.btn_ok, null)
-                .show()
-            return
-        }
-
-        val dialog = VaccineSuggestionDialog.newInstance(assignedPets) { vaccine ->
-            val vaccineInfo = "${vaccine.name} - ${vaccine.frequency}\n${vaccine.description}"
-            binding.inputDescription.setText(vaccineInfo)
-            binding.inputTitle.setText("${vaccine.name} - ${vaccine.frequency}")
-            
-            parseAndSetFrequency(vaccine.frequency)
-            
-            validateFormRealTime()
-        }
-        dialog.show(childFragmentManager, "vaccine_suggestions")
     }
 
     private fun parseAndSetFrequency(frequency: String) {
-        val frequencyLower = frequency.lowercase()
-        val repeatUnits = resources.getStringArray(R.array.repeat_units)
-        
+        val freqLower = frequency.lowercase()
+        val units = resources.getStringArray(R.array.repeat_units)
         when {
-            frequencyLower.contains("yearly") || frequencyLower.contains("year") -> {
+            freqLower.contains("year") -> {
                 binding.inputRepeatInterval.setText("1")
-                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Years"))
+                binding.spinnerRepeatUnit.setSelection(units.indexOf("Years"))
             }
-            frequencyLower.contains("month") -> {
-                val months = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
-                binding.inputRepeatInterval.setText(months.toString())
-                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Months"))
+            freqLower.contains("month") -> {
+                val v = freqLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(v.toString())
+                binding.spinnerRepeatUnit.setSelection(units.indexOf("Months"))
             }
-            frequencyLower.contains("week") -> {
-                val weeks = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
-                binding.inputRepeatInterval.setText(weeks.toString())
-                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Weeks"))
+            freqLower.contains("week") -> {
+                val v = freqLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(v.toString())
+                binding.spinnerRepeatUnit.setSelection(units.indexOf("Weeks"))
             }
-            frequencyLower.contains("day") -> {
-                val days = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
-                binding.inputRepeatInterval.setText(days.toString())
-                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Days"))
+            freqLower.contains("day") -> {
+                val v = freqLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(v.toString())
+                binding.spinnerRepeatUnit.setSelection(units.indexOf("Days"))
             }
-            frequencyLower.contains("hour") -> {
-                val hours = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
-                binding.inputRepeatInterval.setText(hours.toString())
-                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Hours"))
+            freqLower.contains("hour") -> {
+                val v = freqLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(v.toString())
+                binding.spinnerRepeatUnit.setSelection(units.indexOf("Hours"))
             }
-            frequencyLower.contains("minute") -> {
-                val minutes = frequencyLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
-                binding.inputRepeatInterval.setText(minutes.toString())
-                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Minutes"))
+            freqLower.contains("minute") -> {
+                val v = freqLower.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 1
+                binding.inputRepeatInterval.setText(v.toString())
+                binding.spinnerRepeatUnit.setSelection(units.indexOf("Minutes"))
             }
             else -> {
-                // Default to yearly if frequency is not recognized
                 binding.inputRepeatInterval.setText("1")
-                binding.spinnerRepeatUnit.setSelection(repeatUnits.indexOf("Years"))
+                binding.spinnerRepeatUnit.setSelection(units.indexOf("Years"))
             }
         }
     }

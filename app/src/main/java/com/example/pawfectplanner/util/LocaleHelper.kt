@@ -2,9 +2,9 @@ package com.example.pawfectplanner.util
 
 import android.content.Context
 import android.content.res.Configuration
-import android.content.res.Resources
 import androidx.appcompat.app.AppCompatDelegate
 import java.util.Locale
+import androidx.core.content.edit
 
 object LocaleHelper {
     private const val PREF_LANGUAGE_KEY = "language"
@@ -33,7 +33,7 @@ object LocaleHelper {
 
     fun setDarkModeSetting(context: Context, mode: Int) {
         val sharedPrefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-        sharedPrefs.edit().putInt(PREF_DARK_MODE_KEY, mode).apply()
+        sharedPrefs.edit{ putInt(PREF_DARK_MODE_KEY, mode) }
         AppCompatDelegate.setDefaultNightMode(mode)
     }
 
@@ -49,7 +49,7 @@ object LocaleHelper {
 
     private fun persistLanguage(context: Context, language: String) {
         val sharedPrefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-        sharedPrefs.edit().putString(PREF_LANGUAGE_KEY, language).apply()
+        sharedPrefs.edit{ putString(PREF_LANGUAGE_KEY, language) }
     }
 
     private fun updateResources(context: Context, language: String): Context {

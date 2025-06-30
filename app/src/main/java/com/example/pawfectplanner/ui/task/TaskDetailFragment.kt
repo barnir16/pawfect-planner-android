@@ -3,6 +3,9 @@ package com.example.pawfectplanner.ui.task
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -12,29 +15,29 @@ import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.databinding.FragmentTaskDetailBinding
 import com.example.pawfectplanner.data.repository.BreedsRepository
-import com.example.pawfectplanner.data.repository.TaskRepository
 import com.example.pawfectplanner.data.repository.PetRepository
+import com.example.pawfectplanner.data.repository.TaskRepository
 import com.example.pawfectplanner.network.BreedsCatApiService
 import com.example.pawfectplanner.network.BreedsDogApiService
 import com.example.pawfectplanner.network.CatApiClient
 import com.example.pawfectplanner.network.DogApiClient
-import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
-import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
 import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
+import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
+import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
-import org.threeten.bp.ZoneId
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.threeten.bp.ZoneId
 
 class TaskDetailFragment : Fragment() {
-    private var _b: FragmentTaskDetailBinding? = null
-    private val b get() = _b!!
+    private var _binding: FragmentTaskDetailBinding? = null
+    private val binding get() = _binding!!
     private val args: TaskDetailFragmentArgs by navArgs()
     private val app by lazy { requireActivity().application as PawfectPlannerApplication }
-    private val tm: TaskViewModel by viewModels {
+    private val taskVM: TaskViewModel by viewModels {
         TaskViewModelFactory(TaskRepository(app.database.taskDao(), requireContext()))
     }
-    private val pm by lazy {
+    private val petVM by lazy {
         val breedsRepository = BreedsRepository(
             DogApiClient.retrofit.create(BreedsDogApiService::class.java),
             CatApiClient.retrofit.create(BreedsCatApiService::class.java)
@@ -46,80 +49,84 @@ class TaskDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: android.view.LayoutInflater,
-        container: android.view.ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentTaskDetailBinding.inflate(inflater, container, false)
-        .also { _b = it }
-        .root
+    ): View {
+        _binding = FragmentTaskDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onViewCreated(v: android.view.View, s: Bundle?) {
-        b.btnAddToCalendar.setOnClickListener(null)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btnAddToCalendar.setOnClickListener(null)
 
-        tm.allTasks.observe(viewLifecycleOwner) { list ->
-            list.find { it.id == args.taskId }?.let { t ->
-                b.tvTaskTitle.text = t.title
-                b.tvTaskDate.text = t.dateTime.toLocalDate().toString()
-                b.tvTaskTime.text = t.dateTime.toLocalTime().toString()
-                b.tvTaskInterval.text = t.repeatInterval
-                    ?.let { interval ->
-                        getString(R.string.label_task_repeat, interval, t.repeatUnit!!)
-                    }
-                    ?: getString(R.string.label_task_no_repeat)
+        // load the two parallel string‐arrays you added:
+        val entries = resources.getStringArray(R.array.repeat_units_entries)
+        val values = resources.getStringArray(R.array.repeat_units_values)
 
-                b.tvTaskDescription.text = t.description ?: ""
+        taskVM.allTasks.observe(viewLifecycleOwner) { list ->
+            list.find { it.id == args.taskId }?.let { task ->
+                binding.tvTaskTitle.text = task.title
+                binding.tvTaskDate.text = task.dateTime.toLocalDate().toString()
+                binding.tvTaskTime.text = task.dateTime.toLocalTime().toString()
+                if (task.repeatInterval != null && task.repeatUnit != null) {
+                    binding.tvTaskInterval.text =
+                        getString(R.string.label_task_repeat, task.repeatInterval, task.repeatUnit)
+                } else {
+                    binding.tvTaskInterval.text = getString(R.string.label_task_no_repeat)
+                }
+                binding.tvTaskDescription.text = task.description
 
-                pm.allPets.observe(viewLifecycleOwner) { pets ->
-                    val names = pets.filter { t.petIds.contains(it.id) }.map { it.name }
-                    b.tvAssignedPets.text = if (names.isEmpty())
-                        getString(R.string.label_task_no_pets_assigned)
-                    else
-                        names.joinToString(separator = ", ") { petName -> petName }
+                petVM.allPets.observe(viewLifecycleOwner) { pets ->
+                    val names = pets.filter { task.petIds.contains(it.id) }.map { it.name }
+                    binding.tvAssignedPets.text =
+                        if (names.isEmpty()) getString(R.string.label_task_no_pets_assigned)
+                        else names.joinToString()
                 }
 
-                b.btnAddToCalendar.setOnClickListener {
-                    val begin = t.dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                binding.btnAddToCalendar.setOnClickListener {
+                    val begin = task.dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     val end = begin + 3_600_000
-                    Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).apply {
+                    val intent = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).apply {
                         putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
                         putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end)
-                        putExtra(CalendarContract.Events.TITLE, t.title)
-                        putExtra(CalendarContract.Events.DESCRIPTION, t.description)
-                        if (t.repeatInterval != null && t.repeatUnit != null) {
-                            val freq = when (t.repeatUnit) {
-                                "Minutes" -> "MINUTELY"
-                                "Hours"   -> "HOURLY"
-                                "Days"    -> "DAILY"
-                                "Weeks"   -> "WEEKLY"
-                                "Months"  -> "MONTHLY"
-                                "Years"   -> "YEARLY"
-                                else      -> ""
+                        putExtra(CalendarContract.Events.TITLE, task.title)
+                        putExtra(CalendarContract.Events.DESCRIPTION, task.description)
+
+                        if (task.repeatInterval != null && task.repeatUnit != null) {
+                            // find the index of the display‐text in your entries array
+                            val idx = entries.indexOf(task.repeatUnit)
+                            // pick the corresponding value—e.g. "DAILY", "WEEKLY", etc.
+                            val freq = values.getOrNull(if (idx >= 0) idx else 0)
+                            if (!freq.isNullOrEmpty() && freq != "NONE") {
+                                putExtra(
+                                    CalendarContract.Events.RRULE,
+                                    "FREQ=$freq;INTERVAL=${task.repeatInterval}"
+                                )
                             }
-                            putExtra(
-                                CalendarContract.Events.RRULE,
-                                "FREQ=$freq;INTERVAL=${t.repeatInterval}"
-                            )
                         }
-                    }.also(::startActivity)
+                    }
+                    startActivity(intent)
                 }
 
-                b.btnDeleteTask.setOnClickListener {
-                    NotificationHelper.cancel(requireContext(), t.id)
+                binding.btnDeleteTask.setOnClickListener {
+                    NotificationHelper.cancel(requireContext(), task.id)
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.action_delete_task)
                         .setMessage(R.string.delete_message)
                         .setPositiveButton(R.string.action_delete_task) { _, _ ->
-                            tm.delete(t)
+                            taskVM.delete(task)
                             findNavController().navigateUp()
                         }
                         .setNegativeButton(R.string.cancel, null)
                         .show()
                 }
 
-                b.btnEditTask.setOnClickListener {
-                    val action = TaskDetailFragmentDirections
-                        .actionTaskDetailFragmentToTaskEditFragment(t.id)
-                    findNavController().navigate(action)
+                binding.btnEditTask.setOnClickListener {
+                    findNavController().navigate(
+                        TaskDetailFragmentDirections
+                            .actionTaskDetailFragmentToTaskEditFragment(task.id)
+                    )
                 }
             }
         }
@@ -127,6 +134,6 @@ class TaskDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _b = null
+        _binding = null
     }
 }

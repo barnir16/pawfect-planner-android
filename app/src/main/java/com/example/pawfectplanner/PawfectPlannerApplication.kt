@@ -4,11 +4,10 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import androidx.room.Room
 import com.example.pawfectplanner.data.local.AppDatabase
 import com.example.pawfectplanner.util.ApiKeyManager
-import com.example.pawfectplanner.util.RemoteConfigManager
 import com.example.pawfectplanner.util.LocaleHelper
+import com.example.pawfectplanner.util.RemoteConfigManager
 import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.CoroutineScope
@@ -42,23 +41,18 @@ class PawfectPlannerApplication : Application() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nm = getSystemService(NotificationManager::class.java)
-            nm?.createNotificationChannel(
-                NotificationChannel(
-                    "task_reminders",
-                    "Task Reminders",
-                    NotificationManager.IMPORTANCE_HIGH
-                ).apply {
-                    description = "Reminders for your pet tasks"
-                }
-            )
+            val name = getString(R.string.notification_channel_tasks_name)
+            val desc = getString(R.string.notification_channel_tasks_description)
+            val channel = NotificationChannel(
+                "task_reminders",
+                name,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = desc
+            }
+            nm?.createNotificationChannel(channel)
         }
 
-        database = Room.databaseBuilder(
-            this,
-            AppDatabase::class.java,
-            "pawfect_planner_db"
-        )
-            .fallbackToDestructiveMigration(false)
-            .build()
+        database = AppDatabase.getInstance(this)
     }
 }

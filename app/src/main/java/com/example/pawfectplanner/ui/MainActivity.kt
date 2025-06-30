@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             handled
         }
 
-        // Handle widget clicks
         handleWidgetIntent(intent)
     }
 
@@ -66,16 +65,7 @@ class MainActivity : AppCompatActivity() {
                 val navHostFragment = supportFragmentManager
                     .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
                 val navController = navHostFragment.navController
-
-                // Navigate to tasks fragment
                 navController.navigate(R.id.taskListFragment)
-
-                // If a specific task was clicked, navigate to its detail
-                val taskId = it.getLongExtra("task_id", -1)
-                if (taskId != -1L) {
-                    // You might want to navigate to task detail here
-                    // For now, just navigate to task list
-                }
             }
         }
     }

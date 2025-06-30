@@ -29,8 +29,8 @@
     <string name="title_edit_pet">עריכת חיה</string>
     <string name="hint_pet_type">הזן סוג חיית מחמד (למשל כלב, חתול, אחר)</string>
     <string name="hint_pet_name">הזן שם חיית מחמד *</string>
-    <string name="hint_pet_breed">הזן גזע *</string>
     <string name="hint_pet_birthdate">בחר תאריך לידה</string>
+    <string name="select_breed">בחר גזע</string>
     <string name="hint_pet_notes">הערות נוספות</string>
     <string name="hint_pet_weight">הזן משקל (ק"ג, אופציונלי)</string>
     <string name="btn_birthday_age">תאריך לידה או גיל</string>
@@ -66,6 +66,25 @@
     <string name="label_assigned_pets">חיות שהוקצו</string>
     <string name="label_task_no_pets_assigned">לא הוקצו חיות</string>
     <string name="btn_add_to_calendar">הוסף ליומן</string>
+    <string-array name="repeat_units_entries">
+        <item>ללא</item>
+        <item>דקות</item>
+        <item>שעות</item>
+        <item>ימים</item>
+        <item>שבועות</item>
+        <item>חודשים</item>
+        <item>שנים</item>
+    </string-array>
+
+    <string-array name="repeat_units_values">
+        <item>NONE</item>
+        <item>MINUTELY</item>
+        <item>HOURLY</item>
+        <item>DAILY</item>
+        <item>WEEKLY</item>
+        <item>MONTHLY</item>
+        <item>YEARLY</item>
+    </string-array>
 
     <string name="title_settings">הגדרות</string>
     <string name="pref_notifications">אפשר התראות</string>
@@ -96,6 +115,9 @@
 
     <string name="notification_task_due">יש לך משימה שצריכה להתבצע: %1$s</string>
     <string name="notification_title">תזכורת מ-PawfectPlanner</string>
+    <string name="notification_channel_tasks_name">תזכורות למשימות</string>
+    <string name="notification_channel_tasks_description">תזכורות עבור המשימות שלך לטיפול בחיות המחמד</string>
+
 
     <string name="error_missing_fields">אנא מלא את כל השדות הנדרשים.</string>
     <string name="error_invalid_date">תאריך שנבחר אינו תקין.</string>
@@ -149,10 +171,10 @@
     <string name="gemini_error_network">אין חיבור לרשת. בדקו את החיבור שלכם.</string>
     <string name="gemini_error_unauthorized">הרשאה נכשלה. צרו קשר עם התמיכה.</string>
     <string name="gemini_prompt_introduction">
-אתה PawfectPal, עוזר דו-לשוני (עברית ואנגלית), ידידותי ומומחה לטיפול בחיות מחמד. תמיד השב בשפה שבה המשתמש פונה אליך.
-• כאשר המשתמש מברך (“שלום”, “היי”), השב בברכה חמה ובקש לדעת כיצד תוכל לסייע בטיפול בחיות מחמד.
-• אם המשתמש שואל שאלה הקשורה לטיפול, אילוף, בריאות או התנהגות של חיות מחמד – השב עליה במלוא הפירוט.
-• לכל נושא אחר, הסבר בנימוס שאתה זמין לענות רק על שאלות בתחום טיפול חיות המחמד.
+אתה PawfectPal, עוזר דו-לשוני (עברית ואנגלית) למומחי טיפול בחיות מחמד. תמיד השב כולו בשפה שבה המשתמש פנה אליך—בלי לערבב עברית ואנגלית. אם עליך להזכיר שם או מונח מהשפה השנייה, תתרגם אותו באופן מלא לשפה של המשתמש.
+• כאשר המשתמש מברך אותך (“שלום”, “היי”), השב בברכה חמה באותה שפה ושאל איך תוכל לעזור בטיפול לחיית המחמד שלו.
+• כאשר הוא שואל שאלה לגבי טיפול, אילוף, בריאות או התנהגות של חיות מחמד, ענה בפירוט באותה שפה.
+• לכל שאלה אחרת, הסבר בנימוס שאתה יכול לסייע רק בנושאי טיפול בחיות מחמד.
 </string>
 
     <string name="gemini_prompt_pet_data">
@@ -185,6 +207,8 @@
     <string name="no_issues">אין בעיות</string>
     <string name="vaccine_suggestions_title">הצעות לחיסונים</string>
     <string name="btn_vaccine_suggestions">קבל הצעות לחיסונים</string>
+    <string name="vaccine_title_format">%1$s – %2$s</string>
+    <string name="vaccine_info_format">%1$s – %2$s\n%3$s</string>
 
     <!-- Vaccine Names -->
     <string name="vaccine_rabies">חיסון כלבת (Rabies)</string>
@@ -206,7 +230,7 @@
     <string name="vaccine_freq_2_months">כל חודשיים</string>
     <string name="vaccine_freq_6_months">כל 6 חודשים</string>
     <string name="vaccine_freq_monthly">חודשי או לפי המלצת הווטרינר</string>
-    <string name="vaccine_freq_3_6_months">כל 3-6 חודשים</string>
+    <string name="vaccine_freq_3_6_months">כל 3 עד 6 חודשים</string>
 
     <!-- Vaccine Descriptions -->
     <string name="vaccine_desc_rabies_cat">חיסון חיוני לחתולים שיוצאים החוצה. כלבת היא מחלה ויראלית קטלנית שיכולה להיות מועברת לבני אדם. נדרשת חיסון שנתי. מגן מפני וירוס קטלני זה הפוגע במערכת העצבים.</string>
@@ -255,9 +279,7 @@
 
     <!-- Breed Information -->
     <string name="breed_info_title">מידע על הגזע: %1$s</string>
-    <string name="label_life_span">תוחלת חיים:</string>
-    <string name="label_weight">משקל:</string>
-    <string name="label_temperament">טמפרמנט:</string>
+    <string name="label_temperament">מזג רוח:</string>
     <string name="label_breed_group">קבוצת גזע:</string>
     <string name="label_bred_for">גודל עבור:</string>
     <string name="label_weight_error">המשקל עשוי להיות מחוץ לטווח הנורמלי לגזע זה</string>
@@ -269,8 +291,22 @@
     <string name="no_vaccine_suggestions">אין הצעות לחיסונים</string>
     <string name="no_vaccines_available">אין חיסונים זמינים לחיות שהוקצו</string>
     <string name="vaccine_suggestions">הצעות לחיסונים</string>
-
-    <string name="select_breed">בחר גזע</string>
+    <string-array name="pet_type_entries">
+        <item>כלב</item>
+        <item>חתול</item>
+        <item>אחר</item>
+    </string-array>
+    <string-array name="pet_type_values">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Other</item>
+    </string-array>
+    <string name="option_other_breed">אחר</string>
+    <string name="hint_custom_breed">הזן גזע מותאם (אנגלית בלבד) *</string>
+    <string name="hint_pet_breed">הזן גזע (אנגלית בלבד) *</string>
+    <string name="label_pet_weight">משקל: %1$.1f ק&quot;ג</string>
+    <string name="label_life_span">תוחלת חיים ממוצעת:</string>
+    <string name="label_weight">משקל ממוצע:</string>
 
     <string name="toast_fill_required_fields">אנא מלא את כל השדות הנדרשים המסומנים ב-*</string>
     <string name="toast_missing_fields">אנא מלא: %1$s</string>

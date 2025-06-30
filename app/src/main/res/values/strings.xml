@@ -67,6 +67,25 @@
     <string name="label_assigned_pets">Assigned Pets</string>
     <string name="label_task_no_pets_assigned">No pets assigned.</string>
     <string name="btn_add_to_calendar">Add to Calendar</string>
+    <string-array name="repeat_units_entries">
+        <item>NONE</item>
+        <item>MINUTELY</item>
+        <item>HOURLY</item>
+        <item>DAILY</item>
+        <item>WEEKLY</item>
+        <item>MONTHLY</item>
+        <item>YEARLY</item>
+    </string-array>
+
+    <string-array name="repeat_units_values">
+        <item>NONE</item>
+        <item>MINUTELY</item>
+        <item>HOURLY</item>
+        <item>DAILY</item>
+        <item>WEEKLY</item>
+        <item>MONTHLY</item>
+        <item>YEARLY</item>
+    </string-array>
 
     <string name="title_settings">Settings</string>
     <string name="pref_notifications">Enable Notifications</string>
@@ -97,6 +116,8 @@
 
     <string name="notification_task_due">You have a task due: %1$s</string>
     <string name="notification_title">PawfectPlanner Reminder</string>
+    <string name="notification_channel_tasks_name">Task Reminders</string>
+    <string name="notification_channel_tasks_description">Reminders for your pet tasks</string>
 
     <string name="error_missing_fields">Please fill out all required fields.</string>
     <string name="error_invalid_date">Invalid date selected.</string>
@@ -149,11 +170,11 @@
     <string name="gemini_error_network">Network error. Please check your connection.</string>
     <string name="gemini_error_unauthorized">Authorization failed. Please contact support.</string>
     <string name="gemini_prompt_introduction">
-    You are PawfectPal, a friendly bilingual assistant (English and Hebrew) specialized in pet care. Always reply in the same language the user uses.
-    • If the user greets you (e.g. “Hi”, “Hello”), respond with a warm greeting in that language and ask how you can help with their pets.
-    • If the user asks a pet-related question (care, training, health, behavior), answer it thoroughly.
-    • For any other topics, politely explain you can only answer questions about pet care.
-    </string>
+You are PawfectPal, a friendly bilingual assistant (English and Hebrew) specialized in pet care. Always reply entirely in the same language the user uses—do not mix English and Hebrew. If you need to mention a name or phrase originally in the other language, translate it fully into the user’s language.
+• When the user greets you (“Hi”, “Hello”), respond with a warm greeting in that language and ask how you can help with their pet.
+• When they ask a pet-related question (care, training, health, behavior), answer thoroughly in that same language.
+• For any other topic, politely say you can only answer pet-care questions.
+</string>
 
     <string name="gemini_prompt_pet_data">
     Pet data: %1$s
@@ -186,6 +207,8 @@
     <string name="no_issues">No issues</string>
     <string name="vaccine_suggestions_title">Vaccine Suggestions</string>
     <string name="btn_vaccine_suggestions">Get Vaccine Suggestions</string>
+    <string name="vaccine_title_format">%1$s – %2$s</string>
+    <string name="vaccine_info_format">%1$s – %2$s\n%3$s</string>
 
     <!-- Vaccine Names -->
     <string name="vaccine_rabies">Rabies</string>
@@ -256,8 +279,6 @@
 
     <!-- Breed Information -->
     <string name="breed_info_title">Breed Information: %1$s</string>
-    <string name="label_life_span">Life Span:</string>
-    <string name="label_weight">Weight:</string>
     <string name="label_temperament">Temperament:</string>
     <string name="label_breed_group">Breed Group:</string>
     <string name="label_bred_for">Bred For:</string>
@@ -270,6 +291,21 @@
     <string name="no_vaccine_suggestions">No Vaccine Suggestions</string>
     <string name="no_vaccines_available">No vaccines available for the assigned pets</string>
     <string name="vaccine_suggestions">Vaccine Suggestions</string>
+    <string-array name="pet_type_entries">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="pet_type_values">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Other</item>
+    </string-array>
+    <string name="option_other_breed">Other</string>
+    <string name="hint_custom_breed">Enter breed (English only) *</string>
+    <string name="label_pet_weight">Weight: %1$.1f kg</string>
+    <string name="label_life_span">Average Life Expectancy:</string>
+    <string name="label_weight">Average Weight:</string>
 
     <string name="toast_fill_required_fields">Please fill in all required fields marked with *</string>
     <string name="toast_missing_fields">Please fill in: %1$s</string>

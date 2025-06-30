@@ -13,7 +13,6 @@
             android:orientation="vertical"
             android:spacing="16dp">
 
-            <!-- Title Input -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +41,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Description Input -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,7 +66,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Assign Pets Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAssignPets"
                 style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -78,7 +75,6 @@
                 android:text="@string/label_task_assign_pets"
                 app:icon="@drawable/ic_pets" />
 
-            <!-- Assigned Pets Display -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,7 +92,6 @@
                     android:textColor="@color/gray_medium" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Vaccine Suggestions Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnVaccineSuggestions"
                 style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -106,7 +101,6 @@
                 android:text="@string/btn_vaccine_suggestions"
                 app:icon="@drawable/ic_assistant" />
 
-            <!-- Date and Time Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -114,7 +108,6 @@
                 android:layout_marginBottom="16dp"
                 android:weightSum="2">
 
-                <!-- Date Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickDate"
                     style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -125,7 +118,6 @@
                     android:text="@string/label_task_date"
                     app:icon="@drawable/ic_calendar" />
 
-                <!-- Time Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPickTime"
                     style="@style/Widget.PawfectPlanner.Button.Icon"
@@ -138,7 +130,6 @@
 
             </LinearLayout>
 
-            <!-- Repeat Interval Section -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,6 +145,7 @@
                     android:gravity="center_vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilRepeatInterval"
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -168,7 +160,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:enabled="true"
                             android:textSize="16sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -193,16 +184,16 @@
                             style="@style/Widget.PawfectPlanner.Spinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            app:popupTheme="?attr/materialAlertDialogTheme"
-                            android:entries="@array/repeat_units" />
+                            android:entries="@array/repeat_units_entries"
+                            app:entryValues="@array/repeat_units_values"
+                            app:popupTheme="?attr/materialAlertDialogTheme" />
+
 
                     </LinearLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Error Text -->
             <TextView
                 android:id="@+id/tvError"
                 android:layout_width="match_parent"
@@ -214,7 +205,6 @@
                 android:visibility="gone"
                 android:padding="8dp" />
 
-            <!-- Save Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"
                 style="@style/Widget.PawfectPlanner.Button.Icon"
