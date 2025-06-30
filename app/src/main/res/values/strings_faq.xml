@@ -16,18 +16,6 @@
         Some features like breed-specific weight or lifespan may not work with unsupported pets.
     </string>
 
-    <string name="faq_api_key">Why do I need an API key?</string>
-    <string name="faq_api_key_text" formatted="false">
-        This is a free app, and we are not allowed to share commercial API keys.\n
-        API keys are required to enable full features like chatbot, breed data, and insights.
-    </string>
-
-    <string name="faq_api_get">Where do I get an API key?</string>
-    <string name="faq_api_get_text" formatted="false">
-        • Dog &amp; Cat Breeds: https://thedogapi.com\n
-        • Gemini AI: https://makersuite.google.com/app/apikey
-    </string>
-
     <string name="faq_english_only">Why are pet breeds only in English?</string>
     <string name="faq_english_only_text" formatted="false">
         Breed data comes from international sources that are available only in English.\n
@@ -44,13 +32,12 @@
     <string name="faq_backup">Can I back up or share my pet’s data?</string>
     <string name="faq_backup_text" formatted="false">
         Currently, data is saved only on your device.\n
-        You can export and share data manually (PDF or text). A cloud backup may be added in the future.
+        You can export and share data manually. A cloud backup may be added in the future.
     </string>
 
     <string name="faq_privacy">Is my data private?</string>
     <string name="faq_privacy_text" formatted="false">
         Your data stays on your device and is never sent to us.\n
-        However, when using APIs (like for breed info or chatbot), your API key may be shared with external providers.\n
-        These services may associate your data with your API key email.
+        However, when using the chatbot, Google may have access to the chat text, but not your identity.
     </string>
 </resources>

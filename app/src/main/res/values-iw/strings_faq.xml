@@ -16,18 +16,6 @@
         חלק מהתכונות כמו משקל ממוצע או תוחלת חיים לא יעבדו עם חיות שאינן נתמכות.
     </string>
 
-    <string name="faq_api_key">למה צריך מפתח API?</string>
-    <string name="faq_api_key_text" formatted="false">
-        מדובר בפרויקט חינמי. יוצרי האפליקציה אינם רשאים לשתף מפתחות API.\n
-        המפתח נדרש כדי להפעיל את כל הפונקציות – כמו בינה מלאכותית, מידע על גזעים ועוד.
-    </string>
-
-    <string name="faq_api_get">איך ניתן להשיג מפתח API?</string>
-    <string name="faq_api_get_text" formatted="false">
-        • גזעי כלבים: https://thedogapi.com\n
-        • Gemini (Google AI): https://makersuite.google.com/app/apikey
-    </string>
-
     <string name="faq_english_only">למה הגזעים מופיעים רק באנגלית?</string>
     <string name="faq_english_only_text" formatted="false">
         המידע מתקבל ממקורות עולמיים הזמינים באנגלית בלבד.\n
@@ -44,13 +32,12 @@
     <string name="faq_backup">האם ניתן לגבות או לשתף את המידע?</string>
     <string name="faq_backup_text" formatted="false">
         בשלב זה הנתונים נשמרים רק במכשיר המקומי.\n
-        ניתן לייצא ולשתף מידע כקובץ PDF או כטקסט. ייתכן שבקרוב תתווסף אפשרות לגיבוי בענן.
+        ניתן לשתף מידע ידנית. ייתכן שבקרוב תתווסף אפשרות לגיבוי בענן.
     </string>
 
     <string name="faq_privacy">האם המידע שלי פרטי?</string>
     <string name="faq_privacy_text" formatted="false">
         המידע נשמר רק במכשיר ואינו נשלח ליוצרי האפליקציה.\n
-        עם זאת, בעת שימוש בממשקי API (למשל מידע על גזע או בינה מלאכותית), מפתח ה-API שלך מועבר לשירותים חיצוניים.\n
-        ייתכן שהם ישייכו מידע למייל שלך לפי אותו מפתח.
+        עם זאת, בעת שימוש בPawfectPal, לגוגל עשויה להיות גישה לטקסט שנשלח, אך לא למי ששאל.
     </string>
 </resources>

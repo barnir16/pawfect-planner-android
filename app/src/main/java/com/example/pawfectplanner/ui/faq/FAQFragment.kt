@@ -23,9 +23,6 @@ class FAQFragment : Fragment() {
         val context = requireContext()
         val items = listOf(
             FAQItem(context.getString(R.string.faq_uses), context.getString(R.string.faq_uses_text)),
-            FAQItem(context.getString(R.string.faq_missing_breed), context.getString(R.string.faq_missing_breed_text)),
-            FAQItem(context.getString(R.string.faq_api_key), context.getString(R.string.faq_api_key_text)),
-            FAQItem(context.getString(R.string.faq_api_get), context.getString(R.string.faq_api_get_text)),
             FAQItem(context.getString(R.string.faq_english_only), context.getString(R.string.faq_english_only_text)),
             FAQItem(context.getString(R.string.faq_offline), context.getString(R.string.faq_offline_text)),
             FAQItem(context.getString(R.string.faq_backup), context.getString(R.string.faq_backup_text)),
