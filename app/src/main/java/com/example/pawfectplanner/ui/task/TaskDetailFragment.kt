@@ -8,45 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.databinding.FragmentTaskDetailBinding
-import com.example.pawfectplanner.data.repository.BreedsRepository
-import com.example.pawfectplanner.data.repository.PetRepository
-import com.example.pawfectplanner.data.repository.TaskRepository
-import com.example.pawfectplanner.network.BreedsCatApiService
-import com.example.pawfectplanner.network.BreedsDogApiService
-import com.example.pawfectplanner.network.CatApiClient
-import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
-import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
-import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.ZoneId
 
+@AndroidEntryPoint
 class TaskDetailFragment : Fragment() {
     private var _binding: FragmentTaskDetailBinding? = null
     private val binding get() = _binding!!
     private val args: TaskDetailFragmentArgs by navArgs()
-    private val app by lazy { requireActivity().application as PawfectPlannerApplication }
-    private val taskVM: TaskViewModel by viewModels {
-        TaskViewModelFactory(TaskRepository(app.database.taskDao(), requireContext()))
-    }
-    private val petVM by lazy {
-        val breedsRepository = BreedsRepository(
-            DogApiClient.retrofit.create(BreedsDogApiService::class.java),
-            CatApiClient.retrofit.create(BreedsCatApiService::class.java)
-        )
-        ViewModelProvider(
-            this,
-            PetViewModelFactory(PetRepository(app.database.petDao()), breedsRepository)
-        )[PetViewModel::class.java]
-    }
+    private val taskVM: TaskViewModel by viewModels()
+    private val petVM: PetViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

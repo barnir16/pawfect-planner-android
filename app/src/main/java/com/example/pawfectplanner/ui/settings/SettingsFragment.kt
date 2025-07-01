@@ -14,15 +14,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
+import com.example.pawfectplanner.data.repository.TaskRepository
 import com.example.pawfectplanner.util.LocaleHelper
 import com.example.pawfectplanner.util.NotificationHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.pawfectplanner.ui.MainActivity
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
+
+    @Inject
+    lateinit var taskRepository: TaskRepository
 
     private lateinit var notificationPref: SwitchPreferenceCompat
 
@@ -82,20 +88,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun enableAllExistingNotifications() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val dao = (requireActivity().application as PawfectPlannerApplication)
-                .database.taskDao()
-            dao.getAllTasksSync().forEach {
-                NotificationHelper.schedule(requireContext(), it)
+            taskRepository.allTasks.collect { tasks ->
+                tasks.forEach { task ->
+                    NotificationHelper.schedule(requireContext(), task)
+                }
             }
         }
     }
 
     private fun disableAllExistingNotifications() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val dao = (requireActivity().application as PawfectPlannerApplication)
-                .database.taskDao()
-            dao.getAllTasksSync().forEach {
-                NotificationHelper.cancel(requireContext(), it.id)
+            taskRepository.allTasks.collect { tasks ->
+                tasks.forEach { task ->
+                    NotificationHelper.cancel(requireContext(), task.id)
+                }
             }
         }
     }

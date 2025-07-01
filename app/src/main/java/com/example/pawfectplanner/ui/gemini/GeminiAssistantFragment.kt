@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawfectplanner.databinding.FragmentGeminiAssistantBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GeminiAssistantFragment : Fragment() {
     private var _binding: FragmentGeminiAssistantBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: GeminiAssistantViewModel by viewModels {
-        GeminiAssistantViewModelFactory()
-    }
+    private val viewModel: GeminiAssistantViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

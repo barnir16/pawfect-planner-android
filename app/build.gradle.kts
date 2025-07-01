@@ -4,6 +4,8 @@ plugins {
     id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
 }
 
 android {
@@ -80,4 +82,9 @@ dependencies {
     implementation ("io.noties.markwon:ext-tables:4.6.2")
     implementation ("io.noties.markwon:ext-tasklist:4.6.2")
     implementation ("io.noties.markwon:linkify:4.6.2")
+    
+    // Hilt dependencies
+    implementation("com.google.dagger:hilt-android:2.55")
+    kapt("com.google.dagger:hilt-android-compiler:2.55")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
 }

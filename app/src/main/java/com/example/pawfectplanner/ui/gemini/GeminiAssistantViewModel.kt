@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.data.repository.GeminiRepository
 import com.example.pawfectplanner.data.repository.PetRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GeminiAssistantViewModel(
+@HiltViewModel
+class GeminiAssistantViewModel @Inject constructor(
     private val geminiRepository: GeminiRepository,
     private val petRepository: PetRepository
 ) : ViewModel() {

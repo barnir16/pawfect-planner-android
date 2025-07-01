@@ -5,45 +5,30 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.databinding.FragmentPetDetailBinding
-import com.example.pawfectplanner.data.repository.BreedsRepository
-import com.example.pawfectplanner.data.repository.PetRepository
-import com.example.pawfectplanner.network.BreedsCatApiService
-import com.example.pawfectplanner.network.BreedsDogApiService
-import com.example.pawfectplanner.network.CatApiClient
-import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
-import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.example.pawfectplanner.util.ApiKeyManager
 import androidx.core.net.toUri
 
+@AndroidEntryPoint
 class PetDetailFragment : Fragment(R.layout.fragment_pet_detail) {
     private var _binding: FragmentPetDetailBinding? = null
     private val binding get() = _binding!!
     private val args: PetDetailFragmentArgs by navArgs()
-    private lateinit var viewModel: PetViewModel
+    private val viewModel: PetViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentPetDetailBinding.bind(view)
-        val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
-        val breedsRepository = BreedsRepository(
-            DogApiClient.retrofit.create(BreedsDogApiService::class.java),
-            CatApiClient.retrofit.create(BreedsCatApiService::class.java)
-        )
-        viewModel = ViewModelProvider(
-            this,
-            PetViewModelFactory(PetRepository(dao), breedsRepository)
-        )[PetViewModel::class.java]
 
         viewModel.allPets.observe(viewLifecycleOwner) { list ->
             list.firstOrNull { it.id == args.petId }?.let { pet ->

@@ -6,11 +6,14 @@ import com.example.pawfectplanner.data.repository.BreedsRepository
 import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.network.BreedInfoResponse
 import com.example.pawfectplanner.network.CatBreedInfoResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PetViewModel(
+@HiltViewModel
+class PetViewModel @Inject constructor(
     private val petRepository: PetRepository,
     private val breedsRepository: BreedsRepository
 ) : ViewModel() {
@@ -66,14 +69,4 @@ class PetViewModel(
     }
 }
 
-class PetViewModelFactory(
-    private val petRepository: PetRepository,
-    private val breedsRepository: BreedsRepository
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PetViewModel::class.java)) {
-            return PetViewModel(petRepository, breedsRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
+
