@@ -65,7 +65,7 @@ class TaskRemoteViewsFactory(private val context: Context) : RemoteViewsService.
             val db = androidx.room.Room.databaseBuilder(
                 context.applicationContext,
                 com.example.pawfectplanner.data.local.AppDatabase::class.java,
-                "pawfect_planner_db"
+                "pawfect_planner_database"
             ).allowMainThreadQueries().build()
             
             db.taskDao().getAllTasksSync().sortedBy { it.dateTime }
