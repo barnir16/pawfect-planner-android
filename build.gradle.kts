@@ -9,6 +9,7 @@ buildscript {
         classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.1.0-1.0.29")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.9.0")
         classpath ("com.google.gms:google-services:4.4.3")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.55")
     }
 }
 

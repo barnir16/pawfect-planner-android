@@ -1,24 +1,25 @@
 package com.example.pawfectplanner.data.repository
 
+import android.content.Context
 import android.util.Log
-import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
-import com.example.pawfectplanner.network.NetworkModule
 import com.example.pawfectplanner.network.GeminiApiService
 import com.example.pawfectplanner.network.GeminiApiService.Content
 import com.example.pawfectplanner.network.GeminiApiService.MessagePart
 import com.example.pawfectplanner.network.GeminiApiService.GenerateContentRequest
 import com.example.pawfectplanner.util.ApiKeyManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class GeminiRepository(
-    private val service: GeminiApiService = NetworkModule.geminiService,
-    private val app: PawfectPlannerApplication = PawfectPlannerApplication.instance
+class GeminiRepository @Inject constructor(
+    private val service: GeminiApiService,
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         private const val MODEL_NAME = "gemini-1.5-flash"
@@ -28,17 +29,17 @@ class GeminiRepository(
         val apiKey = ApiKeyManager.geminiApiKey
         if (apiKey.isNullOrBlank()) {
             Log.e("GeminiRepository", "Gemini API key is missing!")
-            return@withContext app.getString(R.string.gemini_error_generic)
+            return@withContext context.getString(R.string.gemini_error_generic)
         }
 
         val fullPrompt = buildString {
-            append(app.getString(R.string.gemini_prompt_introduction))
+            append(context.getString(R.string.gemini_prompt_introduction))
             if (petContext.isNotBlank()) {
                 append("\n")
-                append(app.getString(R.string.gemini_prompt_pet_data, petContext))
+                append(context.getString(R.string.gemini_prompt_pet_data, petContext))
             }
             append("\n")
-            append(app.getString(R.string.gemini_prompt_question, text))
+            append(context.getString(R.string.gemini_prompt_question, text))
         }
 
         Log.d("GeminiRequest", "Sending: $fullPrompt")
@@ -69,19 +70,19 @@ class GeminiRepository(
     private fun mapErrorToFriendlyMessage(e: Exception): String = when (e) {
         is HttpException -> when (e.code()) {
             HttpURLConnection.HTTP_UNAUTHORIZED ->
-                app.getString(R.string.gemini_error_unauthorized)
+                context.getString(R.string.gemini_error_unauthorized)
             HttpURLConnection.HTTP_FORBIDDEN ->
-                app.getString(R.string.gemini_error_unauthorized)
+                context.getString(R.string.gemini_error_unauthorized)
             HttpURLConnection.HTTP_UNAVAILABLE,
             429 ->
-                app.getString(R.string.gemini_error_generic)
+                context.getString(R.string.gemini_error_generic)
             else ->
-                app.getString(R.string.gemini_error_generic)
+                context.getString(R.string.gemini_error_generic)
         }
         is UnknownHostException,
         is SocketTimeoutException ->
-            app.getString(R.string.gemini_error_network)
+            context.getString(R.string.gemini_error_network)
         else ->
-            app.getString(R.string.gemini_error_generic)
+            context.getString(R.string.gemini_error_generic)
     }
 }

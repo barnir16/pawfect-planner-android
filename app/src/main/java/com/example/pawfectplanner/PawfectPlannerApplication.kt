@@ -10,18 +10,18 @@ import com.example.pawfectplanner.util.LocaleHelper
 import com.example.pawfectplanner.util.RemoteConfigManager
 import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@HiltAndroidApp
 class PawfectPlannerApplication : Application() {
 
     companion object {
         lateinit var instance: PawfectPlannerApplication
             private set
     }
-
-    lateinit var database: AppDatabase
 
     override fun onCreate() {
         super.onCreate()
@@ -52,7 +52,5 @@ class PawfectPlannerApplication : Application() {
             }
             nm?.createNotificationChannel(channel)
         }
-
-        database = AppDatabase.getInstance(this)
     }
 }

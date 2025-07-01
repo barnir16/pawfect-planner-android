@@ -8,49 +8,28 @@ import android.widget.AdapterView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.model.Pet
 import com.example.pawfectplanner.data.model.Task
-import com.example.pawfectplanner.data.repository.BreedsRepository
-import com.example.pawfectplanner.data.repository.PetRepository
-import com.example.pawfectplanner.data.repository.TaskRepository
 import com.example.pawfectplanner.databinding.FragmentTaskEditBinding
-import com.example.pawfectplanner.network.BreedsCatApiService
-import com.example.pawfectplanner.network.BreedsDogApiService
-import com.example.pawfectplanner.network.CatApiClient
-import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
-import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.ui.viewmodel.TaskViewModel
-import com.example.pawfectplanner.ui.viewmodel.TaskViewModelFactory
 import com.example.pawfectplanner.util.NotificationHelper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 
+@AndroidEntryPoint
 class TaskEditFragment : Fragment() {
     private var _binding: FragmentTaskEditBinding? = null
     private val binding get() = _binding!!
     private val args: TaskEditFragmentArgs by navArgs()
-    private val app by lazy { requireActivity().application as PawfectPlannerApplication }
-    private val taskVM: TaskViewModel by viewModels {
-        TaskViewModelFactory(TaskRepository(app.database.taskDao(), requireContext()))
-    }
-    private val petVM: PetViewModel by lazy {
-        val breedsRepository = BreedsRepository(
-            DogApiClient.retrofit.create(BreedsDogApiService::class.java),
-            CatApiClient.retrofit.create(BreedsCatApiService::class.java)
-        )
-        ViewModelProvider(
-            this,
-            PetViewModelFactory(PetRepository(app.database.petDao()), breedsRepository)
-        )[PetViewModel::class.java]
-    }
+    private val taskVM: TaskViewModel by viewModels()
+    private val petVM: PetViewModel by viewModels()
     private var pickedDate: LocalDate? = null
     private var pickedTime: LocalTime? = null
     private var assignedPetIds: List<Int> = emptyList()

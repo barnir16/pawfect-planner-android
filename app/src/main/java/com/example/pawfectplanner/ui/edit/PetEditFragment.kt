@@ -14,36 +14,30 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.pawfectplanner.PawfectPlannerApplication
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.data.model.Pet
-import com.example.pawfectplanner.data.repository.BreedsRepository
-import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.databinding.FragmentPetEditBinding
-import com.example.pawfectplanner.network.BreedsCatApiService
-import com.example.pawfectplanner.network.BreedsDogApiService
-import com.example.pawfectplanner.network.CatApiClient
-import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
-import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
 import com.example.pawfectplanner.util.ApiKeyManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.Period
 import java.util.Calendar
 
+@AndroidEntryPoint
 class PetEditFragment : Fragment() {
     private var _binding: FragmentPetEditBinding? = null
     private val binding get() = _binding!!
     private val args: PetEditFragmentArgs by navArgs()
-    private lateinit var viewModel: PetViewModel
+    private val viewModel: PetViewModel by viewModels()
 
     private var selectedBirthDate: LocalDate? = null
     private var selectedAge: Int? = null
@@ -60,15 +54,6 @@ class PetEditFragment : Fragment() {
         .root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
-        val breedsRepo = BreedsRepository(
-            DogApiClient.retrofit.create(BreedsDogApiService::class.java),
-            CatApiClient.retrofit.create(BreedsCatApiService::class.java)
-        )
-        viewModel = ViewModelProvider(
-            this,
-            PetViewModelFactory(PetRepository(dao), breedsRepo)
-        )[PetViewModel::class.java]
 
         val entries = resources.getStringArray(R.array.pet_type_entries).toList()
         val values = resources.getStringArray(R.array.pet_type_values).toList()

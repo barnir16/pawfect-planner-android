@@ -3,39 +3,22 @@ package com.example.pawfectplanner.ui.list
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawfectplanner.R
-import com.example.pawfectplanner.PawfectPlannerApplication
-import com.example.pawfectplanner.data.repository.BreedsRepository
-import com.example.pawfectplanner.data.repository.PetRepository
 import com.example.pawfectplanner.databinding.FragmentPetListBinding
-import com.example.pawfectplanner.network.BreedsCatApiService
-import com.example.pawfectplanner.network.BreedsDogApiService
-import com.example.pawfectplanner.network.CatApiClient
-import com.example.pawfectplanner.network.DogApiClient
 import com.example.pawfectplanner.ui.viewmodel.PetViewModel
-import com.example.pawfectplanner.ui.viewmodel.PetViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PetListFragment : Fragment(R.layout.fragment_pet_list) {
     private var _binding: FragmentPetListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: PetViewModel
+    private val viewModel: PetViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentPetListBinding.bind(view)
-        
-        val dao = (requireActivity().application as PawfectPlannerApplication).database.petDao()
-        val breedsRepository = BreedsRepository(
-            DogApiClient.retrofit.create(BreedsDogApiService::class.java),
-            CatApiClient.retrofit.create(BreedsCatApiService::class.java)
-        )
-
-        viewModel = ViewModelProvider(
-            this,
-            PetViewModelFactory(PetRepository(dao), breedsRepository)
-        )[PetViewModel::class.java]
 
         val adapter = PetAdapter(
             onClick = { pet ->

@@ -11,7 +11,9 @@ import androidx.navigation.ui.NavigationUI
 import com.example.pawfectplanner.R
 import com.example.pawfectplanner.databinding.ActivityMainBinding
 import com.example.pawfectplanner.util.LocaleHelper
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var b: ActivityMainBinding
